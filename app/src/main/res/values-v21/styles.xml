@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ToolbarTheme">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+</resources>
