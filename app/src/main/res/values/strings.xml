@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TherapyGuide</string>
+
+    <string name="diary_tab_name">Diary</string>
+    <string name="listen_tab_name">Listen</string>
+
+    <string name="coming_soon_text">Feature coming soon</string>
 </resources>
