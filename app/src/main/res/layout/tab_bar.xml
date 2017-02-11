@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tabs"
-    app:theme="@style/ToolbarTheme"
+    android:theme="@style/ToolbarTheme"
     app:tabTextAppearance="@style/TabTitleText"
     app:tabMode="scrollable"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:elevation="4dp"/>
