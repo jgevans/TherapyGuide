@@ -20,17 +20,17 @@ public class ListenFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.listen_tab, container, false);
+        View view = inflater.inflate(R.layout.listen_tab, container, false);
 
         // Set up buttons
-        restartButton = (ImageButton) v.findViewById(R.id.restart_button);
-        playButton = (ImageButton) v.findViewById(R.id.play_button);
-        stopButton = (ImageButton) v.findViewById(R.id.stop_button);
+        restartButton = (ImageButton) view.findViewById(R.id.restart_button);
+        playButton = (ImageButton) view.findViewById(R.id.play_button);
+        stopButton = (ImageButton) view.findViewById(R.id.stop_button);
         restartButton.setOnClickListener(this);
         playButton.setOnClickListener(this);
         stopButton.setOnClickListener(this);
 
-        return v;
+        return view;
     }
 
     @Override

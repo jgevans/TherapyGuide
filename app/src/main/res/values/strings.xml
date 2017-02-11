@@ -9,4 +9,7 @@
     <string name="restart_button_description">Restart</string>
     <string name="play_button_description">Play</string>
     <string name="stop_button_description">Stop</string>
+    
+    <string name="diary_create_message">What was good about today?</string>
+    <string name="diary_entry_save_button">Save</string>
 </resources>
