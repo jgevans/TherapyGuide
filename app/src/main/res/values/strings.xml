@@ -5,4 +5,8 @@
     <string name="listen_tab_name">Listen</string>
 
     <string name="coming_soon_text">Feature coming soon</string>
+
+    <string name="restart_button_description">Restart</string>
+    <string name="play_button_description">Play</string>
+    <string name="stop_button_description">Stop</string>
 </resources>

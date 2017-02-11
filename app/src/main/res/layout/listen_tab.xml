@@ -4,12 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/coming_soon_text"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/restart_button"
+            android:contentDescription="@string/restart_button_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_skip_previous_black_24dp"
+            android:tint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimaryDark" />
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:contentDescription="@string/play_button_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:tint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimaryDark"/>
+
+        <ImageButton
+            android:id="@+id/stop_button"
+            android:contentDescription="@string/stop_button_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_stop_black_24dp"
+            android:tint="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimaryDark"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
