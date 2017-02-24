@@ -12,13 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
 public class DiaryFragment extends Fragment implements View.OnClickListener {
-
-    private FloatingActionButton createButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -27,13 +24,20 @@ public class DiaryFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.diary_tab, container, false);
 
         // Set up create button
-        createButton = (FloatingActionButton) view.findViewById(R.id.create_button);
+        FloatingActionButton createButton = (FloatingActionButton) view.findViewById(R.id.create_button);
         createButton.setOnClickListener(this);
 
-        // Get update diary entries view
+        // Update diary entries view
         updateDiaryView(view);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Update diary entries view
+        updateDiaryView(this.getView());
     }
 
     @Override
