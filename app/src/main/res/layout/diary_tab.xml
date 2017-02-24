@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/diary_view"
@@ -20,6 +21,9 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_create_black_24dp"
         android:tint="@color/colorAccent"
-        android:backgroundTint="@color/colorPrimaryDark" />
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:borderWidth="0dp"
+        />
 
 </RelativeLayout>
