@@ -2,11 +2,15 @@ package com.hedgehogproductions.therapyguide;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.ViewHolder> {
@@ -44,7 +48,13 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         DiaryEntry entry = mDiary.get(position);
         holder.text.setText(entry.getText());
-        holder.time.setText(String.valueOf(entry.getCreationTimestamp()));
+
+        // Convert timestamp to useful string description based on age
+        long now = System.currentTimeMillis();
+        CharSequence ago =
+                DateUtils.getRelativeTimeSpanString(entry.getCreationTimestamp(), now, DateUtils.MINUTE_IN_MILLIS);
+
+        holder.time.setText(ago);
     }
 
     @Override
