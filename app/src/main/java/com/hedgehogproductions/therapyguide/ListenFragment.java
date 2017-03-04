@@ -77,4 +77,14 @@ public class ListenFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mediaPlayer!=null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            playButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        }
+    }
 }
