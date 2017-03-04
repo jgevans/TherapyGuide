@@ -51,8 +51,10 @@ public class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.Vi
 
         // Convert timestamp to useful string description based on age
         long now = System.currentTimeMillis();
-        CharSequence ago =
-                DateUtils.getRelativeTimeSpanString(entry.getCreationTimestamp(), now, DateUtils.MINUTE_IN_MILLIS);
+        CharSequence ago = DateUtils.getRelativeTimeSpanString(
+                entry.getCreationTimestamp(),
+                now,
+                DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_ALL);
 
         holder.time.setText(ago);
     }

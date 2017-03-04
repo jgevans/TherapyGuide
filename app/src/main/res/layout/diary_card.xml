@@ -25,17 +25,25 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/diary_text"
-                android:layout_width="250dp"
+                android:id="@+id/diary_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textAlignment="textEnd"
+                android:gravity="end"
+                android:textColor="@color/lightText"/>
 
             <TextView
-                android:id="@+id/diary_time"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+                android:id="@+id/diary_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@id/diary_time"
+                android:layout_toStartOf="@id/diary_time"
+                android:textColor="@color/mainText" />
+
 
         </RelativeLayout>
 
