@@ -1,16 +1,16 @@
 package com.hedgehogproductions.therapyguide;
 
 class DiaryEntry {
-    private long timestamp;
+    private final long creationTimestamp;
     private String text;
 
     public DiaryEntry(long timestamp, String text) {
-        this.timestamp = timestamp;
+        this.creationTimestamp = timestamp;
         this.text = text;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 
     public String getText() {

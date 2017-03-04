@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/diary_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:paddingTop="@dimen/cardview_top_padding"
+        android:paddingBottom="@dimen/cardview_top_padding" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/create_button"
@@ -23,7 +27,6 @@
         android:tint="@color/colorAccent"
         android:backgroundTint="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimaryDark"
-        app:borderWidth="0dp"
-        />
+        app:borderWidth="0dp" />
 
 </RelativeLayout>
