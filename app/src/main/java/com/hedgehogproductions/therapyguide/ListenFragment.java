@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class ListenFragment extends Fragment implements View.OnClickListener {
@@ -15,6 +16,9 @@ public class ListenFragment extends Fragment implements View.OnClickListener {
     private ImageButton restartButton;
     private ImageButton playButton;
     private ImageButton stopButton;
+    private ImageButton loopButton;
+
+    private Toast loopToast;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -26,9 +30,15 @@ public class ListenFragment extends Fragment implements View.OnClickListener {
         restartButton = (ImageButton) view.findViewById(R.id.restart_button);
         playButton = (ImageButton) view.findViewById(R.id.play_button);
         stopButton = (ImageButton) view.findViewById(R.id.stop_button);
+        loopButton = (ImageButton) view.findViewById(R.id.loop_button);
         restartButton.setOnClickListener(this);
         playButton.setOnClickListener(this);
         stopButton.setOnClickListener(this);
+        loopButton.setOnClickListener(this);
+
+        // Set up toast
+        loopToast = Toast.makeText(
+                this.getContext(),getString(R.string.looping_toast_text), Toast.LENGTH_SHORT);
 
         return view;
     }
@@ -61,6 +71,7 @@ public class ListenFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onCompletion(MediaPlayer player) {
                             player.release();
+                            playButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
                             mediaPlayer = null;
                         }
 
@@ -75,6 +86,16 @@ public class ListenFragment extends Fragment implements View.OnClickListener {
                 mediaPlayer.release();
                 mediaPlayer = null;
                 break;
+
+            case R.id.loop_button:
+
+                mediaPlayer.setLooping(!mediaPlayer.isLooping());
+                if (mediaPlayer.isLooping()) {
+                    // Turned looping on. Show toast to indicate
+                    loopToast.show();
+                }
+                break;
+
         }
     }
 
