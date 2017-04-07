@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mTabPagerAdapter.addFragment(new ListenFragment(), getString(R.string.listen_tab_name));
-        mTabPagerAdapter.addFragment(new DiaryFragment(), getString(R.string.diary_tab_name));
+        mTabPagerAdapter.addFragment(new com.hedgehogproductions.therapyguide.diary.DiaryFragment(), getString(R.string.diary_tab_name));
 
         // Create the pager
 
