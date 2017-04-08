@@ -1,13 +1,14 @@
 package com.hedgehogproductions.therapyguide;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import com.hedgehogproductions.therapyguide.diarydata.DiaryEntry;
+
 
 public class DiaryEntryActivity extends AppCompatActivity {
 
@@ -35,24 +36,13 @@ public class DiaryEntryActivity extends AppCompatActivity {
     }
 
     public void saveDiaryEntry(View view) {
-        // Get the data to be stored
-        long timestamp = System.currentTimeMillis();
+        // Get entry text and create new DiaryEntry
         EditText diaryText = (EditText) findViewById(R.id.diary_entry);
-        String text = diaryText.getText().toString();
+        DiaryEntry entry = new DiaryEntry(System.currentTimeMillis(), diaryText.getText().toString());
 
-
-        DiaryReaderDbHelper mDbHelper = new DiaryReaderDbHelper(this);
-
-        // Get the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP, timestamp);
-        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT, text);
-
-        // Insert the new row, returning the primary key value of the new row
-        db.insert(DiaryReaderContract.DiaryDbEntry.TABLE_NAME, null, values);
+        // Save entry into database
+        //TODO this needs access to the repository to store new diary entries
+        //mDiaryRepository.saveDiaryEntry(entry);
 
         // Having saved the new entry, finish the activity
         // (which will take the user back to the previous activity)

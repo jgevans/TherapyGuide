@@ -17,10 +17,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hedgehogproductions.therapyguide.DiaryEntryActivity;
+import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.diarydata.DiaryEntry;
-import com.hedgehogproductions.therapyguide.diarydata.DiaryServiceApiImpl;
-import com.hedgehogproductions.therapyguide.diarydata.InMemoryDiaryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +46,13 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDiaryEntriesAdapter = new DiaryEntryAdapter(new ArrayList<DiaryEntry>());
-        //TODO use Injection to provideDiaryRepository (to allow injection of mock in testing)
-        mActionsListener = new DiaryPresenter(new InMemoryDiaryRepository(new DiaryServiceApiImpl()), this);
+        mActionsListener = new DiaryPresenter(Injection.provideDiaryRepository(), this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mActionsListener.loadDiary();
     }
 
     @Override

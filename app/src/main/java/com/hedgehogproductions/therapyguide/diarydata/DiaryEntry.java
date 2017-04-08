@@ -2,7 +2,7 @@ package com.hedgehogproductions.therapyguide.diarydata;
 
 public class DiaryEntry {
     private final long creationTimestamp;
-    private String text;
+    private final String text;
 
     public DiaryEntry(long timestamp, String text) {
         this.creationTimestamp = timestamp;

@@ -3,7 +3,7 @@ package com.hedgehogproductions.therapyguide.diarydata;
 
 import java.util.List;
 
-public interface DiaryServiceApi {
+interface DiaryServiceApi {
 
     interface DiaryServiceCallback<T> {
 
@@ -11,4 +11,6 @@ public interface DiaryServiceApi {
     }
 
     void getAllDiaryEntries(DiaryServiceCallback<List<DiaryEntry>> callback);
+
+    void saveDiaryEntry(DiaryEntry entry);
 }

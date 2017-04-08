@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
  */
 public class DiaryPresenterTest {
 
-    private static List<DiaryEntry> DIARY = Lists.newArrayList(new DiaryEntry(System.currentTimeMillis(), "Entry1"),
+    private static final List<DiaryEntry> DIARY = Lists.newArrayList(new DiaryEntry(System.currentTimeMillis(), "Entry1"),
             new DiaryEntry(System.currentTimeMillis(), "Entry2"));
 
 

@@ -1,4 +1,4 @@
-package com.hedgehogproductions.therapyguide;
+package com.hedgehogproductions.therapyguide.diarydata;
 
 import android.provider.BaseColumns;
 

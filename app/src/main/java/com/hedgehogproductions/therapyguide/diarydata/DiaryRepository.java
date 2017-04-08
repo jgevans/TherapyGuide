@@ -17,6 +17,8 @@ public interface DiaryRepository {
 
     void getDiary(@NonNull DiaryRepository.LoadDiaryCallback callback);
 
+    void saveDiaryEntry(@NonNull DiaryEntry entry);
+
     void refreshData();
 
 }

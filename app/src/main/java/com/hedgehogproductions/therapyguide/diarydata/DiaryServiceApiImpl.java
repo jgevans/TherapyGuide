@@ -11,4 +11,9 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         List<DiaryEntry> entries = new ArrayList<>();
         callback.onLoaded(entries);
     }
+
+    @Override
+    public void saveDiaryEntry(DiaryEntry entry) {
+
+    }
 }

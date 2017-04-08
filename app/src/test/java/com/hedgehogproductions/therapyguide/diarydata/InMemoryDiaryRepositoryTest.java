@@ -11,6 +11,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,7 +24,7 @@ import static org.mockito.Mockito.verify;
  */
 public class InMemoryDiaryRepositoryTest {
 
-    private static List<DiaryEntry> DIARY = Lists.newArrayList(new DiaryEntry(System.currentTimeMillis()-1000, "Entry One"),
+    private static final List<DiaryEntry> DIARY = Lists.newArrayList(new DiaryEntry(System.currentTimeMillis()-1000, "Entry One"),
             new DiaryEntry(System.currentTimeMillis(), "Entry Two"));
 
     private InMemoryDiaryRepository mDiaryRepository;
@@ -50,10 +54,10 @@ public class InMemoryDiaryRepositoryTest {
     @Test
     public void getDiaryEntries_repositoryCachesAfterFirstApiCall() {
         // Given a setup Captor to capture callbacks
-        // When two calls are issued to the notes repository
+        // When two calls are issued to the diary repository
         twoLoadCallsToRepository(mLoadDiaryCallback);
 
-        // Then notes where only requested once from Service API
+        // Then entries where only requested once from Service API
         verify(mServiceApi).getAllDiaryEntries(any(DiaryServiceApi.DiaryServiceCallback.class));
     }
 
@@ -67,33 +71,49 @@ public class InMemoryDiaryRepositoryTest {
         mDiaryRepository.refreshData();
         mDiaryRepository.getDiary(mLoadDiaryCallback); // Third call to API
 
-        // The notes where requested twice from the Service API (Caching on first and third call)
+        // The entries where requested twice from the Service API (Caching on first and third call)
         verify(mServiceApi, times(2)).getAllDiaryEntries(any(DiaryServiceApi.DiaryServiceCallback.class));
     }
 
 
     @Test
-    public void getNotes_requestsAllNotesFromServiceApi() {
-        // When notes are requested from the notes repository
+    public void getDiary_requestsAllDiaryEntriesFromServiceApi() {
+        // When entries are requested from the entries repository
         mDiaryRepository.getDiary(mLoadDiaryCallback);
 
-        // Then notes are loaded from the service API
+        // Then entries are loaded from the service API
         verify(mServiceApi).getAllDiaryEntries(any(DiaryServiceApi.DiaryServiceCallback.class));
     }
 
+    @Test
+    public void saveDiaryEntry_savesEntryToServiceAPIAndInvalidatesCache() {
+        // Given a stub entry with timestamp and text
+        DiaryEntry newEntry = new DiaryEntry(System.currentTimeMillis(), "Some Diary Text");
+        // And a cached diary
+        twoLoadCallsToRepository(mLoadDiaryCallback);
+        assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
+
+        // When a diary entry is saved to the diary repository
+        mDiaryRepository.saveDiaryEntry(newEntry);
+
+        // Then the service API was called
+        verify(mServiceApi).saveDiaryEntry(newEntry);
+        // And the  diary cache is cleared
+        assertThat(mDiaryRepository.mCachedEntries, is(nullValue()));
+    }
 
 
     /**
-     * Convenience method that issues two calls to the notes repository
+     * Convenience method that issues two calls to the diary repository
      */
     private void twoLoadCallsToRepository(DiaryRepository.LoadDiaryCallback callback) {
-        // When notes are requested from repository
+        // When diary entries are requested from repository
         mDiaryRepository.getDiary(callback); // First call to API
 
         // Use the Mockito Captor to capture the callback
         verify(mServiceApi).getAllDiaryEntries(mDiaryServiceCallbackCaptor.capture());
 
-        // Trigger callback so notes are cached
+        // Trigger callback so diary is cached
         mDiaryServiceCallbackCaptor.getValue().onLoaded(DIARY);
 
         mDiaryRepository.getDiary(callback); // Second call to API

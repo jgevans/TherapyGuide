@@ -39,6 +39,13 @@ public class InMemoryDiaryRepository implements DiaryRepository {
     }
 
     @Override
+    public void saveDiaryEntry(@NonNull DiaryEntry entry) {
+        checkNotNull(entry);
+        mDiaryServiceApi.saveDiaryEntry(entry);
+        refreshData();
+    }
+
+    @Override
     public void refreshData() {
         mCachedEntries = null;
     }
