@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 
 public class DiaryReaderDbHelperTest {
@@ -42,5 +43,18 @@ public class DiaryReaderDbHelperTest {
         verify(mMockDatabase).execSQL(ON_CREATE_SQL);
     }
 
+    @Test
+    public void diaryReaderDbHelper_OnUpgrade_DoesNothing() {
+        dbHelper.onUpgrade(mMockDatabase, 1, 2);
+
+        verifyZeroInteractions(mMockDatabase);
+    }
+
+    @Test
+    public void diaryReaderDbHelper_OnDowngrade_DoesNothing() {
+        dbHelper.onDowngrade(mMockDatabase, 2, 1);
+
+        verifyZeroInteractions(mMockDatabase);
+    }
 
 }
