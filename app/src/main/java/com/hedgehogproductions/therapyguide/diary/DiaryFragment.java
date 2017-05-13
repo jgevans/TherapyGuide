@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hedgehogproductions.therapyguide.DiaryEntryActivity;
+import com.hedgehogproductions.therapyguide.adddiaryentry.AddDiaryEntryActivity;
 import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.diarydata.DiaryEntry;
@@ -32,13 +32,22 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
 
     private DiaryEntryAdapter mDiaryEntriesAdapter;
 
+    public static DiaryFragment newInstance() {
+        return new DiaryFragment();
+    }
+
+    public DiaryFragment() {
+        // Required empty public constructor
+    }
+
+
     public void showDiary(List<DiaryEntry> entries) {
         mDiaryEntriesAdapter.replaceData(entries);
     }
 
     @Override
     public void showAddDiaryEntry() {
-        Intent intent = new Intent(getContext(), DiaryEntryActivity.class);
+        Intent intent = new Intent(getContext(), AddDiaryEntryActivity.class);
         startActivity(intent);
     }
 
@@ -46,7 +55,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDiaryEntriesAdapter = new DiaryEntryAdapter(new ArrayList<DiaryEntry>());
-        mActionsListener = new DiaryPresenter(Injection.provideDiaryRepository(), this);
+        mActionsListener = new DiaryPresenter(Injection.provideDiaryRepository(getContext()), this);
     }
 
     @Override

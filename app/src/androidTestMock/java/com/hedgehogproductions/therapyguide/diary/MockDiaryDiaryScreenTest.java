@@ -18,7 +18,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
+import static org.hamcrest.CoreMatchers.anyOf;
 
 
 /**
@@ -44,7 +44,7 @@ public class MockDiaryDiaryScreenTest {
         onView(withId(R.id.diary_card_view)).check(matches(isDisplayed()));
 
         // Check the values are correct
-        onView(withId(R.id.diary_time)).check(matches(withText("0 mins ago")));
+        onView(withId(R.id.diary_time)).check(matches(anyOf(withText("0 mins ago"),withText("0 min ago"))));
         onView(withId(R.id.diary_text)).check(matches(withText("Entry One")));
     }
 

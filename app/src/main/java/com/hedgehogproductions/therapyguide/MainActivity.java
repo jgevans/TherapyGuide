@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.TabLayout;
 
+import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String SAVED_TAB_KEY = "SavedTab";
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mTabPagerAdapter.addFragment(new ListenFragment(), getString(R.string.listen_tab_name));
-        mTabPagerAdapter.addFragment(new com.hedgehogproductions.therapyguide.diary.DiaryFragment(), getString(R.string.diary_tab_name));
+        mTabPagerAdapter.addFragment(DiaryFragment.newInstance(), getString(R.string.diary_tab_name));
 
         // Create the pager
 

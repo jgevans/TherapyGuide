@@ -43,7 +43,7 @@ public class DiaryScreenTest {
         onView(withId(R.id.create_button)).perform(click());
 
         // Check if the add diary entry screen is displayed
-        onView(withId(R.id.diary_entry)).check(matches(isDisplayed()));
+        onView(withId(R.id.adddiaryentry_entry_text)).check(matches(isDisplayed()));
     }
 
 }

@@ -1,5 +1,7 @@
 package com.hedgehogproductions.therapyguide;
 
+import android.content.Context;
+
 import com.hedgehogproductions.therapyguide.diarydata.DiaryRepositories;
 import com.hedgehogproductions.therapyguide.diarydata.DiaryRepository;
 import com.hedgehogproductions.therapyguide.diarydata.FakeDiaryServiceApiImpl;
@@ -11,7 +13,7 @@ import com.hedgehogproductions.therapyguide.diarydata.FakeDiaryServiceApiImpl;
  */
 public class Injection {
 
-    public static DiaryRepository provideDiaryRepository() {
+    public static DiaryRepository provideDiaryRepository(Context context) {
         return DiaryRepositories.getInMemoryRepoInstance(new FakeDiaryServiceApiImpl());
     }
 }
