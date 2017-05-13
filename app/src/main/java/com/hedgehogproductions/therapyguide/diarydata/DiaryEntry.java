@@ -1,20 +1,25 @@
 package com.hedgehogproductions.therapyguide.diarydata;
 
 public class DiaryEntry {
-    private final long creationTimestamp;
-    private final String text;
+    private final long mCreationTimestamp;
+    private final String mText;
 
     public DiaryEntry(long timestamp, String text) {
-        this.creationTimestamp = timestamp;
-        this.text = text;
+        this.mCreationTimestamp = timestamp;
+        this.mText = text;
     }
 
     public long getCreationTimestamp() {
-        return creationTimestamp;
+        return mCreationTimestamp;
     }
 
     public String getText() {
-        return text;
+        return mText;
+    }
+
+    public boolean isEmpty() {
+        return (mCreationTimestamp == 0) ||
+                (mText == null || "".equals(mText));
     }
 }
 

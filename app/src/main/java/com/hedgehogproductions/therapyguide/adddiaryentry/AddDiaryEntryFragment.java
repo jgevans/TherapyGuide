@@ -35,6 +35,10 @@ public class AddDiaryEntryFragment extends Fragment implements AddDiaryEntryCont
     }
 
     @Override
+    public void showEmptyEntryError() {
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActionListener = new AddDiaryEntryPresenter(Injection.provideDiaryRepository(getContext()), this);

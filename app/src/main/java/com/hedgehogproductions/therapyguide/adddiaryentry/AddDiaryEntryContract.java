@@ -5,6 +5,9 @@ public interface AddDiaryEntryContract {
     interface View {
 
         void showDiaryView();
+
+        void showEmptyEntryError();
+
     }
 
     interface UserActionsListener {

@@ -46,4 +46,14 @@ public class AddDiaryEntryPresenterTest {
         verify(mAddDiaryEntryView).showDiaryView();
     }
 
+    @Test
+    public void saveEntry_emptyEntryShowsErrorUI() {
+        // When the presenter is asked to save an empty note
+        mAddDiaryEntryPresenter.saveNewDiaryEntry(0, "");
+
+        // Then an empty entry error is shown in the UI
+        verify(mAddDiaryEntryView).showEmptyEntryError();
+
+    }
+
 }
