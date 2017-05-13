@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
         // Set last used tab when activity is reloading state
         mViewPager.setCurrentItem(savedInstanceState.getInt(SAVED_TAB_KEY));
     }

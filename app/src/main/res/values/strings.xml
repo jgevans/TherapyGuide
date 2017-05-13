@@ -13,4 +13,7 @@
 
     <string name="diary_create_message">What was good about today?</string>
     <string name="diary_entry_save_button">Save</string>
+
+    <string name="empty_entry_error_toast_text">Diary Entries cannot be empty</string>
+
 </resources>

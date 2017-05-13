@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.R;
@@ -36,6 +37,10 @@ public class AddDiaryEntryFragment extends Fragment implements AddDiaryEntryCont
 
     @Override
     public void showEmptyEntryError() {
+        // Show error toast
+        Toast loopToast = Toast.makeText(
+                this.getContext(),getString(R.string.empty_entry_error_toast_text), Toast.LENGTH_SHORT);
+        loopToast.show();
     }
 
     @Override
