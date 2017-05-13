@@ -45,7 +45,6 @@ public class InMemoryDiaryRepository implements DiaryRepository {
         refreshData();
     }
 
-    @Override
     public void refreshData() {
         mCachedEntries = null;
     }

@@ -12,14 +12,14 @@ import java.util.List;
 public class DiaryServiceApiImpl implements DiaryServiceApi {
 
     @NonNull
-    private DiaryReaderDbHelper mDbHelper;
+    private final DiaryReaderDbHelper mDbHelper;
 
     public DiaryServiceApiImpl(Context context) {
         mDbHelper = new DiaryReaderDbHelper(context);
     }
 
     @Override
-    public void getAllDiaryEntries(final DiaryServiceCallback callback) {
+    public void getAllDiaryEntries(final DiaryServiceCallback<List<DiaryEntry>> callback) {
         List<DiaryEntry> diaryEntries = new ArrayList<>();
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();

@@ -35,7 +35,7 @@ public class DiaryScreenTest {
 
 
     @Test
-    public void clickAddDiaryEntryButton_opensAddDiaryEntryUi() throws Exception {
+    public void clickAddDiaryEntryButton_opensAddDiaryEntryUi() {
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 

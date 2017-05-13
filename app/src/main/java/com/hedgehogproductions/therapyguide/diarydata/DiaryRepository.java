@@ -19,6 +19,4 @@ public interface DiaryRepository {
 
     void saveDiaryEntry(@NonNull DiaryEntry entry);
 
-    void refreshData();
-
 }

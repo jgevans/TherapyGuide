@@ -9,8 +9,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AddDiaryEntryPresenter implements AddDiaryEntryContract.UserActionsListener {
 
-    private DiaryRepository mDiaryRepository;
-    private AddDiaryEntryContract.View mAddDiaryEntryView;
+    private final DiaryRepository mDiaryRepository;
+    private final AddDiaryEntryContract.View mAddDiaryEntryView;
 
     public AddDiaryEntryPresenter(
             @NonNull DiaryRepository diaryRepository, @NonNull AddDiaryEntryContract.View diaryView ) {
