@@ -15,6 +15,7 @@ public interface DiaryContract {
 
         void showAddDiaryEntry();
 
+        void showDiaryEntryDeletionMessage(final int position);
     }
 
     interface UserActionsListener {
@@ -22,5 +23,7 @@ public interface DiaryContract {
         void loadDiary();
 
         void addNewDiaryEntry();
+
+        void deleteDiaryEntry(final int position);
     }
 }

@@ -42,7 +42,7 @@ public class DiaryPresenterTest {
 
 
     @Before
-    public void setupNotesPresenter() {
+    public void setupDiaryPresenter() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);
@@ -72,5 +72,16 @@ public class DiaryPresenterTest {
 
         // Then add diary entry UI is shown
         verify(mDiaryView).showAddDiaryEntry();
+    }
+
+    @Test
+    public void deleteEntryRequest_ShowsDeletionMessage() {
+        final int position = 3;
+
+        // When trying to delete an entry
+        mDiaryPresenter.deleteDiaryEntry(position);
+
+        // Then deletion confirmation is shown
+        verify(mDiaryView).showDiaryEntryDeletionMessage(position);
     }
 }

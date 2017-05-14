@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import com.hedgehogproductions.therapyguide.adddiaryentry.AddDiaryEntryActivity;
 import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.deletediaryentry.DeleteDiaryEntryDialogFragment;
 import com.hedgehogproductions.therapyguide.diarydata.DiaryEntry;
 
 import java.util.ArrayList;
@@ -49,6 +52,13 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     public void showAddDiaryEntry() {
         Intent intent = new Intent(getContext(), AddDiaryEntryActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void showDiaryEntryDeletionMessage(final int position) {
+        DialogFragment newFragment = new DeleteDiaryEntryDialogFragment();
+        newFragment.show(getFragmentManager(), "delete entry");
+        //TODO Pass event back to host activity to action (see https://developer.android.com/guide/topics/ui/dialogs.html)
     }
 
     @Override
@@ -86,6 +96,12 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mDiaryEntriesAdapter);
+
+        // Setup the ItemTouchHelper to deal with swiping Diary Cards
+        ItemTouchHelper.Callback callback =
+                new DiaryTouchHelperCallback(mActionsListener);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
 
         return view;
     }

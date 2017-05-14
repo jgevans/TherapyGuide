@@ -15,5 +15,8 @@
     <string name="diary_entry_save_button">Save</string>
 
     <string name="empty_entry_error_toast_text">Diary Entries cannot be empty</string>
+    <string name="dialog_delete_diary_entry">Are you sure you want to delete this entry?</string>
+    <string name="ok_delete_diary_entry">OK</string>
+    <string name="cancel_delete_diary_entry">Cancel</string>
 
 </resources>

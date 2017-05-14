@@ -35,4 +35,9 @@ public class DiaryPresenter implements DiaryContract.UserActionsListener {
     public void addNewDiaryEntry() {
         mDiaryView.showAddDiaryEntry();
     }
+
+    @Override
+    public void deleteDiaryEntry(final int position) {
+        mDiaryView.showDiaryEntryDeletionMessage(position);
+    }
 }
