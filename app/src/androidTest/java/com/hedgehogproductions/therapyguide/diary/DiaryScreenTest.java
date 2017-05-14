@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.hedgehogproductions.therapyguide.MainActivity;
+import com.hedgehogproductions.therapyguide.Matchers;
 import com.hedgehogproductions.therapyguide.R;
 
 import org.hamcrest.Description;
@@ -25,14 +26,10 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.hamcrest.Matchers.allOf;
 
 /**
  * Tests for the diary screen, the screen which contains a list of all
@@ -41,36 +38,6 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class DiaryScreenTest {
-
-    /**
-     * A custom {@link Matcher} which matches an item in a {@link RecyclerView} by its text.
-     *
-     * <p>
-     * View constraints:
-     * <ul>
-     * <li>View must be a child of a {@link RecyclerView}
-     * <ul>
-     *
-     * @param itemText the text to match
-     * @return Matcher that matches text in the given view
-     */
-    private Matcher<View> withItemText(final String itemText) {
-        checkArgument(!TextUtils.isEmpty(itemText), "itemText cannot be null or empty");
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public boolean matchesSafely(View item) {
-                return allOf(
-                        isDescendantOfA(isAssignableFrom(RecyclerView.class)),
-                        withText(itemText)).matches(item);
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("is isDescendantOfA RV with text " + itemText);
-            }
-        };
-    }
-
 
     /* Rule to launch activity under test */
     @Rule
@@ -113,7 +80,7 @@ public class DiaryScreenTest {
                 scrollTo(hasDescendant(withText(newDiaryText))));
 
         // Verify entry is displayed on screen
-        onView(withItemText(newDiaryText)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -130,4 +97,44 @@ public class DiaryScreenTest {
         // Verify Diary is displayed
         onView(withId(R.id.diary_view)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void largeDiary_LoadsFully() {
+        // Click on the diary tab
+        onView(withText(R.string.diary_tab_name)).perform(click());
+
+        for(int entryNumber = 1; entryNumber <= 15; ++entryNumber) {
+            addNewDiaryEntry("New Diary Entry " + String.valueOf(entryNumber) );
+        }
+
+        for(int entryNumber = 1; entryNumber <= 15; ++entryNumber) {
+            // Scroll diary to added entry, by finding its text
+            onView(withId(R.id.diary_view)).perform(
+                    scrollTo(hasDescendant(withText(
+                            "New Diary Entry " + String.valueOf(entryNumber)))));
+
+            // Verify entry is displayed on screen
+            onView(Matchers.withItemText("New Diary Entry " + String.valueOf(entryNumber)))
+                    .check(matches(isDisplayed()));
+        }
+
+        //TODO Remove all new items (requires entry deletion functionality)
+    }
+
+
+    /**
+     * Convenience method that adds an entry into the diary
+     */
+    private void addNewDiaryEntry(String entryText) {
+        // Click on the add diary entry button
+        onView(withId(R.id.create_button)).perform(click());
+
+        // Add diary entry text and close the keyboard
+        onView(withId(R.id.adddiaryentry_entry_text)).perform(typeText(entryText),
+                closeSoftKeyboard());
+
+        // Save the entry
+        onView(withId(R.id.adddiaryentry_save_button)).perform(click());
+    }
+
 }
