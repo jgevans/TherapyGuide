@@ -45,6 +45,13 @@ public class InMemoryDiaryRepository implements DiaryRepository {
         refreshData();
     }
 
+    @Override
+    public void deleteDiaryEntry(@NonNull DiaryEntry entry) {
+        checkNotNull(entry);
+        mDiaryServiceApi.deleteDiaryEntry(entry);
+        refreshData();
+    }
+
     public void refreshData() {
         mCachedEntries = null;
     }

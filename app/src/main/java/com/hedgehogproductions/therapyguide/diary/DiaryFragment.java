@@ -35,6 +35,12 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
 
     private DiaryEntryAdapter mDiaryEntriesAdapter;
 
+    private static final int ENTRY_DELETION_REQ_CODE = 0;
+    public static final int ENTRY_DELETION_RES_CODE_CONFIRM = 0;
+    public static final int ENTRY_DELETION_RES_CODE_CANCEL = 1;
+
+    private int mDeletionPosition;
+
     public static DiaryFragment newInstance() {
         return new DiaryFragment();
     }
@@ -56,9 +62,28 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
 
     @Override
     public void showDiaryEntryDeletionMessage(final int position) {
+        mDeletionPosition = position;
         DialogFragment newFragment = new DeleteDiaryEntryDialogFragment();
+        newFragment.setTargetFragment(this, ENTRY_DELETION_REQ_CODE);
         newFragment.show(getFragmentManager(), "delete entry");
-        //TODO Pass event back to host activity to action (see https://developer.android.com/guide/topics/ui/dialogs.html)
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if( ENTRY_DELETION_REQ_CODE==requestCode ) {
+            if( ENTRY_DELETION_RES_CODE_CONFIRM==resultCode ) {
+                // Delete Entry
+                mActionsListener.deleteDiaryEntry(mDiaryEntriesAdapter.getEntry(mDeletionPosition));
+                mActionsListener.loadDiary();
+                // Refresh view
+                mDiaryEntriesAdapter.notifyDataSetChanged();
+            }
+            else if( ENTRY_DELETION_RES_CODE_CANCEL==resultCode ) {
+                // Refresh view
+                mDiaryEntriesAdapter.notifyItemChanged(mDeletionPosition);
+            }
+            mDeletionPosition = ~0;
+        }
     }
 
     @Override
@@ -66,6 +91,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         super.onCreate(savedInstanceState);
         mDiaryEntriesAdapter = new DiaryEntryAdapter(new ArrayList<DiaryEntry>());
         mActionsListener = new DiaryPresenter(Injection.provideDiaryRepository(getContext()), this);
+        mDeletionPosition = ~0;
     }
 
     @Override
@@ -154,6 +180,9 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
             mDiaryEntries = checkNotNull(diaryEntries);
         }
 
+        public DiaryEntry getEntry(int position) {
+            return mDiaryEntries.get(position);
+        }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public final TextView text;

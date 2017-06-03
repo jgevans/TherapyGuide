@@ -75,13 +75,22 @@ public class DiaryPresenterTest {
     }
 
     @Test
-    public void deleteEntryRequest_ShowsDeletionMessage() {
+    public void instigateDeleteEntryRequest_ShowsDeletionMessage() {
         final int position = 3;
 
-        // When trying to delete an entry
-        mDiaryPresenter.deleteDiaryEntry(position);
+        // When trying to start deleting an entry
+        mDiaryPresenter.instigateDiaryEntryDeletion(position);
 
         // Then deletion confirmation is shown
         verify(mDiaryView).showDiaryEntryDeletionMessage(position);
+    }
+
+    @Test
+    public void deleteEntry_RemovesFromRepo() {
+        // When asked to delete an entry
+        mDiaryPresenter.deleteDiaryEntry(DIARY.get(0));
+
+        // The deletion is sent to the repository
+        verify(mDiaryRepository).deleteDiaryEntry(DIARY.get(0));
     }
 }

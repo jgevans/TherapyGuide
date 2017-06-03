@@ -8,9 +8,7 @@ import java.util.List;
  * Fake implementation of {@link DiaryServiceApi} to inject a fake service in a hermetic test.
  */
 public class FakeDiaryServiceApiImpl implements DiaryServiceApi {
-    private static final List<DiaryEntry> DIARY_SERVICE_DATA = Lists.newArrayList(
-            new DiaryEntry(System.currentTimeMillis(), "Entry One")
-    );
+    private static final List<DiaryEntry> DIARY_SERVICE_DATA = Lists.newArrayList();
 
     @Override
     public void getAllDiaryEntries(DiaryServiceCallback<List<DiaryEntry>> callback) {
@@ -21,5 +19,8 @@ public class FakeDiaryServiceApiImpl implements DiaryServiceApi {
     public void saveDiaryEntry(DiaryEntry entry) {
         DIARY_SERVICE_DATA.add(entry);
     }
+
+    @Override
+    public void deleteDiaryEntry(DiaryEntry entry) { DIARY_SERVICE_DATA.remove(entry); }
 
 }

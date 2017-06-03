@@ -13,4 +13,6 @@ interface DiaryServiceApi {
     void getAllDiaryEntries(DiaryServiceCallback<List<DiaryEntry>> callback);
 
     void saveDiaryEntry(DiaryEntry entry);
+
+    void deleteDiaryEntry(DiaryEntry entry);
 }

@@ -19,4 +19,6 @@ public interface DiaryRepository {
 
     void saveDiaryEntry(@NonNull DiaryEntry entry);
 
+    void deleteDiaryEntry(@NonNull DiaryEntry entry);
+
 }

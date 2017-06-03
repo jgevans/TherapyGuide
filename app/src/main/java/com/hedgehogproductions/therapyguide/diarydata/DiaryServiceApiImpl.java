@@ -70,4 +70,15 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         // Insert the new row, returning the primary key value of the new row
         db.insert(DiaryReaderContract.DiaryDbEntry.TABLE_NAME, null, values);
     }
+
+    @Override
+    public void deleteDiaryEntry(DiaryEntry entry) {
+
+        // Get the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        db.delete(DiaryReaderContract.DiaryDbEntry.TABLE_NAME,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP + "='" + String.valueOf(entry.getCreationTimestamp()) + "'",
+                null);
+    }
 }

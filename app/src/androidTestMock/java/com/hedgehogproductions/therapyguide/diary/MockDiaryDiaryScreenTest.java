@@ -21,6 +21,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.hedgehogproductions.therapyguide.DiaryManipulators.addNewDiaryEntry;
+import static com.hedgehogproductions.therapyguide.DiaryManipulators.deleteDiaryEntry;
+import static org.hamcrest.Matchers.anyOf;
 
 
 /**
@@ -39,23 +42,29 @@ public class MockDiaryDiaryScreenTest {
 
     @Test
     public void diaryEntries_DisplayedInUi() throws Exception {
+        String newDiaryText = "I'm checking this entry is displayed";
+
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
+        // Add a diary entry
+        addNewDiaryEntry(newDiaryText);
+
         // Scroll diary to added entry, by finding its text
         onView(withId(R.id.diary_view)).perform(
-                scrollTo(hasDescendant(withText("Entry One"))));
+                scrollTo(hasDescendant(withText(newDiaryText))));
 
         // Verify entry is displayed on screen
-        onView(Matchers.withItemText("Entry One")).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText)).check(matches(isDisplayed()));
 
-        // TODO Reinstate once DiaryScreenTest.largeDiary_LoadsFully is independent
         // Check that the Fake diary entry is displayed in the UI
-        //onView(withId(R.id.diary_card_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.diary_card_view)).check(matches(isDisplayed()));
 
         // Check the values are correct
-        //onView(withId(R.id.diary_time)).check(matches(anyOf(withText("0 mins ago"),withText("0 min ago"))));
-        //onView(withId(R.id.diary_text)).check(matches(withText("Entry One")));
-    }
+        onView(withId(R.id.diary_time)).check(matches(anyOf(withText("0 mins ago"),withText("0 min ago"))));
+        onView(withId(R.id.diary_text)).check(matches(withText(newDiaryText)));
 
+        // Delete the entry to clear up
+        deleteDiaryEntry(newDiaryText);
+    }
 }

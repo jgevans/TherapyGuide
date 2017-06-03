@@ -102,6 +102,22 @@ public class InMemoryDiaryRepositoryTest {
         assertThat(mDiaryRepository.mCachedEntries, is(nullValue()));
     }
 
+    @Test
+    public void deleteDiaryEntry_deletesEntryToServiceAPIAndInvalidatesCache() {
+        // Given a current entry
+        DiaryEntry deletedEntry = DIARY.get(0);
+        // And a cached diary
+        twoLoadCallsToRepository(mLoadDiaryCallback);
+        assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
+
+        // When a diary entry is deleted from the diary repository
+        mDiaryRepository.deleteDiaryEntry(deletedEntry);
+
+        // Then the service API was called
+        verify(mServiceApi).deleteDiaryEntry(deletedEntry);
+        // And the  diary cache is cleared
+        assertThat(mDiaryRepository.mCachedEntries, is(nullValue()));
+    }
 
     /**
      * Convenience method that issues two calls to the diary repository

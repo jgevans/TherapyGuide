@@ -24,6 +24,8 @@ public interface DiaryContract {
 
         void addNewDiaryEntry();
 
-        void deleteDiaryEntry(final int position);
+        void instigateDiaryEntryDeletion(final int position);
+
+        void deleteDiaryEntry(DiaryEntry entry);
     }
 }
