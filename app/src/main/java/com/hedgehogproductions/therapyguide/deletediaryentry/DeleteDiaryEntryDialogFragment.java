@@ -3,12 +3,14 @@ package com.hedgehogproductions.therapyguide.deletediaryentry;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
 
 
 public class DeleteDiaryEntryDialogFragment extends DialogFragment {
@@ -22,14 +24,31 @@ public class DeleteDiaryEntryDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.ok_delete_diary_entry, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Delete Diary Entry
+                        getTargetFragment().onActivityResult(
+                                getTargetRequestCode(),
+                                DiaryFragment.ENTRY_DELETION_RES_CODE_CONFIRM,
+                                new Intent(Intent.ACTION_ANSWER));
                     }
                 })
                 .setNegativeButton(R.string.cancel_delete_diary_entry, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        cancelDeletion();
                     }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    // Handle back and other cancel gestures
+    @Override
+    public void onCancel(DialogInterface dialogInterface) {
+        cancelDeletion();
+    }
+
+    private void cancelDeletion() {
+        getTargetFragment().onActivityResult(
+                getTargetRequestCode(),
+                DiaryFragment.ENTRY_DELETION_RES_CODE_CANCEL,
+                new Intent(Intent.ACTION_ANSWER));
     }
 }
