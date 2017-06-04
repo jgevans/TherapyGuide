@@ -23,6 +23,7 @@ import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.deletediaryentry.DeleteDiaryEntryDialogFragment;
 import com.hedgehogproductions.therapyguide.diarydata.DiaryEntry;
+import com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
 
     private DiaryEntryAdapter mDiaryEntriesAdapter;
 
-    private static final int ENTRY_DELETION_REQ_CODE = 0;
+    public static final int ENTRY_DELETION_REQ_CODE = 0;
     public static final int ENTRY_DELETION_RES_CODE_CONFIRM = 0;
     public static final int ENTRY_DELETION_RES_CODE_CANCEL = 1;
 
@@ -57,6 +58,13 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     @Override
     public void showAddDiaryEntry() {
         Intent intent = new Intent(getContext(), AddDiaryEntryActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showUpdateDiaryEntry(long selectedEntryTimestamp) {
+        Intent intent = new Intent(getContext(), EditDiaryEntryActivity.class);
+        intent.putExtra(EditDiaryEntryActivity.SELECTED_ENTRY_TIMESTAMP, selectedEntryTimestamp);
         startActivity(intent);
     }
 
@@ -89,7 +97,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDiaryEntriesAdapter = new DiaryEntryAdapter(new ArrayList<DiaryEntry>());
+        mDiaryEntriesAdapter = new DiaryEntryAdapter(new ArrayList<DiaryEntry>(), mEntryListener);
         mActionsListener = new DiaryPresenter(Injection.provideDiaryRepository(getContext()), this);
         mDeletionPosition = ~0;
     }
@@ -132,13 +140,25 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         return view;
     }
 
+    /**
+     * Listener for clicks on entries in the RecyclerView.
+     */
+    private final DiaryEntryListener mEntryListener = new DiaryEntryListener() {
+        @Override
+        public void onEntryClick(DiaryEntry selectedEntry) {
+            mActionsListener.updateDiaryEntry(selectedEntry);
+        }
+    };
+
 
     private static class DiaryEntryAdapter extends RecyclerView.Adapter<DiaryEntryAdapter.ViewHolder> {
 
         private List<DiaryEntry> mDiaryEntries;
+        private final DiaryEntryListener mDiaryEntryListener;
 
-        public DiaryEntryAdapter(@NonNull List<DiaryEntry> diaryEntries) {
+        public DiaryEntryAdapter(@NonNull List<DiaryEntry> diaryEntries, DiaryEntryListener diaryEntryListener) {
             setEntries(diaryEntries);
+            mDiaryEntryListener = diaryEntryListener;
         }
 
         @Override
@@ -146,7 +166,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.diary_card, parent, false);
 
-            return new ViewHolder(itemView);
+            return new ViewHolder(itemView, mDiaryEntryListener);
         }
 
         @Override
@@ -184,19 +204,33 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
             return mDiaryEntries.get(position);
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             public final TextView text;
             public final TextView time;
 
+            private final DiaryEntryListener mDiaryEntryListener;
 
-            public ViewHolder(View view) {
+            public ViewHolder(View view, DiaryEntryListener diaryEntryListener) {
                 super(view);
-
+                mDiaryEntryListener = diaryEntryListener;
                 text = (TextView) view.findViewById(R.id.diary_text);
                 time = (TextView) view.findViewById(R.id.diary_time);
-
+                itemView.setOnClickListener(this);
             }
+
+            @Override
+            public void onClick(View v) {
+                int position = getAdapterPosition();
+                DiaryEntry entry = getEntry(position);
+                mDiaryEntryListener.onEntryClick(entry);
+            }
+
         }
+    }
+
+    public interface DiaryEntryListener {
+
+        void onEntryClick(DiaryEntry selectedEntry);
     }
 
 }

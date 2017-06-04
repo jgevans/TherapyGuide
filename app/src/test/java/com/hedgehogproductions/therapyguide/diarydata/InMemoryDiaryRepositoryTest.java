@@ -3,7 +3,9 @@ package com.hedgehogproductions.therapyguide.diarydata;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -16,6 +18,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -33,12 +36,17 @@ public class InMemoryDiaryRepositoryTest {
     private DiaryServiceApiImpl mServiceApi;
 
     @Mock
+    private DiaryRepository.LoadDiaryEntryCallback mLoadDiaryEntryCallback;
+
+    @Mock
     private DiaryRepository.LoadDiaryCallback mLoadDiaryCallback;
 
     @Captor
     private ArgumentCaptor<DiaryServiceApi.DiaryServiceCallback> mDiaryServiceCallbackCaptor;
 
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setupDiaryRepository() {
@@ -103,7 +111,7 @@ public class InMemoryDiaryRepositoryTest {
     }
 
     @Test
-    public void deleteDiaryEntry_deletesEntryToServiceAPIAndInvalidatesCache() {
+    public void deleteDiaryEntry_deletesEntryThroughServiceAPIAndInvalidatesCache() {
         // Given a current entry
         DiaryEntry deletedEntry = DIARY.get(0);
         // And a cached diary
@@ -117,6 +125,62 @@ public class InMemoryDiaryRepositoryTest {
         verify(mServiceApi).deleteDiaryEntry(deletedEntry);
         // And the  diary cache is cleared
         assertThat(mDiaryRepository.mCachedEntries, is(nullValue()));
+    }
+
+    @Test
+    public void deleteNonExistentEntry_ThrowsException() {
+        // Given a non existent entry
+        DiaryEntry fakeEntry = new DiaryEntry(System.currentTimeMillis(), "This entry doesn't exist");
+        // And a cached diary
+        twoLoadCallsToRepository(mLoadDiaryCallback);
+        assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
+
+        // When a non-existent entry is updated, an exception is thrown
+        exception.expect(IndexOutOfBoundsException.class);
+        exception.expectMessage("DiaryEntry not found");
+        mDiaryRepository.deleteDiaryEntry(fakeEntry);
+    }
+
+    @Test
+    public void updateDiaryEntry_updatesEntryThroughServiceAPIAndInvalidatesCache() {
+        // Given a current entry
+        DiaryEntry updatedEntry = DIARY.get(0);
+        // And a cached diary
+        twoLoadCallsToRepository(mLoadDiaryCallback);
+        assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
+
+        // When a diary entry is updated in the diary repository
+        mDiaryRepository.updateDiaryEntry(updatedEntry);
+
+        // Then the service API was called
+        verify(mServiceApi).updateDiaryEntry(updatedEntry);
+        // And the  diary cache is cleared
+        assertThat(mDiaryRepository.mCachedEntries, is(nullValue()));
+    }
+
+    @Test
+    public void updateNonExistentEntry_ThrowsException() {
+        // Given a non existent entry
+        DiaryEntry fakeEntry = new DiaryEntry(System.currentTimeMillis(), "This entry doesn't exist");
+        // And a cached diary
+        twoLoadCallsToRepository(mLoadDiaryCallback);
+        assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
+
+        // When a non-existent entry is updated, an exception is thrown
+        exception.expect(IndexOutOfBoundsException.class);
+        exception.expectMessage("DiaryEntry not found");
+        mDiaryRepository.updateDiaryEntry(fakeEntry);
+    }
+
+    @Test
+    public void getDiaryEntry_requestsSingleEntryFromServiceApi() {
+        final long timestamp = DIARY.get(0).getCreationTimestamp();
+
+        // When an entry is requested from the diary repository
+        mDiaryRepository.getDiaryEntry(timestamp, mLoadDiaryEntryCallback);
+
+        // Then the entry is loaded from the service API
+        verify(mServiceApi).getDiaryEntry(eq(timestamp), any(DiaryServiceApi.DiaryServiceCallback.class));
     }
 
     /**

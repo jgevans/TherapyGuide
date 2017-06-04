@@ -38,9 +38,9 @@ public class AddDiaryEntryFragment extends Fragment implements AddDiaryEntryCont
     @Override
     public void showEmptyEntryError() {
         // Show error toast
-        Toast loopToast = Toast.makeText(
+        Toast errorToast = Toast.makeText(
                 this.getContext(),getString(R.string.empty_entry_error_toast_text), Toast.LENGTH_SHORT);
-        loopToast.show();
+        errorToast.show();
     }
 
     @Override

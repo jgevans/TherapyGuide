@@ -39,6 +39,18 @@ public class InMemoryDiaryRepository implements DiaryRepository {
     }
 
     @Override
+    public void getDiaryEntry(long timestamp, @NonNull final LoadDiaryEntryCallback callback) {
+        checkNotNull(callback);
+        // Load entry from API.
+        mDiaryServiceApi.getDiaryEntry(timestamp, new DiaryServiceApi.DiaryServiceCallback<DiaryEntry>() {
+            @Override
+            public void onLoaded(DiaryEntry entry) {
+                callback.onEntryLoaded(entry);
+            }
+        });
+    }
+
+    @Override
     public void saveDiaryEntry(@NonNull DiaryEntry entry) {
         checkNotNull(entry);
         mDiaryServiceApi.saveDiaryEntry(entry);
@@ -46,8 +58,21 @@ public class InMemoryDiaryRepository implements DiaryRepository {
     }
 
     @Override
-    public void deleteDiaryEntry(@NonNull DiaryEntry entry) {
+    public void updateDiaryEntry(@NonNull DiaryEntry entry) throws IndexOutOfBoundsException {
         checkNotNull(entry);
+        if( !mCachedEntries.contains(entry) ) {
+            throw new IndexOutOfBoundsException("DiaryEntry not found");
+        }
+        mDiaryServiceApi.updateDiaryEntry(entry);
+        refreshData();
+    }
+
+    @Override
+    public void deleteDiaryEntry(@NonNull DiaryEntry entry) throws IndexOutOfBoundsException {
+        checkNotNull(entry);
+        if( !mCachedEntries.contains(entry) ) {
+            throw new IndexOutOfBoundsException("DiaryEntry not found");
+        }
         mDiaryServiceApi.deleteDiaryEntry(entry);
         refreshData();
     }

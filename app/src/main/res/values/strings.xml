@@ -13,8 +13,11 @@
 
     <string name="diary_create_message">What was good about today?</string>
     <string name="diary_entry_save_button">Save</string>
+    <string name="diary_entry_cancel_button">Cancel</string>
+    <string name="diary_entry_delete_button">Delete</string>
 
     <string name="empty_entry_error_toast_text">Diary Entries cannot be empty</string>
+    <string name="missing_entry_error_toast_text">Cannot find Diary Entry</string>
     <string name="dialog_delete_diary_entry">Are you sure you want to delete this entry?</string>
     <string name="ok_delete_diary_entry">OK</string>
     <string name="cancel_delete_diary_entry">Cancel</string>

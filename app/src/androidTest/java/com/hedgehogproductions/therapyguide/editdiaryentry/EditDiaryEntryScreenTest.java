@@ -1,4 +1,5 @@
-package com.hedgehogproductions.therapyguide.adddiaryentry;
+package com.hedgehogproductions.therapyguide.editdiaryentry;
+
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -21,33 +22,37 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.hedgehogproductions.therapyguide.Matchers.showsToast;
 
-
-/**
- * Tests for the new diary entry screen, the screen which allows the creation
- *  of a new diary entry.
- */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-
-public class AddDiaryEntryScreenTest {
+public class EditDiaryEntryScreenTest {
 
     /* Rule to launch activity under test */
     @Rule
-    public ActivityTestRule<AddDiaryEntryActivity> mEntryActivityTestRule =
-            new ActivityTestRule<>(AddDiaryEntryActivity.class);
+    public ActivityTestRule<EditDiaryEntryActivity> mEntryActivityTestRule =
+            new ActivityTestRule<>(EditDiaryEntryActivity.class);
 
     @Test
     public void errorShownOnEmptyMessage() {
-        // Add diary entry text and close the keyboard
-        onView(withId(R.id.adddiaryentry_entry_text)).perform(typeText(""),
+        // Entry diary entry text and close the keyboard
+        onView(withId(R.id.editdiaryentry_entry_text)).perform(typeText(""),
                 closeSoftKeyboard());
 
         // Attempt to save the entry
-        onView(withId(R.id.adddiaryentry_save_button)).perform(click());
+        onView(withId(R.id.editdiaryentry_save_button)).perform(click());
 
         // Verify empty entry toast is shown
         String emptyNoteMessageText =
                 getTargetContext().getString(R.string.empty_entry_error_toast_text);
         onView(withText(emptyNoteMessageText)).inRoot(showsToast()).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void pressDelete_ShowsConformation() {
+        // Attempt to delete the entry
+        onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
+
+        // Verify deletion dialog message is shown
+        onView(withText(R.string.dialog_delete_diary_entry)).check(matches(isDisplayed()));
+    }
 }
+

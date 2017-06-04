@@ -16,8 +16,20 @@ public class FakeDiaryServiceApiImpl implements DiaryServiceApi {
     }
 
     @Override
+    public void getDiaryEntry(long timestamp, DiaryServiceCallback<DiaryEntry> callback) {
+        DiaryEntry entry = null;
+        // TODO Search list and set entry, if found
+        callback.onLoaded(entry);
+    }
+
+    @Override
     public void saveDiaryEntry(DiaryEntry entry) {
         DIARY_SERVICE_DATA.add(entry);
+    }
+
+    @Override
+    public void updateDiaryEntry(DiaryEntry entry) {
+        // TODO Find and update entry
     }
 
     @Override

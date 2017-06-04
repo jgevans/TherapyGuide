@@ -1,5 +1,7 @@
 package com.hedgehogproductions.therapyguide.diary;
 
+import android.support.annotation.NonNull;
+
 import com.hedgehogproductions.therapyguide.diarydata.DiaryEntry;
 
 import java.util.List;
@@ -15,6 +17,8 @@ public interface DiaryContract {
 
         void showAddDiaryEntry();
 
+        void showUpdateDiaryEntry(long selectedEntryTimestamp);
+
         void showDiaryEntryDeletionMessage(final int position);
     }
 
@@ -23,6 +27,8 @@ public interface DiaryContract {
         void loadDiary();
 
         void addNewDiaryEntry();
+
+        void updateDiaryEntry(@NonNull DiaryEntry selectedEntry);
 
         void instigateDiaryEntryDeletion(final int position);
 

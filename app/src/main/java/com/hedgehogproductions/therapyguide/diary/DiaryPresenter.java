@@ -37,6 +37,12 @@ public class DiaryPresenter implements DiaryContract.UserActionsListener {
     }
 
     @Override
+    public void updateDiaryEntry(@NonNull DiaryEntry selectedEntry) {
+        checkNotNull(selectedEntry, "DiaryEntry cannot be null");
+        mDiaryView.showUpdateDiaryEntry(selectedEntry.getCreationTimestamp());
+    }
+
+    @Override
     public void instigateDiaryEntryDeletion(final int position) {
         mDiaryView.showDiaryEntryDeletionMessage(position);
     }
