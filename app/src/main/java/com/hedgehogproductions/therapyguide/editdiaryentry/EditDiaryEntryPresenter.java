@@ -59,6 +59,18 @@ public class EditDiaryEntryPresenter implements EditDiaryEntryContract.UserActio
     }
 
     @Override
+    public void saveNewDiaryEntry(long timestamp, String text) {
+        DiaryEntry newDiaryEntry = new DiaryEntry(timestamp, text);
+        if( newDiaryEntry.isEmpty() ) {
+            mEditDiaryEntryView.showEmptyEntryError();
+        }
+        else {
+            mDiaryRepository.saveDiaryEntry(newDiaryEntry);
+            mEditDiaryEntryView.showDiaryView();
+        }
+    }
+
+    @Override
     public void instigateDiaryEntryDeletion() {
         mEditDiaryEntryView.showDiaryEntryDeletionMessage();
     }

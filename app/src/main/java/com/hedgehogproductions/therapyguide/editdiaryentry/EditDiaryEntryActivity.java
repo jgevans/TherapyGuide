@@ -12,6 +12,7 @@ import com.hedgehogproductions.therapyguide.R;
 public class EditDiaryEntryActivity extends AppCompatActivity {
 
     public static final String SELECTED_ENTRY_TIMESTAMP = "ENTRY_TIMESTAMP";
+    public static final String EDIT_MODE = "EDIT_MODE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

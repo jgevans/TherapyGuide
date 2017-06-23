@@ -1,16 +1,15 @@
 package com.hedgehogproductions.therapyguide;
 
 
-import android.support.test.espresso.contrib.RecyclerViewActions;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo;
-import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -23,40 +22,31 @@ public class DiaryManipulators {
         onView(withId(R.id.create_button)).perform(click());
 
         // Add diary entry text and close the keyboard
-        onView(withId(R.id.adddiaryentry_entry_text)).perform(typeText(entryText),
+        onView(withId(R.id.editdiaryentry_entry_text)).perform(typeText(entryText),
                 closeSoftKeyboard());
 
         // Save the entry
-        onView(withId(R.id.adddiaryentry_save_button)).perform(click());
+        onView(withId(R.id.editdiaryentry_save_button)).perform(click());
     }
 
     /**
      * Convenience method that deletes an entry from the diary
      */
     public static void deleteDiaryEntry(String entryText) {
-        // Swipe the entry
-        onView(withId(R.id.diary_view))
-                .perform(scrollTo(hasDescendant(withText(entryText))));
-        onView(withId(R.id.diary_view))
-                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(entryText)), swipeLeft()));
+        // Scroll diary to entry, by finding its text
+        onView(withId(R.id.diary_view)).perform(scrollTo(hasDescendant(withText(entryText))));
 
-        // Confirm Entry deletion
+        // Click on the entry
+        onView(withText(entryText)).perform(click());
+
+        // Click delete
+        onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
+
+        // Click confirm
         onView(withText(R.string.ok_delete_diary_entry)).perform(click());
-    }
 
-    /**
-     * Convenience method that deletes a set number of entries from the diary
-     */
-    public static void deleteWholeDiary(int entries) {
-        // For each entry
-        for( int entry = 0; entry < entries; ++ entry ) {
-            // Swipe it
-            onView(withId(R.id.diary_view))
-                    .perform(scrollToPosition(0))
-                    .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
-
-            // Confirm Entry deletion
-            onView(withText(R.string.ok_delete_diary_entry)).perform(click());
-        }
+        // Verify that diary is in view and entry has been removed
+        onView(withId(R.id.diary_view)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(entryText)).check(doesNotExist());
     }
 }

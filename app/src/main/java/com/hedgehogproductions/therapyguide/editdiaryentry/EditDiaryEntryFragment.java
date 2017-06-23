@@ -19,6 +19,7 @@ import com.hedgehogproductions.therapyguide.deletediaryentry.DeleteDiaryEntryDia
 
 import static com.hedgehogproductions.therapyguide.diary.DiaryFragment.ENTRY_DELETION_REQ_CODE;
 import static com.hedgehogproductions.therapyguide.diary.DiaryFragment.ENTRY_DELETION_RES_CODE_CONFIRM;
+import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.EDIT_MODE;
 import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.SELECTED_ENTRY_TIMESTAMP;
 
 public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryContract.View {
@@ -26,6 +27,8 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     private EditDiaryEntryContract.UserActionsListener mActionsListener;
 
     private TextView mDiaryText;
+
+    private boolean mEditMode;
 
     public static EditDiaryEntryFragment newInstance(long entryTimestamp) {
         Bundle arguments = new Bundle();
@@ -82,12 +85,23 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
 
         Button saveButton =
                 (Button) getActivity().findViewById(R.id.editdiaryentry_save_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActionsListener.updateDiaryEntry(mDiaryText.getText().toString());
-            }
-        });
+        if( mEditMode ) {
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActionsListener.updateDiaryEntry(mDiaryText.getText().toString());
+                }
+            });
+        }
+        else {
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActionsListener.saveNewDiaryEntry(
+                            System.currentTimeMillis(),mDiaryText.getText().toString());
+                }
+            });
+        }
         Button cancelButton =
                 (Button) getActivity().findViewById(R.id.editdiaryentry_cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -96,14 +110,21 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
                 showDiaryView();
             }
         });
+
+        // If in edit mode, set up delete button, otherwise, hide it
         Button deleteButton =
                 (Button) getActivity().findViewById(R.id.editdiaryentry_delete_button);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mActionsListener.instigateDiaryEntryDeletion();
-            }
-        });
+        if( mEditMode ) {
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActionsListener.instigateDiaryEntryDeletion();
+                }
+            });
+        }
+        else {
+            deleteButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Nullable
@@ -112,6 +133,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editdiaryentry, container, false);
         mDiaryText = (TextView) root.findViewById(R.id.editdiaryentry_entry_text);
+        mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
 
         return root;
     }
@@ -119,8 +141,10 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     @Override
     public void onResume() {
         super.onResume();
-        long timestamp = getArguments().getLong(SELECTED_ENTRY_TIMESTAMP);
-        mActionsListener.openDiaryEntry(timestamp);
+        if (mEditMode) {
+            long timestamp = getArguments().getLong(SELECTED_ENTRY_TIMESTAMP);
+            mActionsListener.openDiaryEntry(timestamp);
+        }
     }
 
     @Override

@@ -19,6 +19,8 @@ public interface EditDiaryEntryContract {
 
         void updateDiaryEntry(String text);
 
+        void saveNewDiaryEntry(long timestamp, String text);
+
         void openDiaryEntry(long timestamp);
 
         void instigateDiaryEntryDeletion();

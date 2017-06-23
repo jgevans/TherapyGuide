@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hedgehogproductions.therapyguide.adddiaryentry.AddDiaryEntryActivity;
 import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.deletediaryentry.DeleteDiaryEntryDialogFragment;
@@ -57,7 +56,8 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
 
     @Override
     public void showAddDiaryEntry() {
-        Intent intent = new Intent(getContext(), AddDiaryEntryActivity.class);
+        Intent intent = new Intent(getContext(), EditDiaryEntryActivity.class);
+        intent.putExtra(EditDiaryEntryActivity.EDIT_MODE, false);
         startActivity(intent);
     }
 
@@ -65,6 +65,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     public void showUpdateDiaryEntry(long selectedEntryTimestamp) {
         Intent intent = new Intent(getContext(), EditDiaryEntryActivity.class);
         intent.putExtra(EditDiaryEntryActivity.SELECTED_ENTRY_TIMESTAMP, selectedEntryTimestamp);
+        intent.putExtra(EditDiaryEntryActivity.EDIT_MODE, true);
         startActivity(intent);
     }
 

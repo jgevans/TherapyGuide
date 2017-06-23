@@ -85,6 +85,27 @@ public class EditDiaryEntryPresenterTest {
     }
 
     @Test
+    public void saveNewEntryToRepository_SavesData() {
+        // When the presenter is asked to save a diaryEntry
+        mEditDiaryEntryPresenter.saveNewDiaryEntry(System.currentTimeMillis(),"Test Entry One");
+
+        // Then a DiaryEntry is saved,
+        verify(mDiaryRepository).saveDiaryEntry(any(DiaryEntry.class));
+        // ... and the diary is displayed
+        verify(mEditDiaryEntryView).showDiaryView();
+    }
+
+    @Test
+    public void saveNewEntry_emptyEntryShowsErrorUI() {
+        // When the presenter is asked to save an empty note
+        mEditDiaryEntryPresenter.saveNewDiaryEntry(0, "");
+
+        // Then an empty entry error is shown in the UI
+        verify(mEditDiaryEntryView).showEmptyEntryError();
+
+    }
+
+    @Test
     public void saveUpdatedEntryToRepository_SavesData() {
         // Given a valid timestamp
         mEditDiaryEntryPresenter.setCreationTimestamp(TIMESTAMP);

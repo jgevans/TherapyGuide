@@ -31,7 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.hedgehogproductions.therapyguide.DiaryManipulators.addNewDiaryEntry;
 import static com.hedgehogproductions.therapyguide.DiaryManipulators.deleteDiaryEntry;
-import static com.hedgehogproductions.therapyguide.DiaryManipulators.deleteWholeDiary;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Tests for the diary screen, the screen which contains a list of all
@@ -49,15 +49,18 @@ public class DiaryScreenTest {
 
 
     @Test
-    public void clickAddDiaryEntryButton_opensAddDiaryEntryUi() {
+    public void clickAddDiaryEntryButton_opensEditDiaryEntryUiInAddMode() {
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Click on the add diary entry button
         onView(withId(R.id.create_button)).perform(click());
 
-        // Check if the add diary entry screen is displayed
-        onView(withId(R.id.adddiaryentry_entry_text)).check(matches(isDisplayed()));
+        // Check that the edit diary entry screen is displayed
+        onView(withId(R.id.editdiaryentry_entry_text)).check(matches(isDisplayed()));
+
+        // Check that the delete button is not shown
+        onView(withId(R.id.editdiaryentry_delete_button)).check(matches(not(isDisplayed())));
     }
 
     @Test
@@ -209,7 +212,9 @@ public class DiaryScreenTest {
                     .check(matches(isDisplayed()));
         }
 
-        deleteWholeDiary(numEntries);
+        for(int entryNumber = 1; entryNumber <= numEntries; ++entryNumber) {
+            deleteDiaryEntry("New Diary Entry " + String.valueOf(entryNumber) );
+        }
     }
 
     @Test
