@@ -15,11 +15,12 @@ public class FakeDiaryServiceApiImpl implements DiaryServiceApi {
         callback.onLoaded(DIARY_SERVICE_DATA);
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Override
     public void getDiaryEntry(long timestamp, DiaryServiceCallback<DiaryEntry> callback) {
         DiaryEntry foundEntry = null;
         for( DiaryEntry entry : DIARY_SERVICE_DATA) {
-            if( entry.equals(new Long(timestamp)) ) {
+            if( entry.equals(timestamp) ) {
                 foundEntry = entry;
                 break;
             }
