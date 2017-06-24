@@ -9,10 +9,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText android:id="@+id/editdiaryentry_entry_text"
+        <EditText android:id="@+id/editdiaryentry_entry_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/diary_create_message" />
+        <EditText android:id="@+id/editdiaryentry_entry_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/diary_create_message_supplement" />
+        <EditText android:id="@+id/editdiaryentry_entry_text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/diary_create_message_supplement" />
+        <EditText android:id="@+id/editdiaryentry_entry_text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/diary_create_message_supplement" />
+        <EditText android:id="@+id/editdiaryentry_entry_text5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/diary_create_message_supplement" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -17,12 +17,18 @@ public class DiaryManipulators {
     /**
      * Convenience method that adds an entry into the diary
      */
-    public static void addNewDiaryEntry(String entryText) {
+    public static void addNewDiaryEntry(
+            String entryText1, String entryText2, String entryText3,
+            String entryText4, String entryText5) {
         // Click on the add diary entry button
         onView(withId(R.id.create_button)).perform(click());
 
         // Add diary entry text and close the keyboard
-        onView(withId(R.id.editdiaryentry_entry_text)).perform(typeText(entryText),
+        onView(withId(R.id.editdiaryentry_entry_text1)).perform(typeText(entryText1));
+        onView(withId(R.id.editdiaryentry_entry_text2)).perform(typeText(entryText2));
+        onView(withId(R.id.editdiaryentry_entry_text3)).perform(typeText(entryText3));
+        onView(withId(R.id.editdiaryentry_entry_text4)).perform(typeText(entryText4));
+        onView(withId(R.id.editdiaryentry_entry_text5)).perform(typeText(entryText5),
                 closeSoftKeyboard());
 
         // Save the entry

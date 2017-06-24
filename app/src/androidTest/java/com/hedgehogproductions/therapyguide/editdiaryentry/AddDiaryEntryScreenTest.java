@@ -44,7 +44,11 @@ public class AddDiaryEntryScreenTest {
     @Test
     public void showNoDeleteOptionForAddMode() {
         // Verify the correct fields and buttons are shown
-        onView(withId(R.id.editdiaryentry_entry_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text1)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text2)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text3)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text4)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text5)).check(matches(isDisplayed()));
         onView(withId(R.id.editdiaryentry_save_button)).check(matches(isDisplayed()));
         onView(withId(R.id.editdiaryentry_cancel_button)).check(matches(isDisplayed()));
         onView(withId(R.id.editdiaryentry_delete_button)).check(matches(not(isDisplayed())));

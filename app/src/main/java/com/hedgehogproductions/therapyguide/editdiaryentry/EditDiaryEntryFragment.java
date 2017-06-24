@@ -28,7 +28,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
 
     private EditDiaryEntryContract.UserActionsListener mActionsListener;
 
-    private TextView mDiaryText;
+    private TextView mDiaryText1, mDiaryText2, mDiaryText3, mDiaryText4, mDiaryText5;
 
     private boolean mEditMode;
 
@@ -70,8 +70,12 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     }
 
     @Override
-    public void showDiaryText(String text) {
-        mDiaryText.setText(text);
+    public void showDiaryText(String text1, String text2, String text3, String text4, String text5) {
+        mDiaryText1.setText(text1);
+        mDiaryText2.setText(text2);
+        mDiaryText3.setText(text3);
+        mDiaryText4.setText(text4);
+        mDiaryText5.setText(text5);
     }
 
     @Override
@@ -92,7 +96,13 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mActionsListener.updateDiaryEntry(mDiaryText.getText().toString());
+                    mActionsListener.updateDiaryEntry(
+                            mDiaryText1.getText().toString(),
+                            mDiaryText2.getText().toString(),
+                            mDiaryText3.getText().toString(),
+                            mDiaryText4.getText().toString(),
+                            mDiaryText5.getText().toString()
+                            );
                 }
             });
         }
@@ -101,7 +111,13 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
                 @Override
                 public void onClick(View v) {
                     mActionsListener.saveNewDiaryEntry(
-                            System.currentTimeMillis(),mDiaryText.getText().toString());
+                            System.currentTimeMillis(),
+                            mDiaryText1.getText().toString(),
+                            mDiaryText2.getText().toString(),
+                            mDiaryText3.getText().toString(),
+                            mDiaryText4.getText().toString(),
+                            mDiaryText5.getText().toString()
+                            );
                 }
             });
         }
@@ -135,7 +151,11 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editdiaryentry, container, false);
-        mDiaryText = (TextView) root.findViewById(R.id.editdiaryentry_entry_text);
+        mDiaryText1 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text1);
+        mDiaryText2 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text2);
+        mDiaryText3 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text3);
+        mDiaryText4 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text4);
+        mDiaryText5 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text5);
         mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
 
         return root;

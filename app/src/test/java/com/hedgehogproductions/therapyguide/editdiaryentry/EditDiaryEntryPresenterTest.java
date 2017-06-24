@@ -53,7 +53,7 @@ public class EditDiaryEntryPresenterTest {
     @Test
     public void openDiaryEntry_ShowsEntryDetails() {
         // Given a diary entry
-        DiaryEntry entry = new DiaryEntry(TIMESTAMP, TEXT);
+        DiaryEntry entry = new DiaryEntry(TIMESTAMP, TEXT, TEXT, TEXT, TEXT, TEXT);
 
         // When the presenter is asked to open the entry
         mEditDiaryEntryPresenter.openDiaryEntry(TIMESTAMP);
@@ -65,7 +65,7 @@ public class EditDiaryEntryPresenterTest {
         mLoadDiaryEntryCallbackCaptor.getValue().onEntryLoaded(entry); // Trigger callback
 
         // Then the text is shown in UI
-        verify(mEditDiaryEntryView).showDiaryText(TEXT);
+        verify(mEditDiaryEntryView).showDiaryText(TEXT, TEXT, TEXT, TEXT, TEXT);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class EditDiaryEntryPresenterTest {
     @Test
     public void saveNewEntryToRepository_SavesData() {
         // When the presenter is asked to save a diaryEntry
-        mEditDiaryEntryPresenter.saveNewDiaryEntry(System.currentTimeMillis(),"Test Entry One");
+        mEditDiaryEntryPresenter.saveNewDiaryEntry(TIMESTAMP, TEXT, TEXT, TEXT, TEXT, TEXT);
 
         // Then a DiaryEntry is saved,
         verify(mDiaryRepository).saveDiaryEntry(any(DiaryEntry.class));
@@ -98,7 +98,7 @@ public class EditDiaryEntryPresenterTest {
     @Test
     public void saveNewEntry_emptyEntryShowsErrorUI() {
         // When the presenter is asked to save an empty note
-        mEditDiaryEntryPresenter.saveNewDiaryEntry(0, "");
+        mEditDiaryEntryPresenter.saveNewDiaryEntry(0, "", "", "", "", "");
 
         // Then an empty entry error is shown in the UI
         verify(mEditDiaryEntryView).showEmptyEntryError();
@@ -111,7 +111,7 @@ public class EditDiaryEntryPresenterTest {
         mEditDiaryEntryPresenter.setCreationTimestamp(TIMESTAMP);
 
         // When the presenter is asked to open the entry
-        mEditDiaryEntryPresenter.updateDiaryEntry(TEXT);
+        mEditDiaryEntryPresenter.updateDiaryEntry(TEXT, TEXT, TEXT, TEXT, TEXT);
 
         // Then a DiaryEntry is updated,
         verify(mDiaryRepository).updateDiaryEntry(any(DiaryEntry.class));
@@ -122,7 +122,7 @@ public class EditDiaryEntryPresenterTest {
     @Test
     public void saveUpdatedEntry_emptyEntryShowsErrorUI() {
         // When the presenter is asked to save an empty note
-        mEditDiaryEntryPresenter.updateDiaryEntry("");
+        mEditDiaryEntryPresenter.updateDiaryEntry("", "", "", "", "");
 
         // Then an empty entry error is shown in the UI
         verify(mEditDiaryEntryView).showEmptyEntryError();

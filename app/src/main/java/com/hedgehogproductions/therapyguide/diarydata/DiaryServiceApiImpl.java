@@ -27,7 +27,11 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         // The columns that will be used
         String[] projection = {
                 DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP,
-                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT2,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT3,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT4,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT5
         };
 
         // Sort results, newest first
@@ -47,9 +51,17 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         while(cursor.moveToNext()) {
             long timestamp = cursor.getLong(
                     cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP));
-            String text = cursor.getString(
+            String text1 = cursor.getString(
                     cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT));
-            diaryEntries.add(new DiaryEntry(timestamp, text));
+            String text2 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT2));
+            String text3 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT3));
+            String text4 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT4));
+            String text5 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT5));
+            diaryEntries.add(new DiaryEntry(timestamp, text1, text2, text3, text4, text5));
         }
         cursor.close();
 
@@ -64,7 +76,11 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         // The columns that will be used
         String[] projection = {
                 DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP,
-                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT2,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT3,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT4,
+                DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT5
         };
 
         // The value to search for
@@ -88,9 +104,17 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         DiaryEntry loadedEntry = null;
         if( cursor.getCount() == 1) {
             cursor.moveToNext();
-            String text = cursor.getString(
+            String text1 = cursor.getString(
                     cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT));
-            loadedEntry = new DiaryEntry(timestamp, text);
+            String text2 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT2));
+            String text3 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT3));
+            String text4 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT4));
+            String text5 = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT5));
+            loadedEntry = new DiaryEntry(timestamp, text1, text2, text3, text4, text5);
         }
         cursor.close();
         callback.onLoaded(loadedEntry);
@@ -105,7 +129,11 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP, entry.getCreationTimestamp());
-        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT, entry.getText());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT, entry.getText1());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT2, entry.getText2());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT3, entry.getText3());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT4, entry.getText4());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT5, entry.getText5());
 
         // Insert the new row, returning the primary key value of the new row
         db.insert(DiaryReaderContract.DiaryDbEntry.TABLE_NAME, null, values);
@@ -120,7 +148,11 @@ public class DiaryServiceApiImpl implements DiaryServiceApi {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TIMESTAMP, entry.getCreationTimestamp());
-        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT, entry.getText());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT, entry.getText1());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT2, entry.getText2());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT3, entry.getText3());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT4, entry.getText4());
+        values.put(DiaryReaderContract.DiaryDbEntry.COLUMN_NAME_TEXT5, entry.getText5());
 
         db.update(DiaryReaderContract.DiaryDbEntry.TABLE_NAME,
                 values,

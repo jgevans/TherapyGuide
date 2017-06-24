@@ -12,6 +12,7 @@
     <string name="looping_toast_text">Track looping</string>
 
     <string name="diary_create_message">What was good about today?</string>
+    <string name="diary_create_message_supplement">What else was good about today?</string>
     <string name="diary_entry_save_button">Save</string>
     <string name="diary_entry_cancel_button">Cancel</string>
     <string name="diary_entry_delete_button">Delete</string>

@@ -74,8 +74,13 @@ public class EditDiaryEntryScreenTest {
 
     @Test
     public void errorShownOnEmptyMessage() {
+        String newDiaryText = "I'm not going to fill this in properly";
         // Entry diary entry text and close the keyboard
-        onView(withId(R.id.editdiaryentry_entry_text)).perform(typeText(""),
+        onView(withId(R.id.editdiaryentry_entry_text1)).perform(typeText(newDiaryText));
+        onView(withId(R.id.editdiaryentry_entry_text2)).perform(typeText(newDiaryText));
+        onView(withId(R.id.editdiaryentry_entry_text3)).perform(typeText(""));
+        onView(withId(R.id.editdiaryentry_entry_text4)).perform(typeText(newDiaryText));
+        onView(withId(R.id.editdiaryentry_entry_text5)).perform(typeText(newDiaryText),
                 closeSoftKeyboard());
 
         // Attempt to save the entry

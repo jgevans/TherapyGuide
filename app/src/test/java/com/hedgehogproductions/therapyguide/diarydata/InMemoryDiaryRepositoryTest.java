@@ -27,8 +27,9 @@ import static org.mockito.Mockito.verify;
  */
 public class InMemoryDiaryRepositoryTest {
 
-    private static final List<DiaryEntry> DIARY = Lists.newArrayList(new DiaryEntry(System.currentTimeMillis()-1000, "Entry One"),
-            new DiaryEntry(System.currentTimeMillis(), "Entry Two"));
+    private static final List<DiaryEntry> DIARY = Lists.newArrayList(
+            new DiaryEntry(System.currentTimeMillis()-1000, "Entry1a", "b", "c", "d", "e"),
+            new DiaryEntry(System.currentTimeMillis(), "Entry2a", "b", "c", "d", "e"));
 
     private InMemoryDiaryRepository mDiaryRepository;
 
@@ -96,7 +97,8 @@ public class InMemoryDiaryRepositoryTest {
     @Test
     public void saveDiaryEntry_savesEntryToServiceAPIAndInvalidatesCache() {
         // Given a stub entry with timestamp and text
-        DiaryEntry newEntry = new DiaryEntry(System.currentTimeMillis(), "Some Diary Text");
+        DiaryEntry newEntry = new DiaryEntry(
+                System.currentTimeMillis(), "Some Diary Text", "b", "c", "d", "e");
         // And a cached diary
         twoLoadCallsToRepository(mLoadDiaryCallback);
         assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
@@ -130,7 +132,8 @@ public class InMemoryDiaryRepositoryTest {
     @Test
     public void deleteNonExistentEntry_ThrowsException() {
         // Given a non existent entry
-        DiaryEntry fakeEntry = new DiaryEntry(System.currentTimeMillis(), "This entry doesn't exist");
+        DiaryEntry fakeEntry = new DiaryEntry(
+                System.currentTimeMillis(), "This entry doesn't exist", "b", "c", "d", "e");
         // And a cached diary
         twoLoadCallsToRepository(mLoadDiaryCallback);
         assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));
@@ -161,7 +164,8 @@ public class InMemoryDiaryRepositoryTest {
     @Test
     public void updateNonExistentEntry_ThrowsException() {
         // Given a non existent entry
-        DiaryEntry fakeEntry = new DiaryEntry(System.currentTimeMillis(), "This entry doesn't exist");
+        DiaryEntry fakeEntry = new DiaryEntry(
+                System.currentTimeMillis(), "This entry doesn't exist", "b", "c", "d", "e");
         // And a cached diary
         twoLoadCallsToRepository(mLoadDiaryCallback);
         assertThat(mDiaryRepository.mCachedEntries, is(not(nullValue())));

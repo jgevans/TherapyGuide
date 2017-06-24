@@ -20,6 +20,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -57,7 +58,7 @@ public class DiaryScreenTest {
         onView(withId(R.id.create_button)).perform(click());
 
         // Check that the edit diary entry screen is displayed
-        onView(withId(R.id.editdiaryentry_entry_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text1)).check(matches(isDisplayed()));
 
         // Check that the delete button is not shown
         onView(withId(R.id.editdiaryentry_delete_button)).check(matches(not(isDisplayed())));
@@ -65,23 +66,31 @@ public class DiaryScreenTest {
 
     @Test
     public void addEntryToDiary() {
-        String newDiaryText = "I executed an Espresso test";
+        String newDiaryText1 = "I executed an Espresso test";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
 
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Scroll diary to added entry, by finding its text
         onView(withId(R.id.diary_view)).perform(
-                scrollTo(hasDescendant(withText(newDiaryText))));
+                scrollTo(hasDescendant(withText(newDiaryText1))));
 
         // Verify entry is displayed on screen
-        onView(Matchers.withItemText(newDiaryText)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText1)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText2)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText3)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText4)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText5)).check(matches(isDisplayed()));
 
         // Delete it to clean up
-        deleteDiaryEntry(newDiaryText);
+        deleteDiaryEntry(newDiaryText1);
     }
 
     @Test
@@ -101,17 +110,21 @@ public class DiaryScreenTest {
 
     @Test
     public void swipeOnEntry_ShowsDeletionDialog() {
-        String newDiaryText = "I'm going to delete this entry";
+        String newDiaryText1 = "I'm going to delete this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
 
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Swipe the entry
         onView(withId(R.id.diary_view))
-                .perform(scrollTo(hasDescendant(withText(newDiaryText))))
+                .perform(scrollTo(hasDescendant(withText(newDiaryText1))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
 
         // Verify deletion dialog message is shown
@@ -123,17 +136,20 @@ public class DiaryScreenTest {
 
     @Test
     public void cancelEntryDeletion_LeavesEntryInView() {
-        String newDiaryText = "I'm NOT going to delete this entry";
-
+        String newDiaryText1 = "I'm NOT going to delete this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Swipe the entry
         onView(withId(R.id.diary_view))
-                .perform(scrollTo(hasDescendant(withText(newDiaryText))))
+                .perform(scrollTo(hasDescendant(withText(newDiaryText1))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
 
         // Cancel Entry deletion
@@ -141,43 +157,49 @@ public class DiaryScreenTest {
 
         // Verify dialog message gone and entry still in view
         onView(withText(R.string.dialog_delete_diary_entry)).check(doesNotExist());
-        onView(Matchers.withItemText(newDiaryText)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText1)).check(matches(isDisplayed()));
 
         // Delete it anyway to clean up
-        deleteDiaryEntry(newDiaryText);
+        deleteDiaryEntry(newDiaryText1);
     }
 
     @Test
     public void confirmEntryDeletion_RemovesEntryFromView() {
-        String newDiaryText = "I'm going to delete this entry";
-
+        String newDiaryText1 = "I'm going to delete this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Delete entry
-        deleteDiaryEntry(newDiaryText);
+        deleteDiaryEntry(newDiaryText1);
 
         // Verify dialog message gone and entry gone from view
         onView(withText(R.string.dialog_delete_diary_entry)).check(doesNotExist());
-        onView(Matchers.withItemText(newDiaryText)).check(doesNotExist());
+        onView(Matchers.withItemText(newDiaryText1)).check(doesNotExist());
     }
 
     @Test
     public void dismissEntryDeletion_LeavesEntryInView() {
-        String newDiaryText = "I'm NOT going to delete this entry";
-
+        String newDiaryText1 = "I'm NOT going to delete this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Swipe the entry
         onView(withId(R.id.diary_view))
-                .perform(scrollTo(hasDescendant(withText(newDiaryText))))
+                .perform(scrollTo(hasDescendant(withText(newDiaryText1))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
 
         // Cancel Entry deletion
@@ -185,107 +207,128 @@ public class DiaryScreenTest {
 
         // Verify dialog message gone and entry still in view
         onView(withText(R.string.dialog_delete_diary_entry)).check(doesNotExist());
-        onView(Matchers.withItemText(newDiaryText)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText1)).check(matches(isDisplayed()));
 
         // Delete it anyway to clean up
-        deleteDiaryEntry(newDiaryText);
+        deleteDiaryEntry(newDiaryText1);
     }
 
     @Test
     public void largeDiary_LoadsFully() {
         final int numEntries = 7;
+        String newDiaryText, newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5;
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         for(int entryNumber = 1; entryNumber <= numEntries; ++entryNumber) {
-            addNewDiaryEntry("New Diary Entry " + String.valueOf(entryNumber) );
+            newDiaryText = "New Diary Entry " + String.valueOf(entryNumber);
+            newDiaryText1 = newDiaryText + " - pt1";
+            newDiaryText2 = newDiaryText + " - pt2";
+            newDiaryText3 = newDiaryText + " - pt3";
+            newDiaryText4 = newDiaryText + " - pt4";
+            newDiaryText5 = newDiaryText + " - pt5";
+            addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
         }
 
         for(int entryNumber = 1; entryNumber <= numEntries; ++entryNumber) {
             // Scroll diary to added entry, by finding its text
             onView(withId(R.id.diary_view)).perform(
                     scrollTo(hasDescendant(withText(
-                            "New Diary Entry " + String.valueOf(entryNumber)))));
+                            "New Diary Entry " + String.valueOf(entryNumber) + " - pt1"))));
 
             // Verify entry is displayed on screen
-            onView(Matchers.withItemText("New Diary Entry " + String.valueOf(entryNumber)))
+            onView(Matchers.withItemText("New Diary Entry " + String.valueOf(entryNumber) + " - pt1"))
                     .check(matches(isDisplayed()));
         }
 
         for(int entryNumber = 1; entryNumber <= numEntries; ++entryNumber) {
-            deleteDiaryEntry("New Diary Entry " + String.valueOf(entryNumber) );
+            deleteDiaryEntry("New Diary Entry " + String.valueOf(entryNumber) + " - pt1");
         }
     }
 
     @Test
     public void clickEntry_DisplaysUpdateEntryUI() {
-        String newDiaryText = "I'm NOT going to update this entry";
-
+        String newDiaryText1 = "I'm NOT going to update this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Click on the entry
-        onView(Matchers.withItemText(newDiaryText)).perform(click());
+        onView(Matchers.withItemText(newDiaryText1)).perform(click());
 
         // Verify the update screen is displayed on screen
-        onView(withId(R.id.editdiaryentry_entry_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text1)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text2)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text3)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text4)).check(matches(isDisplayed()));
+        onView(withId(R.id.editdiaryentry_entry_text5)).check(matches(isDisplayed()));
         onView(withId(R.id.editdiaryentry_save_button)).check(matches(isDisplayed()));
         onView(withId(R.id.editdiaryentry_cancel_button)).check(matches(isDisplayed()));
         onView(withId(R.id.editdiaryentry_delete_button)).check(matches(isDisplayed()));
 
         // Cancel
-        onView(withId(R.id.editdiaryentry_entry_text)).perform(closeSoftKeyboard()).perform(pressBack());
+        onView(withId(R.id.editdiaryentry_entry_text2)).perform(closeSoftKeyboard()).perform(pressBack());
 
         // delete the entry to clean up
-        deleteDiaryEntry(newDiaryText);
+        deleteDiaryEntry(newDiaryText1);
     }
 
     @Test
     public void cancelUpdate_ShowsDiaryWithUnchangedEntry() {
-        String newDiaryText = "I'm NOT going to update this entry";
-
+        String newDiaryText1 = "I'm NOT going to update this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Click on the entry
-        onView(Matchers.withItemText(newDiaryText)).perform(click());
+        onView(Matchers.withItemText(newDiaryText1)).perform(click());
 
         // Cancel the update
         onView(withId(R.id.editdiaryentry_cancel_button)).perform(click());
 
         // Scroll diary to added entry, by finding its text
         onView(withId(R.id.diary_view)).perform(
-                scrollTo(hasDescendant(withText(newDiaryText))));
+                scrollTo(hasDescendant(withText(newDiaryText1))));
 
         // Verify entry is displayed on screen
-        onView(Matchers.withItemText(newDiaryText)).check(matches(isDisplayed()));
+        onView(Matchers.withItemText(newDiaryText1)).check(matches(isDisplayed()));
 
         // delete the entry to clean up
-        deleteDiaryEntry(newDiaryText);
+        deleteDiaryEntry(newDiaryText1);
     }
 
     @Test
     public void updateEntry_ShowsDiaryWithUpdatedEntry() {
-        String newDiaryText = "I'm going to update this entry";
+        String newDiaryText1 = "I'm going to update this entry";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
         String updatedDiaryText = "This entry has been updated";
 
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Click on the entry
-        onView(withText(newDiaryText)).perform(click());
+        onView(withText(newDiaryText1)).perform(click());
 
         // Update diary entry text and close the keyboard
-        onView(withId(R.id.editdiaryentry_entry_text)).perform(clearText()).perform(typeText(updatedDiaryText),
+        onView(withId(R.id.editdiaryentry_entry_text1)).perform(clearText()).perform(typeText(updatedDiaryText),
                 closeSoftKeyboard());
 
         // Save the update
@@ -304,16 +347,23 @@ public class DiaryScreenTest {
 
     @Test
     public void deleteEntryFromUpdate_RemovesEntryFromDiaryView() {
-        String newDiaryText = "I'm going to delete this entry from the update screen";
+        String newDiaryText1 = "I'm going to delete this entry from the update screen";
+        String newDiaryText2 = newDiaryText1 + " - pt2";
+        String newDiaryText3 = newDiaryText1 + " - pt3";
+        String newDiaryText4 = newDiaryText1 + " - pt4";
+        String newDiaryText5 = newDiaryText1 + " - pt5";
 
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
         // Add an entry
-        addNewDiaryEntry(newDiaryText);
+        addNewDiaryEntry(newDiaryText1, newDiaryText2, newDiaryText3, newDiaryText4, newDiaryText5);
 
         // Click on the entry
-        onView(withText(newDiaryText)).perform(click());
+        onView(withText(newDiaryText1)).perform(click());
+
+        // Make sure the delete button is visible
+        onView(withId(R.id.contentFrame)).perform(swipeUp());
 
         // Click delete
         onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
@@ -323,6 +373,6 @@ public class DiaryScreenTest {
 
         // Verify that diary is in view and entry has been removed
         onView(withId(R.id.diary_view)).check(matches(isDisplayed()));
-        onView(Matchers.withItemText(newDiaryText)).check(doesNotExist());
+        onView(Matchers.withItemText(newDiaryText1)).check(doesNotExist());
     }
 }

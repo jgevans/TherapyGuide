@@ -174,7 +174,11 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         public void onBindViewHolder(DiaryEntryAdapter.ViewHolder viewHolder, int position) {
             DiaryEntry entry = mDiaryEntries.get(position);
 
-            viewHolder.text.setText(entry.getText());
+            viewHolder.text1.setText(entry.getText1());
+            viewHolder.text2.setText(entry.getText2());
+            viewHolder.text3.setText(entry.getText3());
+            viewHolder.text4.setText(entry.getText4());
+            viewHolder.text5.setText(entry.getText5());
 
             // Convert timestamp to useful string description based on age
             long now = System.currentTimeMillis();
@@ -206,7 +210,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            public final TextView text;
+            public final TextView text1, text2, text3, text4, text5;
             public final TextView time;
 
             private final DiaryEntryListener mDiaryEntryListener;
@@ -214,7 +218,11 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
             public ViewHolder(View view, DiaryEntryListener diaryEntryListener) {
                 super(view);
                 mDiaryEntryListener = diaryEntryListener;
-                text = (TextView) view.findViewById(R.id.diary_text);
+                text1 = (TextView) view.findViewById(R.id.diary_text1);
+                text2 = (TextView) view.findViewById(R.id.diary_text2);
+                text3 = (TextView) view.findViewById(R.id.diary_text3);
+                text4 = (TextView) view.findViewById(R.id.diary_text4);
+                text5 = (TextView) view.findViewById(R.id.diary_text5);
                 time = (TextView) view.findViewById(R.id.diary_time);
                 itemView.setOnClickListener(this);
             }

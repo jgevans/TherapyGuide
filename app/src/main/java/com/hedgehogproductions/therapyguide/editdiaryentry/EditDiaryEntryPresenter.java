@@ -42,13 +42,19 @@ public class EditDiaryEntryPresenter implements EditDiaryEntryContract.UserActio
     }
 
     private void showDiaryEntry(DiaryEntry entry) {
-        String text = entry.getText();
-        mEditDiaryEntryView.showDiaryText(text);
+        String text1 = entry.getText1();
+        String text2 = entry.getText2();
+        String text3 = entry.getText3();
+        String text4 = entry.getText4();
+        String text5 = entry.getText5();
+        mEditDiaryEntryView.showDiaryText(text1, text2, text3, text4, text5);
     }
 
     @Override
-    public void updateDiaryEntry(String text) {
-        DiaryEntry newDiaryEntry = new DiaryEntry(mCreationTimestamp, text);
+    public void updateDiaryEntry(
+            String text1, String text2, String text3, String text4, String text5) {
+        DiaryEntry newDiaryEntry =
+                new DiaryEntry(mCreationTimestamp, text1, text2, text3, text4, text5);
         if( newDiaryEntry.isEmpty() ) {
             mEditDiaryEntryView.showEmptyEntryError();
         }
@@ -59,8 +65,9 @@ public class EditDiaryEntryPresenter implements EditDiaryEntryContract.UserActio
     }
 
     @Override
-    public void saveNewDiaryEntry(long timestamp, String text) {
-        DiaryEntry newDiaryEntry = new DiaryEntry(timestamp, text);
+    public void saveNewDiaryEntry(
+            long timestamp, String text1, String text2, String text3, String text4, String text5) {
+        DiaryEntry newDiaryEntry = new DiaryEntry(timestamp, text1, text2, text3, text4, text5);
         if( newDiaryEntry.isEmpty() ) {
             mEditDiaryEntryView.showEmptyEntryError();
         }

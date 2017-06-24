@@ -20,8 +20,9 @@ import static org.mockito.Mockito.verify;
  */
 public class DiaryPresenterTest {
 
-    private static final List<DiaryEntry> DIARY = Lists.newArrayList(new DiaryEntry(System.currentTimeMillis(), "Entry1"),
-            new DiaryEntry(System.currentTimeMillis(), "Entry2"));
+    private static final List<DiaryEntry> DIARY = Lists.newArrayList(
+            new DiaryEntry(System.currentTimeMillis(), "Entry1a", "b", "c", "d", "e"),
+            new DiaryEntry(System.currentTimeMillis(), "Entry2a", "b", "c", "d", "e"));
 
 
     @Mock

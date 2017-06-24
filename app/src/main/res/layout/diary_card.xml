@@ -35,7 +35,7 @@
                 android:textColor="@color/lightText"/>
 
             <TextView
-                android:id="@+id/diary_text"
+                android:id="@+id/diary_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -44,6 +44,33 @@
                 android:layout_toStartOf="@id/diary_time"
                 android:textColor="@color/mainText" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/diary_text1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/diary_text2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mainText" />
+                <TextView
+                    android:id="@+id/diary_text3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mainText" />
+                <TextView
+                    android:id="@+id/diary_text4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mainText" />
+                <TextView
+                    android:id="@+id/diary_text5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mainText" />
+            </LinearLayout>
 
         </RelativeLayout>
 
