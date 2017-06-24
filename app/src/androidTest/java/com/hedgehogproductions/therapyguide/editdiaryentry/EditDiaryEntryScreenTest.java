@@ -2,12 +2,15 @@ package com.hedgehogproductions.therapyguide.editdiaryentry;
 
 
 import android.content.Intent;
+import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.hedgehogproductions.therapyguide.R;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +46,24 @@ public class EditDiaryEntryScreenTest {
                 }
             };
 
+    /**
+     * Register Idling Resource so tests wait for toast to disappear before continuing.
+     */
+    @Before
+    public void registerIdlingResource() {
+        Espresso.registerIdlingResources(
+                EditDiaryEntryFragment.getIdlingResource());
+    }
+
+    /**
+     * Unregister Idling Resource so it can be garbage collected and does not leak any memory.
+     */
+    @After
+    public void unregisterIdlingResource() {
+        Espresso.unregisterIdlingResources(
+                EditDiaryEntryFragment.getIdlingResource());
+    }
+
     @Test
     public void showAllOptionsForEditMode() {
         // Verify the save, cancel and delete buttons are shown
@@ -53,11 +74,6 @@ public class EditDiaryEntryScreenTest {
 
     @Test
     public void errorShownOnEmptyMessage() {
-        // TODO Fix brittle test by using IdlingResource to handle Toast waits
-        //Pause to allow toast to disappear
-        try {Thread.sleep(1500);}
-        catch(Exception e) {}
-
         // Entry diary entry text and close the keyboard
         onView(withId(R.id.editdiaryentry_entry_text)).perform(typeText(""),
                 closeSoftKeyboard());

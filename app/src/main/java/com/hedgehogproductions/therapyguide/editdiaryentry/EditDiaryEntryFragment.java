@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -61,6 +63,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
         // Show error toast
         Toast errorToast = Toast.makeText(
                 this.getContext(),getString(R.string.missing_entry_error_toast_text), Toast.LENGTH_SHORT);
+        errorToast.getView().addOnAttachStateChangeListener(listener);
         errorToast.show();
 
         // TODO - file bug report??
@@ -158,5 +161,23 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
             }
             // Else remain in current view
         }
+    }
+
+    private static final CountingIdlingResource idlingResource = new CountingIdlingResource("toast");
+    private static final View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
+        @Override
+        public void onViewAttachedToWindow(final View v) {
+            idlingResource.increment();
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(final View v) {
+            idlingResource.decrement();
+        }
+    };
+
+    // For testing
+    public static IdlingResource getIdlingResource() {
+        return idlingResource;
     }
 }
