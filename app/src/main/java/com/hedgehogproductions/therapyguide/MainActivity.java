@@ -11,7 +11,7 @@ import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
 public class MainActivity extends AppCompatActivity {
 
     private final String SAVED_TAB_KEY = "SavedTab";
-    private ViewPager mViewPager;
+    private SmartSwipePager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the pager
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (SmartSwipePager) findViewById(R.id.pager);
         mViewPager.setAdapter(mTabPagerAdapter);
 
         // Create tab layout
