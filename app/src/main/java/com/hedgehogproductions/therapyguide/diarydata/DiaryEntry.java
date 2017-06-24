@@ -30,11 +30,13 @@ public class DiaryEntry {
     public boolean equals(Object o) {
 
         if (o == this) return true;
-        if (!(o instanceof DiaryEntry)) {
-            return false;
+        if (o instanceof DiaryEntry) {
+            DiaryEntry user = (DiaryEntry) o;
+            return mCreationTimestamp == user.mCreationTimestamp;
         }
-        DiaryEntry user = (DiaryEntry) o;
-        return mCreationTimestamp == user.mCreationTimestamp;
+        else {
+            return o instanceof Long && mCreationTimestamp == (Long) o;
+        }
     }
 
     @Override
@@ -47,5 +49,9 @@ public class DiaryEntry {
         }
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(mCreationTimestamp + ": " + mText);
+    }
 }
 

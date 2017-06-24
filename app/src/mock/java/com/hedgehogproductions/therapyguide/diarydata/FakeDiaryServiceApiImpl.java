@@ -17,9 +17,14 @@ public class FakeDiaryServiceApiImpl implements DiaryServiceApi {
 
     @Override
     public void getDiaryEntry(long timestamp, DiaryServiceCallback<DiaryEntry> callback) {
-        DiaryEntry entry = null;
-        // TODO Search list and set entry, if found
-        callback.onLoaded(entry);
+        DiaryEntry foundEntry = null;
+        for( DiaryEntry entry : DIARY_SERVICE_DATA) {
+            if( entry.equals(new Long(timestamp)) ) {
+                foundEntry = entry;
+                break;
+            }
+        }
+        callback.onLoaded(foundEntry);
     }
 
     @Override
@@ -29,10 +34,18 @@ public class FakeDiaryServiceApiImpl implements DiaryServiceApi {
 
     @Override
     public void updateDiaryEntry(DiaryEntry entry) {
-        // TODO Find and update entry
+        int indexOfEntry = DIARY_SERVICE_DATA.indexOf(entry);
+        if( indexOfEntry == -1 ) {
+            throw new ArrayIndexOutOfBoundsException("Entry to update not found");
+        }
+        else {
+            DIARY_SERVICE_DATA.set(indexOfEntry, entry);
+        }
     }
 
     @Override
-    public void deleteDiaryEntry(DiaryEntry entry) { DIARY_SERVICE_DATA.remove(entry); }
+    public void deleteDiaryEntry(DiaryEntry entry) {
+        DIARY_SERVICE_DATA.remove(entry);
+    }
 
 }
