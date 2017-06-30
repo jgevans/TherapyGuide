@@ -49,7 +49,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         // Required empty public constructor
     }
 
-
+    @Override
     public void showDiary(List<DiaryEntry> entries) {
         mDiaryEntriesAdapter.replaceData(entries);
     }

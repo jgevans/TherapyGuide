@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.TabLayout;
 
 import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
+import com.hedgehogproductions.therapyguide.listen.ListenFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // Create the adapter and add tabs
 
         TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
-        mTabPagerAdapter.addFragment(new ListenFragment(), getString(R.string.listen_tab_name));
+        mTabPagerAdapter.addFragment(ListenFragment.newInstance(), getString(R.string.listen_tab_name));
         mTabPagerAdapter.addFragment(DiaryFragment.newInstance(), getString(R.string.diary_tab_name));
 
         // Create the pager
