@@ -27,6 +27,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <service
+            android:name=".listenservice.ListenService"
+            android:description="@string/listen_service_description"
+            android:exported="false" />
     </application>
 
 </manifest>

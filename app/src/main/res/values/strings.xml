@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Therapy Guide</string>
 
+    <string name="listen_service_description">Service for listening to TherapyGuide audio</string>
+
     <string name="diary_tab_name">Diary</string>
     <string name="listen_tab_name">Listen</string>
 
