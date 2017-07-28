@@ -15,7 +15,23 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 public class DiaryReaderDbHelperTest {
 
     private static final String ON_CREATE_SQL =
-            "CREATE TABLE diary (_id INTEGER PRIMARY KEY,timestamp TEXT,diaryText TEXT)";
+            "CREATE TABLE diary (_id INTEGER PRIMARY KEY,timestamp TEXT,diaryText TEXT,diaryText2 TEXT,diaryText3 TEXT,diaryText4 TEXT,diaryText5 TEXT)";
+    private static final String ON_UPGRADE_SQL1 =
+            "ALTER TABLE diary ADD diaryText2 TEXT;";
+    private static final String ON_UPGRADE_SQL2 =
+            "ALTER TABLE diary ADD diaryText3 TEXT;";
+    private static final String ON_UPGRADE_SQL3 =
+            "ALTER TABLE diary ADD diaryText4 TEXT;";
+    private static final String ON_UPGRADE_SQL4 =
+            "ALTER TABLE diary ADD diaryText5 TEXT;";
+    private static final String ON_DOWNGRADE_SQL1 =
+            "ALTER TABLE diary DROP COLUMN diaryText2;";
+    private static final String ON_DOWNGRADE_SQL2 =
+            "ALTER TABLE diary DROP COLUMN diaryText3;";
+    private static final String ON_DOWNGRADE_SQL3 =
+            "ALTER TABLE diary DROP COLUMN diaryText4;";
+    private static final String ON_DOWNGRADE_SQL4 =
+            "ALTER TABLE diary DROP COLUMN diaryText5;";
 
     private DiaryReaderDbHelper dbHelper;
 
@@ -44,17 +60,23 @@ public class DiaryReaderDbHelperTest {
     }
 
     @Test
-    public void diaryReaderDbHelper_OnUpgrade_DoesNothing() {
+    public void diaryReaderDbHelper_OnUpgrade_1_2_CorrectSQL() {
         dbHelper.onUpgrade(mMockDatabase, 1, 2);
 
-        verifyZeroInteractions(mMockDatabase);
+        verify(mMockDatabase).execSQL(ON_UPGRADE_SQL1);
+        verify(mMockDatabase).execSQL(ON_UPGRADE_SQL2);
+        verify(mMockDatabase).execSQL(ON_UPGRADE_SQL3);
+        verify(mMockDatabase).execSQL(ON_UPGRADE_SQL4);
     }
 
     @Test
-    public void diaryReaderDbHelper_OnDowngrade_DoesNothing() {
+    public void diaryReaderDbHelper_OnDowngrade_2_1_CorrectSQL() {
         dbHelper.onDowngrade(mMockDatabase, 2, 1);
 
-        verifyZeroInteractions(mMockDatabase);
+        verify(mMockDatabase).execSQL(ON_DOWNGRADE_SQL1);
+        verify(mMockDatabase).execSQL(ON_DOWNGRADE_SQL2);
+        verify(mMockDatabase).execSQL(ON_DOWNGRADE_SQL3);
+        verify(mMockDatabase).execSQL(ON_DOWNGRADE_SQL4);
     }
 
 }
