@@ -9,9 +9,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 
+@SuppressWarnings("CanBeFinal")
 public class DiaryReaderDbHelperTest {
 
     private static final String ON_CREATE_SQL =

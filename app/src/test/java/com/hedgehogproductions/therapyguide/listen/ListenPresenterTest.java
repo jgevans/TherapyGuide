@@ -5,22 +5,23 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 import org.junit.Before;
-import org.junit.Test;
+//import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertTrue;
+//import static org.mockito.Mockito.reset;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the implementation of {@link ListenPresenter}
  */
+@SuppressWarnings("CanBeFinal")
 public class ListenPresenterTest {
 
-    @Mock
+/*    @Mock
     private MediaPlayer mMediaPlayer;
 
     @Mock
@@ -44,7 +45,7 @@ public class ListenPresenterTest {
 
 
     // TODO Work out how to test Presenter logic. Currently always bypassed as ListenService is not bound
-/*    @Test
+    @Test
     public void handlePlayWhilstStopped_PlaysTrack() {
         // When clicking on play
         mListenPresenter.handlePlayRequest();

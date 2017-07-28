@@ -17,13 +17,13 @@ public class ListenService extends Service implements ListenServiceContract {
     public static final String FINISHED_PLAYBACK_NOTIFICATION = "com.hedgehogproductions.therapyguide.broadcast.FINISHED_PLAYBACK_NOTIFICATION";
 
     public static final String TRACK = "track_name";
+    public static final String LOOPING = "looping_state";
 
     private static final int PLAYER_NOTIFICATION_ID = 1;
     private static final int mStartMode = START_NOT_STICKY;
 
     // Binder given to all clients for interacting with the service
     private final ListenServiceBinder mBinder = new ListenServiceBinder();
-    private final boolean mAllowRebind = true;
 
     private Notification mPlayerNotification;
     private MediaPlayer mMediaPlayer;
@@ -36,6 +36,7 @@ public class ListenService extends Service implements ListenServiceContract {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         if(android.os.Build.VERSION.SDK_INT < 16) {
+            //noinspection deprecation
             mPlayerNotification = new Notification.Builder(this)
                     .setContentTitle(getText(R.string.player_notification_title))
                     .setContentText(getText(R.string.player_notification_message))
@@ -54,9 +55,12 @@ public class ListenService extends Service implements ListenServiceContract {
         }
 
         mTrack = intent.getIntExtra(TRACK, 0);
+        boolean looping = intent.getBooleanExtra(LOOPING, false);
+
         if(null == mMediaPlayer) {
             mMediaPlayer =
                     MediaPlayer.create(getApplicationContext(), mTrack);
+            mMediaPlayer.setLooping(looping);
         }
         return mStartMode;
     }
@@ -68,7 +72,7 @@ public class ListenService extends Service implements ListenServiceContract {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        return mAllowRebind;
+        return true;
     }
 
     @Override
@@ -132,9 +136,9 @@ public class ListenService extends Service implements ListenServiceContract {
     }
 
     @Override
-    public void switchLooping() throws RuntimeException {
+    public void setLooping(boolean looping) throws RuntimeException {
         if (null != mMediaPlayer) {
-            mMediaPlayer.setLooping(!mMediaPlayer.isLooping());
+            mMediaPlayer.setLooping(looping);
         } else {
             throw new RuntimeException("Media Player does not exist");
         }

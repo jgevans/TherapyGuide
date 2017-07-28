@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Unit tests for the implementation of {@link EditDiaryEntryPresenter}
  */
+@SuppressWarnings("CanBeFinal")
 public class EditDiaryEntryPresenterTest {
 
     private static final long TIMESTAMP = System.currentTimeMillis();

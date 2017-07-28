@@ -6,24 +6,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.listenservice.ListenService;
+import com.hedgehogproductions.therapyguide.listenservice.ListenServiceContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ListenPresenter implements ListenContract.UserActionsListener {
 
     private static final int MAX_BIND_WAIT_COUNT = 10;
+    public static final String PREFERENCES = "TherapyGuideSettings";
+    public static final String LOOPING_PREF = "looping";
 
     private final ListenContract.View mListenView;
     private final Context mContext;
 
-    private ListenService mListenService;
+    private ListenServiceContract mListenService;
     private boolean mListenServiceBound;
+
+    private boolean mLooping;
 
     public ListenPresenter( @NonNull ListenContract.View listenView, Context context ) {
         mListenView = checkNotNull(listenView, "listenView cannot be null");
@@ -32,12 +38,15 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
         mListenService = null;
         mListenServiceBound = false;
 
+        // Restore looping preference
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCES, 0);
+        mLooping = settings.getBoolean(LOOPING_PREF, false);
+
         Intent listenServiceIntent = new Intent(mContext, ListenService.class);
         listenServiceIntent.putExtra(ListenService.TRACK, R.raw.track_1);
+        listenServiceIntent.putExtra(ListenService.LOOPING, mLooping);
         mContext.startService(listenServiceIntent);
         mContext.bindService(listenServiceIntent, mListenServiceConnection, 0);
-        //TODO Store looping preference as app data and reload on open
-
     }
 
     @Override
@@ -117,19 +126,29 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
 
     @Override
     public void handleLoopRequest() {
+        // Switch looping state and store in preferences
+        //   regardless of the status of the ListenService
+        mLooping = !mLooping;
+
+        SharedPreferences settings = mContext.getSharedPreferences(PREFERENCES, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(LOOPING_PREF, mLooping);
+        editor.apply();
+
+
         // Wait for service to be bound
         int tryCount = 0;
         while(!mListenServiceBound && tryCount < MAX_BIND_WAIT_COUNT) {
             ++tryCount;
             try{Thread.sleep(100);}catch(InterruptedException ignored){}
         }
-        //TODO Toggle looping status even if player not started
+
         if( !mListenServiceBound || null == mListenService ) {
             handlePlayerUnavailable();
         }
         else {
-            mListenService.switchLooping();
-            if (mListenService.isLooping()) {
+            mListenService.setLooping(mLooping);
+            if (mLooping) {
                 mListenView.showStopLoop();
                 mListenView.showLoopMessage();
             } else {
@@ -139,14 +158,18 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
     }
 
     @Override
-    public void handlePlayerUnavailable() {
+    public boolean isLooping() {
+        return mLooping;
+    }
+
+    private void handlePlayerUnavailable() {
         mContext.unbindService(mListenServiceConnection);
         //TODO Show error message
         //TODO file bug report?
     }
 
     // Defines callbacks for service binding, passed to bindService()
-    private ServiceConnection mListenServiceConnection = new ServiceConnection() {
+    private final ServiceConnection mListenServiceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName className,

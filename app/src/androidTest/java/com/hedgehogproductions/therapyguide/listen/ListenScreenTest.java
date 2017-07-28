@@ -1,5 +1,7 @@
 package com.hedgehogproductions.therapyguide.listen;
 
+import android.content.SharedPreferences;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -35,8 +37,17 @@ public class ListenScreenTest {
 
     @Test
     public void loop_showsLoopMessage() {
+
+        SharedPreferences settings = InstrumentationRegistry.getTargetContext().getSharedPreferences(ListenPresenter.PREFERENCES, 0);
+        boolean looping = settings.getBoolean(ListenPresenter.LOOPING_PREF, false);
+
         // Click on the listen tab
         onView(withText(R.string.listen_tab_name)).perform(click());
+
+        // If looping already, then turn off before turning on again
+        if(looping) {
+            onView(withId(R.id.loop_button)).perform(click());
+        }
 
         // Click on the loop button
         onView(withId(R.id.loop_button)).perform(click());

@@ -93,7 +93,7 @@ public class EditDiaryEntryScreenTest {
     }
 
     @Test
-    public void pressDelete_ShowsConformation() {
+    public void pressDelete_ShowsConfirmation() {
         // Attempt to delete the entry
         onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
 

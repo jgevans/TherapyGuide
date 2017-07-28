@@ -10,7 +10,7 @@ public interface ListenServiceContract {
 
     void stop();
 
-    void switchLooping();
+    void setLooping(boolean looping);
 
     boolean isPlaying();
 

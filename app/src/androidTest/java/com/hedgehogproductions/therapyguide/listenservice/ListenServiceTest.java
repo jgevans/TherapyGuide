@@ -47,6 +47,7 @@ public class ListenServiceTest {
 
         // Data can be passed to the service via the Intent.
         serviceIntent.putExtra(ListenService.TRACK, R.raw.track_1);
+        serviceIntent.putExtra(ListenService.LOOPING, true);
 
         // Start the service
         mServiceRule.startService(serviceIntent);
@@ -83,13 +84,16 @@ public class ListenServiceTest {
     @Test
     public void boundListenServiceLoop_playerLooping() throws TimeoutException {
         assertFalse(mService.isPlaying());
-        assertFalse(mService.isLooping());
-
-        mService.switchLooping();
         assertTrue(mService.isLooping());
 
-        mService.switchLooping();
+        mService.setLooping(false);
         assertFalse(mService.isLooping());
+
+        mService.setLooping(false);
+        assertFalse(mService.isLooping());
+
+        mService.setLooping(true);
+        assertTrue(mService.isLooping());
     }
 
     @Test

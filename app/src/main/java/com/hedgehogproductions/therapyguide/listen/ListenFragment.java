@@ -72,6 +72,9 @@ public class ListenFragment extends Fragment implements ListenContract.View {
                 mActionsListener.handleLoopRequest();
             }
         });
+        if(mActionsListener.isLooping()) {
+            showStopLoop();
+        }
 
         // Set up toast
         mLoopToast = Toast.makeText(

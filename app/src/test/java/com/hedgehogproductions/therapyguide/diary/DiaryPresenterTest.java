@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Unit tests for the implementation of {@link DiaryPresenter}
  */
+@SuppressWarnings("CanBeFinal")
 public class DiaryPresenterTest {
 
     private static final List<DiaryEntry> DIARY = Lists.newArrayList(

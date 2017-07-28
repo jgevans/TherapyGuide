@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Unit tests for the implementation of {@link InMemoryDiaryRepository}
  */
+@SuppressWarnings("CanBeFinal")
 public class InMemoryDiaryRepositoryTest {
 
     private static final List<DiaryEntry> DIARY = Lists.newArrayList(

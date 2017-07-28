@@ -31,6 +31,6 @@ public interface ListenContract {
 
         void handleLoopRequest();
 
-        void handlePlayerUnavailable();
+        boolean isLooping();
     }
 }
