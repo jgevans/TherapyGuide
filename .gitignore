@@ -7,4 +7,4 @@
 /build
 /captures
 .externalNativeBuild
-/app/src/main/res/raw/track_1.mp3
+/app/src/main/res/raw/*.mp3

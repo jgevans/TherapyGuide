@@ -93,15 +93,6 @@ public class ListenServiceTest {
     }
 
     @Test
-    public void boundListenServiceStop_serviceStopsSelf() throws TimeoutException {
-        mService.stop();
-
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("Media Player does not exist");
-        mService.isPlaying();
-    }
-
-    @Test
     public void boundListenServicePause_pausesPlayer() throws TimeoutException {
         mService.play();
         // Sleep so that pause happens after the track has played a little bit

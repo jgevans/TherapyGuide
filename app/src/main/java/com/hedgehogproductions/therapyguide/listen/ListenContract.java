@@ -1,15 +1,12 @@
 package com.hedgehogproductions.therapyguide.listen;
 
 
-import android.media.MediaPlayer;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public interface ListenContract {
     interface View {
-
-        MediaPlayer getNewMediaPlayer();
 
         void showPlay();
 
@@ -24,6 +21,8 @@ public interface ListenContract {
 
     interface UserActionsListener {
 
+        void tearDown();
+
         void handlePlayRequest();
 
         void handleStopRequest();
@@ -32,6 +31,6 @@ public interface ListenContract {
 
         void handleLoopRequest();
 
-        void pausePlayer();
+        void handlePlayerUnavailable();
     }
 }

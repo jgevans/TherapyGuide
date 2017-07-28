@@ -1,80 +1,134 @@
 package com.hedgehogproductions.therapyguide.listenservice;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.hedgehogproductions.therapyguide.MainActivity;
+import com.hedgehogproductions.therapyguide.R;
 
 public class ListenService extends Service implements ListenServiceContract {
 
-    // Binder given to all clients for interacting with the service
-    private final IBinder mBinder = new ListenServiceBinder();
+    public static final String FINISHED_PLAYBACK_NOTIFICATION = "com.hedgehogproductions.therapyguide.broadcast.FINISHED_PLAYBACK_NOTIFICATION";
 
     public static final String TRACK = "track_name";
 
-    private MediaPlayer mMediaPlayer;
-
+    private static final int PLAYER_NOTIFICATION_ID = 1;
     private static final int mStartMode = START_NOT_STICKY;
+
+    // Binder given to all clients for interacting with the service
+    private final ListenServiceBinder mBinder = new ListenServiceBinder();
+    private final boolean mAllowRebind = true;
+
+    private Notification mPlayerNotification;
+    private MediaPlayer mMediaPlayer;
+    private int mTrack;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(null == mMediaPlayer){
-            initialisePlayer(intent.getIntExtra(TRACK, 0));
+        // Set up the notification for the ListenService
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        if(android.os.Build.VERSION.SDK_INT < 16) {
+            mPlayerNotification = new Notification.Builder(this)
+                    .setContentTitle(getText(R.string.player_notification_title))
+                    .setContentText(getText(R.string.player_notification_message))
+                    .setSmallIcon(R.drawable.ic_lighthouse_black_24dp)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(getText(R.string.player_notification_ticker_text))
+                    .getNotification();
+        } else {
+            mPlayerNotification = new Notification.Builder(this)
+                    .setContentTitle(getText(R.string.player_notification_title))
+                    .setContentText(getText(R.string.player_notification_message))
+                    .setSmallIcon(R.drawable.ic_lighthouse_black_24dp)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(getText(R.string.player_notification_ticker_text))
+                    .build();
+        }
+
+        mTrack = intent.getIntExtra(TRACK, 0);
+        if(null == mMediaPlayer) {
+            mMediaPlayer =
+                    MediaPlayer.create(getApplicationContext(), mTrack);
         }
         return mStartMode;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        if( null == mMediaPlayer) {
-            initialisePlayer(intent.getIntExtra(TRACK, 0));
-        }
         return mBinder;
     }
 
-    private void initialisePlayer( int track ) throws ExceptionInInitializerError {
-        if(track == 0) {
-            throw new ExceptionInInitializerError("No track to initialise the player with");
-        }
-        mMediaPlayer = MediaPlayer.create(getApplicationContext(), track);
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return mAllowRebind;
     }
 
     @Override
-    public void play() throws RuntimeException {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.start();
-        } else {
-            throw new RuntimeException("Media Player does not exist");
-        }
+    public void onDestroy() {
+        mMediaPlayer.release();
+        mMediaPlayer = null;
     }
 
     @Override
-    public void pause() throws RuntimeException {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.pause();
-        } else {
-            throw new RuntimeException("Media Player does not exist");
+    public void play() {
+        if (null == mMediaPlayer) {
+            mMediaPlayer =
+                    MediaPlayer.create(getApplicationContext(), mTrack);
         }
+        startForeground(PLAYER_NOTIFICATION_ID, mPlayerNotification);
+        mMediaPlayer.start();
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer player) {
+                stopForeground(true);
+                mMediaPlayer.release();
+                mMediaPlayer = null;
+                // Broadcast a notification so the app knows playback has completed
+                Intent intent = new Intent();
+                intent.setAction(FINISHED_PLAYBACK_NOTIFICATION);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+                stopForeground(true);
+            }
+
+        });
     }
 
     @Override
-    public void restart() throws RuntimeException {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.seekTo(0);
-        } else {
-            throw new RuntimeException("Media Player does not exist");
+    public void pause() {
+        if (null == mMediaPlayer) {
+            mMediaPlayer =
+                    MediaPlayer.create(getApplicationContext(), mTrack);
         }
+        mMediaPlayer.pause();
+    }
+
+    @Override
+    public void restart() {
+        if (null == mMediaPlayer) {
+            mMediaPlayer =
+                    MediaPlayer.create(getApplicationContext(), mTrack);
+        }
+        mMediaPlayer.seekTo(0);
     }
 
     @Override
     public void stop() {
         if (null != mMediaPlayer) {
+            stopForeground(true);
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
-        stopSelf();
     }
 
     @Override
@@ -88,20 +142,12 @@ public class ListenService extends Service implements ListenServiceContract {
 
     @Override
     public boolean isPlaying() throws RuntimeException {
-        if(null != mMediaPlayer) {
-            return mMediaPlayer.isPlaying();
-        } else {
-            throw new RuntimeException("Media Player does not exist");
-        }
+        return null != mMediaPlayer && mMediaPlayer.isPlaying();
     }
 
     @Override
     public boolean isLooping() throws RuntimeException {
-        if (null != mMediaPlayer) {
-            return mMediaPlayer.isLooping();
-        } else {
-            throw new RuntimeException("Media Player does not exist");
-        }
+        return null != mMediaPlayer && mMediaPlayer.isLooping();
     }
 
     @Override
@@ -109,7 +155,7 @@ public class ListenService extends Service implements ListenServiceContract {
         if(null != mMediaPlayer) {
             return mMediaPlayer.getCurrentPosition();
         } else {
-            throw new RuntimeException("Media Player does not exist");
+            return 0;
         }
     }
 
@@ -118,7 +164,7 @@ public class ListenService extends Service implements ListenServiceContract {
      * runs in the same process as its clients, we don't need to deal with IPC.
      */
     public class ListenServiceBinder extends Binder {
-        ListenService getService() {
+        public ListenService getService() {
             // Return this instance of ListenService so clients can call public methods
             return ListenService.this;
         }

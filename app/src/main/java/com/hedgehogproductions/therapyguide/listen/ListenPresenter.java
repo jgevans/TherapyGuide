@@ -1,96 +1,166 @@
 package com.hedgehogproductions.therapyguide.listen;
 
-
-import android.media.MediaPlayer;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.listenservice.ListenService;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ListenPresenter implements ListenContract.UserActionsListener {
 
+    private static final int MAX_BIND_WAIT_COUNT = 10;
+
     private final ListenContract.View mListenView;
-    private MediaPlayer mMediaPlayer;
+    private final Context mContext;
 
-    private boolean mLooping;
+    private ListenService mListenService;
+    private boolean mListenServiceBound;
 
-    public ListenPresenter( @NonNull ListenContract.View listenView ) {
+    public ListenPresenter( @NonNull ListenContract.View listenView, Context context ) {
         mListenView = checkNotNull(listenView, "listenView cannot be null");
+        mContext = context;
 
-        // TODO store as app config for persistence
-        mLooping = false;
+        mListenService = null;
+        mListenServiceBound = false;
+
+        Intent listenServiceIntent = new Intent(mContext, ListenService.class);
+        listenServiceIntent.putExtra(ListenService.TRACK, R.raw.track_1);
+        mContext.startService(listenServiceIntent);
+        mContext.bindService(listenServiceIntent, mListenServiceConnection, 0);
+        //TODO Store looping preference as app data and reload on open
+
+    }
+
+    @Override
+    public void tearDown() {
+        if(mListenServiceBound) {
+            mContext.unbindService(mListenServiceConnection);
+        }
     }
 
     @Override
     public void handlePlayRequest() {
-        if (null == mMediaPlayer) {
-            setMediaPlayer(mListenView.getNewMediaPlayer());
+        // Wait for service to be bound
+        int tryCount = 0;
+        while(!mListenServiceBound && tryCount < MAX_BIND_WAIT_COUNT) {
+            ++tryCount;
+            try{Thread.sleep(100);}catch(InterruptedException ignored){}
         }
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-            mListenView.showPlay();
+        if( !mListenServiceBound || null == mListenService ) {
+            handlePlayerUnavailable();
+        }
+        else {
+            if (mListenService.isPlaying()) {
+                mListenService.pause();
+                mListenView.showPlay();
 
-        } else {
-            mMediaPlayer.start();
-            mListenView.showPause();
-            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer player) {
-                    player.release();
-                    mListenView.showPlay();
-                    mMediaPlayer = null;
-                }
-
-            });
+            } else {
+                mListenService.play();
+                mListenView.showPause();
+                // Create and register a broadcast receiver to handle
+                // when the service finishes playback
+                BroadcastReceiver playbackCompleteBroadcastReceiver = new BroadcastReceiver(){
+                    @Override
+                    public void onReceive(Context content, Intent intent) {
+                        mListenView.showPlay();
+                    }
+                };
+                IntentFilter filter =
+                        new IntentFilter(ListenService.FINISHED_PLAYBACK_NOTIFICATION);
+                LocalBroadcastManager.getInstance(mContext)
+                        .registerReceiver(playbackCompleteBroadcastReceiver, filter);
+            }
         }
     }
 
     @Override
     public void handleStopRequest() {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.stop();
+        // Wait for service to be bound
+        int tryCount = 0;
+        while(!mListenServiceBound && tryCount < MAX_BIND_WAIT_COUNT) {
+            ++tryCount;
+            try{Thread.sleep(100);}catch(InterruptedException ignored){}
+        }
+        if( !mListenServiceBound || null == mListenService ) {
+            handlePlayerUnavailable();
+        }
+        else {
+            mListenService.stop();
             mListenView.showPlay();
-            mMediaPlayer.release();
-            mMediaPlayer = null;
         }
     }
 
     @Override
     public void handleRestartRequest() {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.seekTo(0);
+        // Wait for service to be bound
+        int tryCount = 0;
+        while(!mListenServiceBound && tryCount < MAX_BIND_WAIT_COUNT) {
+            ++tryCount;
+            try{Thread.sleep(100);}catch(InterruptedException ignored){}
+        }
+        if( !mListenServiceBound || null == mListenService ) {
+            handlePlayerUnavailable();
+        }
+        else {
+            mListenService.restart();
         }
     }
 
     @Override
     public void handleLoopRequest() {
-        mLooping = !mLooping;
-        if (null != mMediaPlayer) {
-            mMediaPlayer.setLooping(mLooping);
+        // Wait for service to be bound
+        int tryCount = 0;
+        while(!mListenServiceBound && tryCount < MAX_BIND_WAIT_COUNT) {
+            ++tryCount;
+            try{Thread.sleep(100);}catch(InterruptedException ignored){}
         }
-        if (mLooping) {
-            mListenView.showStopLoop();
-            mListenView.showLoopMessage();
-        } else {
-            mListenView.showLoop();
+        //TODO Toggle looping status even if player not started
+        if( !mListenServiceBound || null == mListenService ) {
+            handlePlayerUnavailable();
+        }
+        else {
+            mListenService.switchLooping();
+            if (mListenService.isLooping()) {
+                mListenView.showStopLoop();
+                mListenView.showLoopMessage();
+            } else {
+                mListenView.showLoop();
+            }
         }
     }
 
     @Override
-    public void pausePlayer() {
-        if (null != mMediaPlayer && mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-            mListenView.showPlay();
+    public void handlePlayerUnavailable() {
+        mContext.unbindService(mListenServiceConnection);
+        //TODO Show error message
+        //TODO file bug report?
+    }
+
+    // Defines callbacks for service binding, passed to bindService()
+    private ServiceConnection mListenServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to ListenService, cast the IBinder and get ListenService instance
+            ListenService.ListenServiceBinder binder = (ListenService.ListenServiceBinder) service;
+            mListenService = binder.getService();
+            mListenServiceBound = true;
         }
-    }
 
-    // Allows injection for testing
-    void setMediaPlayer(MediaPlayer mediaPlayer) {
-        mMediaPlayer = mediaPlayer;
-    }
-
-    // Available for testing
-    boolean isLooping() {
-        return mLooping;
-    }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mListenService = null;
+            mListenServiceBound = false;
+        }
+    };
 }

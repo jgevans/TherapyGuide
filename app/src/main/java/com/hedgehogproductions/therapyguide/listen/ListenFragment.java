@@ -1,6 +1,5 @@
 package com.hedgehogproductions.therapyguide.listen;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import com.hedgehogproductions.therapyguide.R;
 
 
 public class ListenFragment extends Fragment implements ListenContract.View {
-
 
     private ListenContract.UserActionsListener mActionsListener;
 
@@ -36,7 +34,7 @@ public class ListenFragment extends Fragment implements ListenContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActionsListener = new ListenPresenter(this);
+        mActionsListener = new ListenPresenter(this, getContext());
     }
 
     @Override
@@ -83,8 +81,9 @@ public class ListenFragment extends Fragment implements ListenContract.View {
     }
 
     @Override
-    public MediaPlayer getNewMediaPlayer() {
-        return MediaPlayer.create(getContext(), R.raw.track_1);
+    public void onDestroy() {
+        super.onDestroy();
+        mActionsListener.tearDown();
     }
 
     @Override
@@ -110,12 +109,5 @@ public class ListenFragment extends Fragment implements ListenContract.View {
     @Override
     public void showLoopMessage() {
         mLoopToast.show();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        mActionsListener.pausePlayer();
     }
 }

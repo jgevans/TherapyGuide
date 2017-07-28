@@ -13,6 +13,10 @@
 
     <string name="looping_toast_text">Track looping</string>
 
+    <string name="player_notification_title">Therapy Guide player active</string>
+    <string name="player_notification_message">Tap to access player controls</string>
+    <string name="player_notification_ticker_text">Therapy Guide player active</string>
+
     <string name="diary_create_message">What was good about today?</string>
     <string name="diary_create_message_supplement">What else was good about today?</string>
     <string name="diary_entry_save_button">Save</string>
