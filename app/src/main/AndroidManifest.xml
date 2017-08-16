@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hedgehogproductions.therapyguide">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <supports-screens
         android:largeScreens="true"
         android:xlargeScreens="true" />
@@ -42,6 +44,14 @@
         <receiver
             android:name=".alarmhandler.AlarmHandler"
             android:description="@string/alarm_handler_description" />
+        <receiver
+            android:name=".alarmhandler.BootHandler"
+            android:description="@string/boot_handler_description"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

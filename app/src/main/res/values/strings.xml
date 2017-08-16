@@ -3,6 +3,7 @@
 
     <string name="listen_service_description">Service for listening to TherapyGuide audio</string>
     <string name="alarm_handler_description">Receiver to handle alarms such as the diary reminder</string>
+    <string name="boot_handler_description">Receiver to handle recreation of the diary reminder on device boot</string>
 
     <string name="diary_tab_name">Diary</string>
     <string name="listen_tab_name">Listen</string>

@@ -2,9 +2,11 @@ package com.hedgehogproductions.therapyguide.settings;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -12,6 +14,7 @@ import android.preference.PreferenceManager;
 
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.alarmhandler.AlarmHandler;
+import com.hedgehogproductions.therapyguide.alarmhandler.BootHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,11 +24,13 @@ import java.util.Locale;
 public class SettingsFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String KEY_PREF_DIARY_ALERT = "pref_diary_alert";
+    public static final String KEY_PREF_DIARY_ALERT = "pref_diary_alert";
     public static final String KEY_PREF_DIARY_ALERT_TIME = "pref_diary_alert_time";
 
     private AlarmManager mAlarmManager;
     private PendingIntent mAlarmIntent;
+    private ComponentName mReceiver;
+    private PackageManager mPackageManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +46,11 @@ public class SettingsFragment extends PreferenceFragment
         // Prepare alarm
         Intent intent = new Intent(getActivity(), AlarmHandler.class);
         intent.setAction(AlarmHandler.DIARY_ALERT);
-        mAlarmIntent = PendingIntent.getBroadcast(getActivity(), 0,
-                intent, 0);
+        mAlarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
         mAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        mReceiver = new ComponentName(getActivity(), BootHandler.class);
+        mPackageManager = getActivity().getPackageManager();
     }
 
     @Override
@@ -72,10 +79,18 @@ public class SettingsFragment extends PreferenceFragment
                         mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, diaryReminderTime,
                                 AlarmManager.INTERVAL_DAY, mAlarmIntent);
                     }
+
+                    mPackageManager.setComponentEnabledSetting(mReceiver,
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
                 }
                 else {
                     // Turn off alarm
                     mAlarmManager.cancel(mAlarmIntent);
+
+                    mPackageManager.setComponentEnabledSetting(mReceiver,
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
                 }
                 break;
             case KEY_PREF_DIARY_ALERT_TIME:
