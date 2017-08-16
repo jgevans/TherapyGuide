@@ -1,16 +1,23 @@
 package com.hedgehogproductions.therapyguide;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.TabLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
 import com.hedgehogproductions.therapyguide.listen.ListenFragment;
+import com.hedgehogproductions.therapyguide.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String SAVED_TAB_KEY = "SavedTab";
+    public static final int DIARY_REMINDER_NOTIFICATION_ID = 2;
+
+    private static final String SAVED_TAB_KEY = "SavedTab";
     private SmartSwipePager mViewPager;
 
     @Override
@@ -26,24 +33,44 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the adapter and add tabs
 
-        TabPagerAdapter mTabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
-        mTabPagerAdapter.addFragment(ListenFragment.newInstance(), getString(R.string.listen_tab_name));
-        mTabPagerAdapter.addFragment(DiaryFragment.newInstance(), getString(R.string.diary_tab_name));
+        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        tabPagerAdapter.addFragment(ListenFragment.newInstance(), getString(R.string.listen_tab_name));
+        tabPagerAdapter.addFragment(DiaryFragment.newInstance(), getString(R.string.diary_tab_name));
 
         // Create the pager
 
         mViewPager = (SmartSwipePager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mTabPagerAdapter);
+        mViewPager.setAdapter(tabPagerAdapter);
 
         // Create tab layout
 
-        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
         // If saved state exists, restore it
 
         if(savedInstanceState != null) {
             mViewPager.setCurrentItem(savedInstanceState.getInt(SAVED_TAB_KEY));
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

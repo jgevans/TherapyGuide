@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="pref_diary_alert"
+        android:title="@string/pref_diary_alert_title"
+        android:summaryOn="@string/pref_diary_alert_summary_on"
+        android:summaryOff="@string/pref_diary_alert_summary_off"
+        android:defaultValue="false"
+        android:persistent="true"/>
+    <com.hedgehogproductions.therapyguide.settings.TimePickerPreference
+        android:dependency="pref_diary_alert"
+        android:key="pref_diary_alert_time"
+        android:title="@string/pref_diary_alert_time_title"
+        android:dialogTitle="@string/pref_diary_alert_time_dialog_title"
+        android:persistent="true"/>
+</PreferenceScreen>
