@@ -343,12 +343,25 @@ public class SettingsScreenTest {
     }
 
     @Test
-    public void reminderOffNoAlarmActive() {
+    public void reminderOff_NoAlarmActive() {
         assertFalse(isAlarmSet());
     }
 
     @Test
-    public void turnOnReminderAlarmActive() {
+    public void turnOnReminder_AlarmActive() {
+        // Click on settings
+        onView(withId(R.id.settings)).perform(click());
+
+        // Enable the diary alert
+        onData(PreferenceMatchers.withKey("pref_diary_alert")).perform(click());
+
+        // TODO Investigate Robolectric for testing alarmmanager
+        // Check an alarm is set
+        assertTrue(isAlarmSet());
+    }
+
+    @Test
+    public void turnOnReminderThenTurnOff_NoAlarmActive() {
         // Click on settings
         onView(withId(R.id.settings)).perform(click());
 
@@ -357,6 +370,12 @@ public class SettingsScreenTest {
 
         // Check an alarm is set
         assertTrue(isAlarmSet());
+
+        // Disable the diary alert
+        onData(PreferenceMatchers.withKey("pref_diary_alert")).perform(click());
+
+        // Check an alarm is not set
+        assertFalse(isAlarmSet());
     }
 
     private void rotateScreen() {
@@ -384,7 +403,7 @@ public class SettingsScreenTest {
     }
 
     private boolean isAlarmSet() {
-        Context context = InstrumentationRegistry.getTargetContext();
+        Context context = getInstrumentation().getTargetContext();
         Intent intent = new Intent(context, AlarmHandler.class);
         PendingIntent service = PendingIntent.getBroadcast(
                 context,
