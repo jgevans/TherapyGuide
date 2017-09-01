@@ -34,8 +34,8 @@ import java.util.Collection;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -134,7 +134,7 @@ public class SettingsScreenTest {
     }
 
     @Test
-    public void pressBackExitsSettings() {
+    public void pressBackArrowExitsSettings() {
         // Click on the diary tab
         onView(withText(R.string.diary_tab_name)).perform(click());
 
@@ -143,6 +143,21 @@ public class SettingsScreenTest {
 
         // Click back
         onView(withContentDescription("Navigate up")).perform(click());
+
+        // Verify Diary is displayed
+        onView(withId(R.id.diary_view)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void pressBackExitsSettings() {
+        // Click on the diary tab
+        onView(withText(R.string.diary_tab_name)).perform(click());
+
+        // Click on settings
+        onView(withId(R.id.settings)).perform(click());
+
+        // Click back
+        onView(withId(R.id.toolbar)).perform(pressBack());
 
         // Verify Diary is displayed
         onView(withId(R.id.diary_view)).check(matches(isDisplayed()));
@@ -212,7 +227,7 @@ public class SettingsScreenTest {
         rotateScreen();
 
         // Click back
-        pressBack();
+        onView(withClassName(equalTo(TimePicker.class.getName()))).perform(pressBack());
 
         // Verify old time is still displayed
         onData(PreferenceMatchers.withKey("pref_diary_alert_time"))

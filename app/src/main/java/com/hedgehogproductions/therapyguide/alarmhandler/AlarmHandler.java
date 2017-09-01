@@ -27,7 +27,7 @@ public class AlarmHandler extends BroadcastReceiver {
                 diaryReminderNotification = new Notification.Builder(context)
                         .setContentTitle(context.getText(R.string.diary_reminder_notification_title))
                         .setContentText(context.getText(R.string.diary_reminder_notification_message))
-                        .setSmallIcon(R.drawable.ic_lighthouse_black_24dp)
+                        .setSmallIcon(R.drawable.ic_lighthouse_white_24dp)
                         .setContentIntent(pendingIntent)
                         .setTicker(context.getText(R.string.diary_reminder_notification_ticker_text))
                         .setAutoCancel(true)
@@ -36,7 +36,7 @@ public class AlarmHandler extends BroadcastReceiver {
                 diaryReminderNotification = new Notification.Builder(context)
                         .setContentTitle(context.getText(R.string.diary_reminder_notification_title))
                         .setContentText(context.getText(R.string.diary_reminder_notification_message))
-                        .setSmallIcon(R.drawable.ic_lighthouse_black_24dp)
+                        .setSmallIcon(R.drawable.ic_lighthouse_white_24dp)
                         .setContentIntent(pendingIntent)
                         .setTicker(context.getText(R.string.diary_reminder_notification_ticker_text))
                         .setAutoCancel(true)
@@ -45,6 +45,9 @@ public class AlarmHandler extends BroadcastReceiver {
             NotificationManager notificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(MainActivity.DIARY_REMINDER_NOTIFICATION_ID, diaryReminderNotification);
+
+            // Create the new alarm for tomorrow
+            AlarmSetter.setNextAlarm(context);
         }
     }
 }

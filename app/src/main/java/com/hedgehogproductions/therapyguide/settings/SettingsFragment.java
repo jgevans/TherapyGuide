@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.alarmhandler.AlarmHandler;
+import com.hedgehogproductions.therapyguide.alarmhandler.AlarmSetter;
 import com.hedgehogproductions.therapyguide.alarmhandler.BootHandler;
 
 import java.text.SimpleDateFormat;
@@ -74,11 +75,7 @@ public class SettingsFragment extends PreferenceFragment
             case KEY_PREF_DIARY_ALERT:
                 if(sharedPreferences.getBoolean(KEY_PREF_DIARY_ALERT, false)) {
                     // Turn on alarm
-                    long diaryReminderTime = sharedPreferences.getLong(KEY_PREF_DIARY_ALERT_TIME, ~0);
-                    if (diaryReminderTime != ~0 ) {
-                        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, diaryReminderTime,
-                                AlarmManager.INTERVAL_DAY, mAlarmIntent);
-                    }
+                    AlarmSetter.setNextAlarm(getActivity());
 
                     mPackageManager.setComponentEnabledSetting(mReceiver,
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
@@ -98,11 +95,7 @@ public class SettingsFragment extends PreferenceFragment
                 if(sharedPreferences.getBoolean(KEY_PREF_DIARY_ALERT, false)) {
                     // Replace alarm
                     mAlarmManager.cancel(mAlarmIntent);
-                    long diaryReminderTime = sharedPreferences.getLong(KEY_PREF_DIARY_ALERT_TIME, ~0);
-                    if (diaryReminderTime != ~0 ) {
-                        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, diaryReminderTime,
-                                AlarmManager.INTERVAL_DAY, mAlarmIntent);
-                    }
+                    AlarmSetter.setNextAlarm(getActivity());
                 }
                 break;
             default:
