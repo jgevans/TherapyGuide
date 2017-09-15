@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.intro;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,9 @@ import android.widget.Button;
 import com.hedgehogproductions.therapyguide.R;
 
 public class IntroActivity extends AppCompatActivity {
+
+    public static final String PREFERENCES = "TherapyGuideSettings";
+    public static final String SHOW_INTRO_PREF = "showIntro";
 
     private static final String TAG = "IntroActivity";
     private ViewPager mViewPager;
@@ -40,7 +44,7 @@ public class IntroActivity extends AppCompatActivity {
                 }
                 else {
                     // Close intro
-                    finish();
+                    finishIntroduction();
                 }
             }
         });
@@ -48,7 +52,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Close intro
-                finish();
+                finishIntroduction();
             }
         });
 
@@ -57,6 +61,15 @@ public class IntroActivity extends AppCompatActivity {
         mViewPagerAdapter.addView(R.layout.intro_sleep);
         mViewPagerAdapter.addView(R.layout.intro_positivity);
         mViewPagerAdapter.addView(R.layout.intro_kindness);
+    }
+
+    private void finishIntroduction() {
+        SharedPreferences settings = getSharedPreferences(PREFERENCES, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(SHOW_INTRO_PREF, false);
+        editor.apply();
+
+        finish();
     }
 
     private final ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {

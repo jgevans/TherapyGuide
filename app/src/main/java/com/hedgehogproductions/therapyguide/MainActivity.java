@@ -1,6 +1,7 @@
 package com.hedgehogproductions.therapyguide;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
+import com.hedgehogproductions.therapyguide.intro.IntroActivity;
 import com.hedgehogproductions.therapyguide.listen.ListenFragment;
 import com.hedgehogproductions.therapyguide.settings.SettingsActivity;
 
@@ -23,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(IntroActivity.PREFERENCES, 0);
+        if(sharedPreferences.getBoolean(IntroActivity.SHOW_INTRO_PREF, true)) {
+            // Launch the introduction
+            startActivity(new Intent(this, IntroActivity.class));
+        }
 
         setContentView(R.layout.activity_main);
 
