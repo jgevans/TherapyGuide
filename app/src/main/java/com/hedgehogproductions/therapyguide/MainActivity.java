@@ -72,9 +72,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.settings:
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.show_intro:
+                intent = new Intent(getApplicationContext(), IntroActivity.class);
                 startActivity(intent);
                 return true;
             default:

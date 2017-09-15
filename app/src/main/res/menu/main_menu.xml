@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/settings"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/show_intro"
+        android:icon="@drawable/ic_introduction_black_24dp"
+        android:title="@string/show_intro"
+        app:showAsAction="never" />
 </menu>

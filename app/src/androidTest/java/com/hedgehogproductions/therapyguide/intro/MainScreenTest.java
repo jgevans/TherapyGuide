@@ -19,9 +19,12 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -66,12 +69,29 @@ public class MainScreenTest {
     public void secondTime_doesNotShowIntro() {
 
         // Set SharedPreferences data
-        mPreferencesEditor.putBoolean("showIntro", false);
+        mPreferencesEditor.putBoolean(IntroActivity.SHOW_INTRO_PREF, false);
         mPreferencesEditor.commit();
 
         mActivityTestRule.launchActivity(mIntent);
 
         //Verify intro screen is not shown
         onView(withId(R.id.tabs)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void selectIntroFromMenu_showsIntro() {
+
+        // Set SharedPreferences data
+        mPreferencesEditor.putBoolean(IntroActivity.SHOW_INTRO_PREF, false);
+        mPreferencesEditor.commit();
+
+        mActivityTestRule.launchActivity(mIntent);
+
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+        //Select menu item
+        onView(withText(R.string.show_intro)).perform(click());
+
+        onView(withId(R.id.intro_image)).check(matches(isDisplayed()));
     }
 }
