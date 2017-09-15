@@ -46,4 +46,18 @@
     <string name="ok_delete_diary_entry">OK</string>
     <string name="cancel_delete_diary_entry">Cancel</string>
 
+    <string name="intro_skip_button_text">Skip</string>
+    <string name="intro_next_button_text">Next</string>
+    <string name="intro_done_button_text">Got it</string>
+
+    <string name="intro_intro_image_description">Introduction to Well-being Support</string>
+    <string name="intro_sleep_image_description">A good night\'s sleep</string>
+    <string name="intro_positivity_image_description">Positive Thinking</string>
+    <string name="intro_kindness_image_description">Kindness</string>
+
+    <string name="intro_intro_text">Intro</string>
+    <string name="intro_sleep_text">Sleep</string>
+    <string name="intro_positivity_text">Positivity</string>
+    <string name="intro_kindness_text">Kindness</string>
+
 </resources>
