@@ -1,10 +1,8 @@
 package com.hedgehogproductions.therapyguide.intro;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -45,7 +43,6 @@ public class MainScreenTest {
     @Before
     public void setUp() {
         mIntent = new Intent();
-        Context context = getInstrumentation().getTargetContext();
 
         // create a SharedPreferences editor
         mPreferencesEditor = getInstrumentation().getTargetContext().getSharedPreferences(IntroActivity.PREFERENCES, 0).edit();

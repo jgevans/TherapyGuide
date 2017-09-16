@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="intro_padding_side">192dp</dimen>
+    <dimen name="intro_bullets_padding_side">240dp</dimen>
+</resources>

@@ -7,4 +7,18 @@
     <color name="lightText">#9e9e9e</color>
     <color name="mainText">#000000</color>
 
+    <!-- Colours for intro screens -->
+    <color name="intro_intro_background">#f64c73</color>
+    <color name="intro_sleep_background">#20d2bb</color>
+    <color name="intro_positivity_background">#3395ff</color>
+    <color name="intro_kindness_background">#c873f4</color>
+    <color name="intro_intro_dot_active">#f98da5</color>
+    <color name="intro_sleep_dot_active">#8cf9eb</color>
+    <color name="intro_positivity_dot_active">#93c6fd</color>
+    <color name="intro_kindness_dot_active">#e4b5fc</color>
+    <color name="intro_intro_dot_inactive">#d1395c</color>
+    <color name="intro_sleep_dot_inactive">#14a895</color>
+    <color name="intro_positivity_dot_inactive">#2278d4</color>
+    <color name="intro_kindness_dot_inactive">#a854d4</color>
+
 </resources>

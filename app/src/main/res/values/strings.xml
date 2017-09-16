@@ -56,9 +56,104 @@
     <string name="intro_positivity_image_description">Positive Thinking</string>
     <string name="intro_kindness_image_description">Kindness</string>
 
-    <string name="intro_intro_text">Intro</string>
-    <string name="intro_sleep_text">Sleep</string>
-    <string name="intro_positivity_text">Positivity</string>
-    <string name="intro_kindness_text">Kindness</string>
+    <string name="intro_intro_title">Welcome</string>
+    <string name="intro_intro_text1">
+        This app is designed to lower your stress levels and improve your emotional wellbeing,
+        by carrying out three simple daily tasks. Research into neuroscience and psychology has
+        shown that these tasks will make you happier, healthier and more resilient:
+    </string>
+    <string name="intro_intro_text2">
+        •	A Good Nights Sleep
+        \n•	Positive Thinking
+        \n•	Kindness
+    </string>
+    <string name="intro_intro_text3">
+        The tools on this app are designed to make these tasks as easy as possible, and help you
+        remember to do them daily.  Like anything new, we need to repeat the activity daily in
+        order to build the neural pathways in our brain for the benefit to be felt, and the new
+        habits to form.
+    </string>
+    <string name="intro_sleep_title">A Good Nights Sleep</string>
+    <string name="intro_sleep_text1">
+        Sleep is when we physically and emotionally recuperate, it is fundamental to how well we
+        cope with the challenges of the day. A good nights sleep improves concentration, focus,
+        physical performance, social interactions, and even boosts your immune system! The track
+        is designed to allow your body and mind relax into a good nights sleep.
+    </string>
+    <string name="intro_sleep_text2">
+        Also, using a Solution Focused Hypnotherapy track as you fall asleep makes use of the
+        important neurological state that occurs between waking and sleeping.  At this point your
+        subconscious mind listens to the positive suggestions of the therapist (even if you’re not
+        listening!) and your mind can start working on creative ways to improve things for you
+        while you dream that night.
+    </string>
+    <string name="intro_sleep_text3">
+        Other things to promote good sleep
+    </string>
+    <string name="intro_sleep_text4">
+        •	Keep to the same routine at night (the same waking and sleeping times, and creating a
+        bedtime “ritual” eg bathroom, read, listen to the track)
+        \n•	Limiting your exposure to light in the hour before you sleep (this includes not
+        watching screens)
+        \n•	Keep your bedroom cool
+        \n•	Exercise daily
+        \n•	Avoid caffeine and nicotine after lunch, and avoid alcohol before bed.
+    </string>
+    <string name="intro_sleep_text5">
+        How to use the track
+    </string>
+    <string name="intro_sleep_text6">
+        Play this track every night as you go to sleep - play it again if you are still awake
+        at the end.  If you wake in the night, pop it back on again!
+    </string>
+    <string name="intro_positivity_title">Your Good Things Diary</string>
+    <string name="intro_positivity_text1">
+        Writing down towards the end of the day good things that have happened to you promotes
+        calmness and lowers stress levels according to recent research.
+    </string>
+    <string name="intro_positivity_text2">
+        When life is too difficult, for too long, we can get into a habit of thinking negatively
+        about ourselves or our lives.  This is unhelpful as it can lead to the emotional and
+        physical responses of anxiety, depression, or anger.  You can change the habitual way
+        you think, and therefore how you feel by doing this simply task daily.  By spending time
+        reflecting on what’s good in your life, you will change your perspective on the world -
+        shifting your focus to what really matters in life.
+    </string>
+    <string name="intro_positivity_text3">
+        You will also end up with an uplifting diary that you can re-read on those blue days!
+    </string>
+    <string name="intro_positivity_text4">
+        How to use the diary
+    </string>
+    <string name="intro_positivity_text5">
+        Set the daily reminder (it’s best in the evening or just before bed).  Write your 5 good
+        things from that day in the diary (3 is easy - 5 will give your brain a good workout!).
+        Try to write different ones each day.  This is your diary, there’s no limit to what you
+        can include. Here’s some ideas of what you could write about:
+    </string>
+    <string name="intro_positivity_text6">
+        •	Experiences you’ve enjoyed “Went for a dog walk with my friend Jen”
+        \n•	Things you’ve seen around you “it was a beautiful Spring day today, sunny and fresh”
+        \n•	Someone who made you smile “Steve made me laugh dancing along to the radio this morning!”
+        \n•	Something went well “my report went down well at today\'s meeting”
+        \n•	Something you’ve achieved “managed to play my new piece of sax music today - been
+        trying to get it right all week!”
+    </string>
+    <string name="intro_positivity_text7">
+        Dealing with a stressful or low day
+    </string>
+    <string name="intro_positivity_text8">
+        What’s been good can be a hard thing to do on these days, but it’s really important. You
+        are reminding your brain that your intention is to focus on the positives.  You have a
+        few choices:
+    </string>
+    <string name="intro_positivity_text9">
+        •	Write about the ‘big’ things “my children are all well”
+        \n•	Think about how well you’ve coped “stressful day at work, but I managed to keep my
+        cool all day” “I got out of bed today”
+        \n•	Notice the small things “my daffodils are appearing”
+    </string>
+    <string name="intro_kindness_title">Creating a Habit Of Kindness</string>
+    <string name="intro_kindness_text">Coming soon…</string>
 
 </resources>

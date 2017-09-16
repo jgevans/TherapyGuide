@@ -7,4 +7,7 @@
     <dimen name="cardview_min_height">72dp</dimen>
 
     <dimen name="intro_dots_height">48dp</dimen>
+    <dimen name="intro_padding_side">48dp</dimen>
+    <dimen name="intro_bullets_padding_side">96dp</dimen>
+    <dimen name="intro_text_padding_bottom">32dp</dimen>
 </resources>

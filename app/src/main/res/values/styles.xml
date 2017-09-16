@@ -26,4 +26,23 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="IntroTextCommon">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/intro_padding_side</item>
+        <item name="android:paddingRight">@dimen/intro_padding_side</item>
+        <item name="android:paddingBottom">@dimen/intro_text_padding_bottom</item>
+    </style>
+
+    <style name="IntroTitleText" parent="IntroTextCommon">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="IntroText" parent="IntroTextCommon">
+    </style>
+    <style name="IntroBullets" parent="IntroTextCommon">
+        <item name="android:paddingLeft">@dimen/intro_bullets_padding_side</item>
+        <item name="android:paddingRight">@dimen/intro_bullets_padding_side</item>
+    </style>
+    <style name="IntroSubheading" parent="IntroTextCommon">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
 </resources>
