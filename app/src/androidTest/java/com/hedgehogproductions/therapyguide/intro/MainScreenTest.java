@@ -48,14 +48,14 @@ public class MainScreenTest {
         Context context = getInstrumentation().getTargetContext();
 
         // create a SharedPreferences editor
-        mPreferencesEditor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        mPreferencesEditor = getInstrumentation().getTargetContext().getSharedPreferences(IntroActivity.PREFERENCES, 0).edit();
     }
 
     @Test
     public void firstTime_showsIntro() {
 
         // Set SharedPreferences data
-        mPreferencesEditor.putBoolean("showIntro", true);
+        mPreferencesEditor.putBoolean(IntroActivity.SHOW_INTRO_PREF, true);
         mPreferencesEditor.commit();
 
         // Launch activity
