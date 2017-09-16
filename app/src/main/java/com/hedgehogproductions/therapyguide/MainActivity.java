@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int DIARY_REMINDER_NOTIFICATION_ID = 2;
 
     private static final String SAVED_TAB_KEY = "SavedTab";
+    public static final String REQUESTED_TAB_NAME = "RequestedTabName";
     private SmartSwipePager mViewPager;
 
     @Override
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState != null) {
             mViewPager.setCurrentItem(savedInstanceState.getInt(SAVED_TAB_KEY));
+        }
+        if(getIntent().hasExtra(REQUESTED_TAB_NAME)) {
+            mViewPager.setCurrentItem(tabPagerAdapter.getPosition(
+                    getIntent().getExtras().getString(REQUESTED_TAB_NAME)));
         }
     }
 

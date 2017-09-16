@@ -35,6 +35,10 @@ class TabPagerAdapter extends FragmentStatePagerAdapter {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
+
+    int getPosition(String title) {
+        return mFragmentTitleList.indexOf(title);
+    }
 }
 
 

@@ -58,6 +58,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     public void showAddDiaryEntry() {
         Intent intent = new Intent(getContext(), EditDiaryEntryActivity.class);
         intent.putExtra(EditDiaryEntryActivity.EDIT_MODE, false);
+        intent.putExtra(EditDiaryEntryActivity.FROM_MAIN_ACTIVITY, true);
         startActivity(intent);
     }
 

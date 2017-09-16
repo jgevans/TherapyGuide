@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.TaskStackBuilder;
 
 import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
@@ -19,7 +20,10 @@ public class AlarmHandler extends BroadcastReceiver {
         if(intent.getAction().equals(DIARY_ALERT)){
             // Create a notification for the diary reminder
             Intent notificationIntent = new Intent(context, EditDiaryEntryActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+            // Add a back stack so that pressing back on the add screen takes us to the diary
+            PendingIntent pendingIntent = TaskStackBuilder.create(context)
+                    .addNextIntentWithParentStack(notificationIntent)
+                    .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Notification diaryReminderNotification;
             if(android.os.Build.VERSION.SDK_INT < 16) {

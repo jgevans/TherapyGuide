@@ -13,6 +13,7 @@ public class EditDiaryEntryActivity extends AppCompatActivity {
 
     public static final String SELECTED_ENTRY_TIMESTAMP = "ENTRY_TIMESTAMP";
     public static final String EDIT_MODE = "EDIT_MODE";
+    public static final String FROM_MAIN_ACTIVITY = "FROM_MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

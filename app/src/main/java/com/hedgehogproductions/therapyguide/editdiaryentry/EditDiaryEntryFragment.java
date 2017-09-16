@@ -8,6 +8,7 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hedgehogproductions.therapyguide.Injection;
+import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.deletediaryentry.DeleteDiaryEntryDialogFragment;
 
 import static com.hedgehogproductions.therapyguide.diary.DiaryFragment.ENTRY_DELETION_REQ_CODE;
 import static com.hedgehogproductions.therapyguide.diary.DiaryFragment.ENTRY_DELETION_RES_CODE_CONFIRM;
 import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.EDIT_MODE;
+import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.FROM_MAIN_ACTIVITY;
 import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.SELECTED_ENTRY_TIMESTAMP;
 
 public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryContract.View {
@@ -47,7 +50,15 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     @Override
     public void showDiaryView() {
         getActivity().setResult(Activity.RESULT_OK);
-        getActivity().finish();
+        if(getActivity().getIntent().getBooleanExtra(FROM_MAIN_ACTIVITY, false)) {
+            getActivity().finish();
+        }
+        else {
+            // Create a new main activity as there may not be one already
+            Intent intent = NavUtils.getParentActivityIntent(getActivity());
+            intent.putExtra(MainActivity.REQUESTED_TAB_NAME, getResources().getString(R.string.diary_tab_name));
+            startActivity(intent);
+        }
     }
 
     @Override
