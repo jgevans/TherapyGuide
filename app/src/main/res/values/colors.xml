@@ -21,4 +21,17 @@
     <color name="intro_positivity_dot_inactive">#2278d4</color>
     <color name="intro_kindness_dot_inactive">#a854d4</color>
 
+    <array name="intro_active_dots">
+        <item>@color/intro_intro_dot_active</item>
+        <item>@color/intro_sleep_dot_active</item>
+        <item>@color/intro_positivity_dot_active</item>
+        <item>@color/intro_kindness_dot_active</item>
+    </array>
+    <array name="intro_inactive_dots">
+        <item>@color/intro_intro_dot_inactive</item>
+        <item>@color/intro_sleep_dot_inactive</item>
+        <item>@color/intro_positivity_dot_inactive</item>
+        <item>@color/intro_kindness_dot_inactive</item>
+    </array>
+
 </resources>

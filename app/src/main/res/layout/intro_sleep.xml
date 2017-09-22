@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/intro_sleep_background" >
+    android:paddingBottom="@dimen/intro_dots_height"
+    android:background="@color/intro_sleep_background"
+    tools:ignore="Overdraw">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/intro_text_padding_bottom" />
 
         <ImageView
             android:id="@+id/sleep_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/intro_image_height"
             android:contentDescription="@string/intro_sleep_image_description"
-            android:src="@mipmap/ic_sleep"
-            android:paddingBottom="@dimen/intro_text_padding_bottom" />
+            app:srcCompat="@drawable/ic_sleep"
+            android:scaleType="fitCenter" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/intro_text_padding_bottom" />
 
         <TextView
             android:layout_width="match_parent"
@@ -39,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/intro_sleep_text3"
-            android:theme="@style/IntroText" />
+            android:theme="@style/IntroSubheading" />
 
         <TextView
             android:layout_width="wrap_content"

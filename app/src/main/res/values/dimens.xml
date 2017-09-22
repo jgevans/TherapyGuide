@@ -8,6 +8,11 @@
 
     <dimen name="intro_dots_height">48dp</dimen>
     <dimen name="intro_padding_side">48dp</dimen>
-    <dimen name="intro_bullets_padding_side">96dp</dimen>
+    <dimen name="intro_bullets_padding_side">48dp</dimen>
     <dimen name="intro_text_padding_bottom">32dp</dimen>
+    <dimen name="intro_image_height">196dp</dimen>
+    <dimen name="intro_text_size">14sp</dimen>
+    <dimen name="intro_title_size">20sp</dimen>
+    <dimen name="intro_button_elevation">2dp</dimen>
+    <dimen name="intro_button_padding">8dp</dimen>
 </resources>

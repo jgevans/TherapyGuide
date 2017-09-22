@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,46 +8,48 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/intro_pager"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+    <Button
+        android:id="@+id/intro_skip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="@null"
+        android:textColor="@android:color/white"
+        android:text="@string/intro_skip_button_text"/>
+
+    <Button
+        android:id="@+id/intro_next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@null"
+        android:textColor="@android:color/white"
+        android:text="@string/intro_next_button_text"/>
+
+    <LinearLayout
+        android:id="@+id/intro_dots"
         android:layout_width="match_parent"
-        android:layout_weight="1" />
+        android:layout_height="@dimen/intro_dots_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_toEndOf="@id/intro_skip_button"
+        android:layout_toRightOf="@id/intro_skip_button"
+        android:layout_toStartOf="@id/intro_next_button"
+        android:layout_toLeftOf="@id/intro_next_button"
+        android:layout_alignParentBottom="true"/>
 
     <View
         android:id="@+id/intro_rule"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"
+        android:layout_above="@id/intro_dots"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/intro_dots_height">
-
-        <Button
-            android:id="@+id/intro_skip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="@string/intro_skip_button_text"/>
-
-        <Button
-            android:id="@+id/intro_next_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:text="@string/intro_next_button_text"/>
-
-        <LinearLayout
-            android:id="@+id/layoutDots"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/intro_dots_height"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_toEndOf="@id/intro_skip_button"
-            android:layout_toRightOf="@id/intro_skip_button"
-            android:layout_toStartOf="@id/intro_next_button"
-            android:layout_toLeftOf="@id/intro_next_button"/>
-
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

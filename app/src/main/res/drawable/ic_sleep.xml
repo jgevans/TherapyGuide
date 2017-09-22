@@ -1,0 +1,24 @@
+<vector android:height="24dp" android:viewportHeight="248.0"
+    android:viewportWidth="248.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:name="bed"
+        android:pathData="M2.83,215L2.7,171.27C2.52,161.47 8.8,158.74 15.7,158.96L172.99,158.77C182.65,158.84 186.44,164.12 186.67,172.05L186.85,215"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5"/>
+    <path android:name="head"
+        android:pathData="M159.8,133.53m12.06,-13.96a18.45,18.45 87.05,1 1,-24.12 27.93a18.45,18.45 87.05,1 1,24.12 -27.93"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5"/>
+    <path android:name="z-small"
+        android:pathData="M172.8,100.24l9.86,0l-10.01,10.76l10.31,0"
+        android:strokeColor="#FFFFFF" android:strokeWidth="2"/>
+    <path android:name="z-xlarge"
+        android:pathData="M212.37,24.62l26.48,0l-26.88,28.89l27.68,0"
+        android:strokeColor="#FFFFFF" android:strokeWidth="7"/>
+    <path android:name="z-large"
+        android:pathData="M197.44,60.52l20.82,0l-21.14,22.72l21.77,0"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4"/>
+    <path android:name="z-medium"
+        android:pathData="M179.3,78.98l15.35,0l-15.58,16.74l16.04,0"
+        android:strokeColor="#FFFFFF" android:strokeWidth="3"/>
+    <path android:name="duvet"
+        android:pathData="M13.49,151.31L130.84,151.9C132.88,146.6 131.86,132.51 130.84,130.08C129.64,126.52 128.1,123.48 123.76,123C89.96,123.2 55.76,123.4 21.16,123.59C17.81,123.61 15.26,125.77 13.49,130.08C10.89,136.45 10.89,143.52 13.49,151.31Z"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5"/>
+</vector>

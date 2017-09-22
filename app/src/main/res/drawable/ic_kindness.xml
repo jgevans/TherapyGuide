@@ -1,0 +1,36 @@
+<vector android:height="24dp" android:viewportHeight="187.0"
+    android:viewportWidth="187.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:name="hand"
+        android:pathData="M113.97,112.37L173.49,101.16C183.27,98.46 188.1,110.58 177.69,116.57C177.7,116.57 112.5,154.89 102.21,155.39C95.48,158.21 46.99,132.06 39.74,134.08C34.25,131.98 3.46,151.58 4.02,145.98C2.82,145.19 2.43,101.87 4.02,101.16C5.46,100.5 44.9,92.47 48.84,93.46C54.58,92.19 78.86,107.12 90.16,106.28L106.96,106.06C115.18,105.89 116.97,118.53 109.06,122.87C105.93,125.64 94.25,128.92 90.16,128.01C78.05,127.36 70.67,123.33 69.48,122.76"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"/>
+    <path android:name="cuff1"
+        android:pathData="M11,106L18,106"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"/>
+    <path android:name="cuff2"
+        android:pathData="M11,115L18,115"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"/>
+    <path android:name="cuff3"
+        android:pathData="M11,124L18,124"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"/>
+    <path android:name="cuff4"
+        android:pathData="M11,133L18,133"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4" android:strokeLineCap="round"/>
+    <path android:name="cake_icing"
+        android:pathData="M91.83,58.57L162.87,58.57C165.41,58.52 164.8,58.93 164.94,78.33C164.51,83.15 157.7,82.01 158.19,78.27L158.19,71.97C157.49,67.32 151.84,69.12 152.26,71.97L152.26,77.33C152.29,82.82 146.11,77.39 146.02,82.6L146.02,86.05C145.79,90.53 140.16,89.17 140.32,86.11L140.4,74.56C140.57,71.46 135.05,70.84 134.85,74.56L134.85,78.27C134.64,82.56 128.37,81.86 128.54,78.18L128.54,73.25C128.41,69.33 122.99,73.96 122.99,69.26L122.99,67.15C123.15,63.43 116.9,62.54 116.69,67.15L116.69,78.64C117.02,82.34 111.12,83.27 110.7,78.64L110.76,67.07C110.32,62.89 104.88,64.16 105.2,67.15L105.2,71.61C105.09,75.51 99.89,71.19 99.95,75.88L100.01,83.83C99.9,87.49 94.84,87.58 94.82,83.83C94.92,79.13 94.93,77.55 93.46,77.3C93.26,76.96 89.16,78.03 89.26,74.37C89.66,59.96 88.09,58.62 91.83,58.57Z"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4"/>
+    <path android:name="cake_right"
+        android:pathData="M161.28,82.02L161.28,101.97"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4"/>
+    <path android:name="cake_left"
+        android:pathData="M92.15,77.8L92.15,104.22"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4"/>
+    <path android:name="cake_filling"
+        android:pathData="M93.09,93.04L160.19,92.85"
+        android:strokeColor="#FFFFFF" android:strokeWidth="4"/>
+    <path android:name="cake_cherry"
+        android:pathData="M117.01,51.38m4.98,-4.76a6.89,6.89 85.26,1 1,-9.96 9.53a6.89,6.89 74.25,1 1,9.96 -9.53"
+        android:strokeColor="#FFFFFF" android:strokeWidth="3"/>
+    <path android:name="cake_wafer"
+        android:pathData="M136.41,33.22L157.66,51.2L122.6,57.38L136.41,33.22Z"
+        android:strokeColor="#FFFFFF" android:strokeWidth="3"/>
+</vector>

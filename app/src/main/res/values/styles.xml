@@ -27,6 +27,7 @@
     </style>
 
     <style name="IntroTextCommon">
+        <item name="android:textSize">@dimen/intro_text_size</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:paddingLeft">@dimen/intro_padding_side</item>
         <item name="android:paddingRight">@dimen/intro_padding_side</item>
@@ -34,6 +35,7 @@
     </style>
 
     <style name="IntroTitleText" parent="IntroTextCommon">
+        <item name="android:textSize">@dimen/intro_title_size</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="IntroText" parent="IntroTextCommon">
@@ -44,5 +46,6 @@
     </style>
     <style name="IntroSubheading" parent="IntroTextCommon">
         <item name="android:textStyle">bold|italic</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 </resources>

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hedgehogproductions.therapyguide.R;
 
@@ -21,6 +23,8 @@ public class IntroActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private IntroViewPagerAdapter mViewPagerAdapter;
     private Button mNextButton, mSkipButton;
+    private LinearLayout mBottomDotsLayout;
+    private int[] mDotColoursActive, mDotColoursInactive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,31 @@ public class IntroActivity extends AppCompatActivity {
         mViewPagerAdapter.addView(R.layout.intro_sleep);
         mViewPagerAdapter.addView(R.layout.intro_positivity);
         mViewPagerAdapter.addView(R.layout.intro_kindness);
+
+        mBottomDotsLayout = (LinearLayout) findViewById(R.id.intro_dots);
+        mDotColoursActive = getResources().getIntArray(R.array.intro_active_dots);
+        mDotColoursInactive = getResources().getIntArray(R.array.intro_inactive_dots);
+        // Set up nav dots
+        for(int position = 0; position < mViewPagerAdapter.getCount(); ++position) {
+            TextView newDot = new TextView(this);
+            newDot.setText("\u2022");
+            newDot.setTextSize(35);
+            newDot.setTextColor(mDotColoursInactive[position]);
+            mBottomDotsLayout.addView(newDot);
+        }
+        colourDots(0);
+    }
+
+    private void colourDots(int newPosition) {
+        for(int position = 0; position < mViewPagerAdapter.getCount(); ++position) {
+            TextView dotView = (TextView) mBottomDotsLayout.getChildAt(position);
+            if(position == newPosition) {
+                dotView.setTextColor(mDotColoursActive[newPosition]);
+            }
+            else {
+                dotView.setTextColor(mDotColoursInactive[newPosition]);
+            }
+        }
     }
 
     private void finishIntroduction() {
@@ -119,10 +148,11 @@ public class IntroActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
+            colourDots(position);
             // Set button text and visibility
             if(position == mViewPagerAdapter.getCount() - 1) {
                 mNextButton.setText(R.string.intro_done_button_text);
-                mSkipButton.setVisibility(View.GONE);
+                mSkipButton.setVisibility(View.INVISIBLE);
             }
             else
             {

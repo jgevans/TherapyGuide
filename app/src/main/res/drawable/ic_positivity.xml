@@ -1,0 +1,21 @@
+<vector android:height="24dp" android:viewportHeight="179.0"
+    android:viewportWidth="179.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:name="star"
+        android:pathData="M98.61,68.61L98.69,84.36L112.91,89.32L98.54,94.71L98.01,110.47L89.04,98.05L74.49,102.83L83.32,89.76L74.87,76.96L89.29,81.3Z"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5" />
+    <path android:name="heart1"
+        android:pathData="M69.5,20.1C69.84,-11.75 133.85,0.42 86.6,72.72 7.1,41.49 51.74,-5.98 69.5,20.1"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5" android:strokeLineCap="round" />
+    <path android:name="heart4"
+        android:pathData="M69.5,159.84C51.74,185.41 7.1,137.94 86.6,107.22 133.85,179.21 69.84,191.38 69.5,159.84"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5" android:strokeLineCap="round" />
+    <path android:name="heart3"
+        android:pathData="M152.04,46.45C181.57,35.92 189.78,100.56 106.41,78.46 111.55,-7.3 170.49,20.49 152.04,46.45"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5" android:strokeLineCap="round" />
+    <path android:name="heart3"
+        android:pathData="M152.04,130.94C170.49,156.24 111.55,186.07 106.41,100 189.78,75.67 181.57,140.56 152.04,130.94"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5" android:strokeLineCap="round" />
+    <path android:name="heart5"
+        android:pathData="M18.41,89.5C-11.67,80.12 19.69,23 73.84,89.8 19.69,156 -11.67,98.88 18.41,89.5"
+        android:strokeColor="#FFFFFF" android:strokeWidth="5" android:strokeLineCap="round" />
+</vector>
