@@ -43,7 +43,7 @@ public class IntroScreenTest {
         onView(withText(R.string.intro_next_button_text)).check(matches(isDisplayed()));
 
         onView(withId(R.id.intro_image)).check(matches(isDisplayed()));
-        onView(withText(R.string.intro_intro_text)).check(matches(isDisplayed()));
+        onView(withText(R.string.intro_intro_text1)).check(matches(isDisplayed()));
 
     }
 
@@ -69,7 +69,7 @@ public class IntroScreenTest {
         onView(withId(R.id.intro_pager)).perform(swipeLeft());
 
         onView(withId(R.id.sleep_image)).check(matches(isDisplayed()));
-        onView(withText(R.string.intro_sleep_text)).check(matches(isDisplayed()));
+        onView(withText(R.string.intro_sleep_text1)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class IntroScreenTest {
         onView(withId(R.id.intro_pager)).perform(swipeLeft());
 
         onView(withId(R.id.positivity_image)).check(matches(isDisplayed()));
-        onView(withText(R.string.intro_positivity_text)).check(matches(isDisplayed()));
+        onView(withText(R.string.intro_positivity_text1)).check(matches(isDisplayed()));
     }
 
     @Test
