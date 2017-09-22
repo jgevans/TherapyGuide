@@ -77,7 +77,9 @@ public class ListenService extends Service implements ListenServiceContract {
 
     @Override
     public void onDestroy() {
-        mMediaPlayer.release();
+        if(null != mMediaPlayer) {
+            mMediaPlayer.release();
+        }
         mMediaPlayer = null;
     }
 
