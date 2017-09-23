@@ -1,7 +1,6 @@
 package com.hedgehogproductions.therapyguide.listenservice;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -9,8 +8,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.hedgehogproductions.therapyguide.MainActivity;
-import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.notifications.NotificationHandler;
 
 public class ListenService extends Service implements ListenServiceContract {
 
@@ -32,27 +30,7 @@ public class ListenService extends Service implements ListenServiceContract {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Set up the notification for the ListenService
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
-        if(android.os.Build.VERSION.SDK_INT < 16) {
-            //noinspection deprecation
-            mPlayerNotification = new Notification.Builder(this)
-                    .setContentTitle(getText(R.string.player_notification_title))
-                    .setContentText(getText(R.string.player_notification_message))
-                    .setSmallIcon(R.drawable.ic_lighthouse_black_24dp)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(getText(R.string.player_notification_ticker_text))
-                    .getNotification();
-        } else {
-            mPlayerNotification = new Notification.Builder(this)
-                    .setContentTitle(getText(R.string.player_notification_title))
-                    .setContentText(getText(R.string.player_notification_message))
-                    .setSmallIcon(R.drawable.ic_lighthouse_black_24dp)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(getText(R.string.player_notification_ticker_text))
-                    .build();
-        }
+        mPlayerNotification = NotificationHandler.getListenPlayerNotification(this);
 
         mTrack = intent.getIntExtra(TRACK, 0);
         boolean looping = intent.getBooleanExtra(LOOPING, false);
@@ -96,7 +74,9 @@ public class ListenService extends Service implements ListenServiceContract {
             @Override
             public void onCompletion(MediaPlayer player) {
                 stopForeground(true);
-                mMediaPlayer.release();
+                if(null != mMediaPlayer) {
+                    mMediaPlayer.release();
+                }
                 mMediaPlayer = null;
                 // Broadcast a notification so the app knows playback has completed
                 Intent intent = new Intent();

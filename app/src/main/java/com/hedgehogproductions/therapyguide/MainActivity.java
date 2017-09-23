@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
 import com.hedgehogproductions.therapyguide.intro.IntroActivity;
 import com.hedgehogproductions.therapyguide.listen.ListenFragment;
+import com.hedgehogproductions.therapyguide.notifications.NotificationHandler;
 import com.hedgehogproductions.therapyguide.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             mViewPager.setCurrentItem(tabPagerAdapter.getPosition(
                     getIntent().getExtras().getString(REQUESTED_TAB_NAME)));
         }
+
+        // Set up notification channels
+        NotificationHandler.createNotificationChannels(this);
     }
 
     @Override

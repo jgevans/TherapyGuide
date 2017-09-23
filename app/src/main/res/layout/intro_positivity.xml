@@ -82,7 +82,8 @@
                 android:paddingLeft="@dimen/intro_button_padding"
                 android:paddingStart="@dimen/intro_button_padding"
                 android:paddingRight="@dimen/intro_button_padding"
-                android:paddingEnd="@dimen/intro_button_padding"/>
+                android:paddingEnd="@dimen/intro_button_padding"
+                tools:ignore="UnusedAttribute" />
         </RelativeLayout>
 
         <View
