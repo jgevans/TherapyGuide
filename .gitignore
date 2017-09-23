@@ -7,4 +7,6 @@
 /build
 /captures
 .externalNativeBuild
-/app/src/main/res/raw/*.mp3
+/.idea/dictionaries/
+/app/src/main/res/raw/
+/app/src/main/res/values/text.xml
