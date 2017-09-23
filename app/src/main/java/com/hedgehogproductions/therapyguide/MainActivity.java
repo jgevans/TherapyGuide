@@ -2,6 +2,9 @@ package com.hedgehogproductions.therapyguide;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -75,6 +78,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+        for(int i = 0; i < menu.size(); i++){
+            Drawable drawable = menu.getItem(i).getIcon();
+            if(drawable != null) {
+                drawable.mutate();
+                if(Build.VERSION.SDK_INT >= 23) {
+                    drawable.setColorFilter(getResources().getColor(R.color.colorPrimaryDark, this.getTheme()), PorterDuff.Mode.SRC_ATOP);
+                }
+                else {
+                    //noinspection deprecation
+                    drawable.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+                }
+            }
+        }
+
         return true;
     }
 
