@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.intro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -35,14 +36,14 @@ public class IntroActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_intro);
 
-        mViewPager = (ViewPager) findViewById(R.id.intro_pager);
+        mViewPager = findViewById(R.id.intro_pager);
         mViewPagerAdapter = new IntroViewPagerAdapter(this);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         // Set up buttons
-        mNextButton = (Button) findViewById(R.id.intro_next_button);
-        mSkipButton = (Button) findViewById(R.id.intro_skip_button);
+        mNextButton = findViewById(R.id.intro_next_button);
+        mSkipButton = findViewById(R.id.intro_skip_button);
 
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +72,7 @@ public class IntroActivity extends AppCompatActivity {
         mViewPagerAdapter.addView(R.layout.intro_positivity);
         mViewPagerAdapter.addView(R.layout.intro_kindness);
 
-        mBottomDotsLayout = (LinearLayout) findViewById(R.id.intro_dots);
+        mBottomDotsLayout = findViewById(R.id.intro_dots);
         mDotColoursActive = getResources().getIntArray(R.array.intro_active_dots);
         mDotColoursInactive = getResources().getIntArray(R.array.intro_inactive_dots);
         // Set up nav dots
@@ -113,6 +114,7 @@ public class IntroActivity extends AppCompatActivity {
         finish();
     }
 
+    @SuppressLint("InlinedApi")
     private void goFullscreen() {
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -170,7 +172,7 @@ public class IntroActivity extends AppCompatActivity {
                 mSkipButton.setVisibility(View.VISIBLE);
             }
             // Set up settings button if found in view
-            Button setReminderButton = (Button) findViewById(R.id.intro_set_reminder_button);
+            Button setReminderButton = findViewById(R.id.intro_set_reminder_button);
             if(null != setReminderButton){
                 setReminderButton.setOnClickListener(new View.OnClickListener() {
                     @Override

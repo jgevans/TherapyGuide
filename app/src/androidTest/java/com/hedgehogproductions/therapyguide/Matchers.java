@@ -55,7 +55,7 @@ public class Matchers {
             @Override
             public boolean matchesSafely(Root root) {
                 int type = root.getWindowLayoutParams().get().type;
-                if (type == WindowManager.LayoutParams.TYPE_TOAST) {
+                if (type == WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY) {
                     IBinder windowToken = root.getDecorView().getWindowToken();
                     IBinder appToken = root.getDecorView().getApplicationWindowToken();
                     if (windowToken == appToken) {

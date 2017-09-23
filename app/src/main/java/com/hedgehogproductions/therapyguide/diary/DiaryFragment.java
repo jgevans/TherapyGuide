@@ -117,7 +117,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         View view = inflater.inflate(R.layout.diary_tab, container, false);
 
         // Set up create button
-        FloatingActionButton createButton = (FloatingActionButton) view.findViewById(R.id.create_button);
+        FloatingActionButton createButton = view.findViewById(R.id.create_button);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +126,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         });
 
         // Create the RecyclerView for Diary cards
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.diary_view);
+        RecyclerView recyclerView = view.findViewById(R.id.diary_view);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -219,12 +219,12 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
             public ViewHolder(View view, DiaryEntryListener diaryEntryListener) {
                 super(view);
                 mDiaryEntryListener = diaryEntryListener;
-                text1 = (TextView) view.findViewById(R.id.diary_text1);
-                text2 = (TextView) view.findViewById(R.id.diary_text2);
-                text3 = (TextView) view.findViewById(R.id.diary_text3);
-                text4 = (TextView) view.findViewById(R.id.diary_text4);
-                text5 = (TextView) view.findViewById(R.id.diary_text5);
-                time = (TextView) view.findViewById(R.id.diary_time);
+                text1 = view.findViewById(R.id.diary_text1);
+                text2 = view.findViewById(R.id.diary_text2);
+                text3 = view.findViewById(R.id.diary_text3);
+                text4 = view.findViewById(R.id.diary_text4);
+                text5 = view.findViewById(R.id.diary_text5);
+                time = view.findViewById(R.id.diary_time);
                 itemView.setOnClickListener(this);
             }
 

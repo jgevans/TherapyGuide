@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.listen;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ public class ListenFragment extends Fragment implements ListenContract.View {
         mActionsListener = new ListenPresenter(this, getContext());
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,10 +46,10 @@ public class ListenFragment extends Fragment implements ListenContract.View {
         View view = inflater.inflate(R.layout.listen_tab, container, false);
 
         // Set up buttons
-        mRestartButton = (ImageButton) view.findViewById(R.id.restart_button);
-        mPlayButton = (ImageButton) view.findViewById(R.id.play_button);
-        mStopButton = (ImageButton) view.findViewById(R.id.stop_button);
-        mLoopButton = (ImageButton) view.findViewById(R.id.loop_button);
+        mRestartButton = view.findViewById(R.id.restart_button);
+        mPlayButton = view.findViewById(R.id.play_button);
+        mStopButton = view.findViewById(R.id.stop_button);
+        mLoopButton = view.findViewById(R.id.loop_button);
         mRestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

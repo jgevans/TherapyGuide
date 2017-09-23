@@ -102,7 +102,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
         mActionsListener = new EditDiaryEntryPresenter(Injection.provideDiaryRepository(getContext()), this);
 
         Button saveButton =
-                (Button) getActivity().findViewById(R.id.editdiaryentry_save_button);
+                getActivity().findViewById(R.id.editdiaryentry_save_button);
         if( mEditMode ) {
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,7 +133,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
             });
         }
         Button cancelButton =
-                (Button) getActivity().findViewById(R.id.editdiaryentry_cancel_button);
+                getActivity().findViewById(R.id.editdiaryentry_cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +143,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
 
         // If in edit mode, set up delete button, otherwise, hide it
         Button deleteButton =
-                (Button) getActivity().findViewById(R.id.editdiaryentry_delete_button);
+                getActivity().findViewById(R.id.editdiaryentry_delete_button);
         if( mEditMode ) {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -162,11 +162,11 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editdiaryentry, container, false);
-        mDiaryText1 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text1);
-        mDiaryText2 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text2);
-        mDiaryText3 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text3);
-        mDiaryText4 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text4);
-        mDiaryText5 = (TextView) root.findViewById(R.id.editdiaryentry_entry_text5);
+        mDiaryText1 = root.findViewById(R.id.editdiaryentry_entry_text1);
+        mDiaryText2 = root.findViewById(R.id.editdiaryentry_entry_text2);
+        mDiaryText3 = root.findViewById(R.id.editdiaryentry_entry_text3);
+        mDiaryText4 = root.findViewById(R.id.editdiaryentry_entry_text4);
+        mDiaryText5 = root.findViewById(R.id.editdiaryentry_entry_text5);
         mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
 
         return root;

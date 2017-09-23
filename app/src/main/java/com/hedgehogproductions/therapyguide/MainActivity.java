@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the toolbar
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Create the adapter and add tabs
@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the pager
 
-        mViewPager = (SmartSwipePager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(tabPagerAdapter);
 
         // Create tab layout
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         // If saved state exists, restore it
