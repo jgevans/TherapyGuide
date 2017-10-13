@@ -42,7 +42,7 @@ public class EditDiaryEntryPresenterTest {
     private EditDiaryEntryPresenter mEditDiaryEntryPresenter;
 
     @Before
-    public void setupAddNotePresenter() {
+    public void setupEditDiaryEntryPresenter() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);

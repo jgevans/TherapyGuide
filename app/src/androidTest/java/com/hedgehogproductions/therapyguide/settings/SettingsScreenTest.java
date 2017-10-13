@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.filters.LargeTest;
@@ -67,7 +66,8 @@ public class SettingsScreenTest {
     @Before
     @After
     public void clearSharedPrefs() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+        SharedPreferences prefs = getInstrumentation().getTargetContext()
+                .getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.apply();

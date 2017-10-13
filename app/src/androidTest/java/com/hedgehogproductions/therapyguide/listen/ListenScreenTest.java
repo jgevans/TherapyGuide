@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.listen;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
@@ -38,7 +39,8 @@ public class ListenScreenTest {
     @Test
     public void loop_showsLoopMessage() {
 
-        SharedPreferences settings = InstrumentationRegistry.getTargetContext().getSharedPreferences(ListenPresenter.PREFERENCES, 0);
+        SharedPreferences settings = InstrumentationRegistry.getTargetContext()
+                .getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         boolean looping = settings.getBoolean(ListenPresenter.LOOPING_PREF, false);
 
         // Click on the listen tab

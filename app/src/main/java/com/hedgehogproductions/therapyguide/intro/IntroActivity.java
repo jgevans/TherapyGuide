@@ -1,6 +1,7 @@
 package com.hedgehogproductions.therapyguide.intro;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,12 +14,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.settings.SettingsActivity;
 
 public class IntroActivity extends AppCompatActivity {
 
-    public static final String PREFERENCES = "TherapyGuideSettings";
     public static final String SHOW_INTRO_PREF = "showIntro";
 
     private ViewPager mViewPager;
@@ -106,7 +107,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void finishIntroduction() {
-        SharedPreferences settings = getSharedPreferences(PREFERENCES, 0);
+        SharedPreferences settings = getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(SHOW_INTRO_PREF, false);
         editor.apply();

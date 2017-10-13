@@ -6,11 +6,11 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
-import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
+import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 
 import java.util.Calendar;
@@ -31,7 +31,8 @@ public class TimePickerPreference extends DialogPreference {
 
         setDialogIcon(null);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPref = context
+                .getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         long diaryReminderTime = sharedPref.getLong(SettingsFragment.KEY_PREF_DIARY_ALERT_TIME, ~0);
 
         if ( diaryReminderTime == ~0 ) {

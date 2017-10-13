@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -25,13 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String SAVED_TAB_KEY = "SavedTab";
     public static final String REQUESTED_TAB_NAME = "RequestedTabName";
+    public static final String PREFERENCES = "TherapyGuideSettings";
     private SmartSwipePager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(IntroActivity.PREFERENCES, 0);
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(IntroActivity.SHOW_INTRO_PREF, true)) {
             // Launch the introduction
             startActivity(new Intent(this, IntroActivity.class));

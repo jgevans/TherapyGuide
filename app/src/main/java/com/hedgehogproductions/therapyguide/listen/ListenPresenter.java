@@ -16,11 +16,11 @@ import com.hedgehogproductions.therapyguide.listenservice.ListenService;
 import com.hedgehogproductions.therapyguide.listenservice.ListenServiceContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.hedgehogproductions.therapyguide.MainActivity.PREFERENCES;
 
 public class ListenPresenter implements ListenContract.UserActionsListener {
 
     private static final int MAX_BIND_WAIT_COUNT = 10;
-    public static final String PREFERENCES = "TherapyGuideSettings";
     public static final String LOOPING_PREF = "looping";
 
     private final ListenContract.View mListenView;
@@ -39,7 +39,7 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
         mListenServiceBound = false;
 
         // Restore looping preference
-        SharedPreferences settings = context.getSharedPreferences(PREFERENCES, 0);
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         mLooping = settings.getBoolean(LOOPING_PREF, false);
 
         Intent listenServiceIntent = new Intent(mContext, ListenService.class);
@@ -130,7 +130,7 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
         //   regardless of the status of the ListenService
         mLooping = !mLooping;
 
-        SharedPreferences settings = mContext.getSharedPreferences(PREFERENCES, 0);
+        SharedPreferences settings = mContext.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(LOOPING_PREF, mLooping);
         editor.apply();

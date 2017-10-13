@@ -10,8 +10,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 
+import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.alarmhandler.AlarmHandler;
 import com.hedgehogproductions.therapyguide.alarmhandler.AlarmSetter;
@@ -37,11 +37,16 @@ public class SettingsFragment extends PreferenceFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Define the settings file
+        getPreferenceManager().setSharedPreferencesName(MainActivity.PREFERENCES);
+        getPreferenceManager().setSharedPreferencesMode(Context.MODE_PRIVATE);
+
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
 
         // Set the summary for the diary reminder time
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         setDiaryReminderTimeSummary(sharedPreferences);
 
         // Prepare alarm
