@@ -60,4 +60,18 @@ public class ListenScreenTest {
         onView(withText(loopingMessageText)).inRoot(showsToast()).check(matches(isDisplayed()));
     }
 
+    // Test to cover known bug whilst I work out how to unit test the ListenPresenter
+    @Test
+    public void stopThenLoop_DoesNotCrash() {
+
+        // Click on the listen tab
+        onView(withText(R.string.listen_tab_name)).perform(click());
+
+        // Click on the stop button
+        onView(withId(R.id.stop_button)).perform(click());
+
+        // Click on the loop button
+        onView(withId(R.id.loop_button)).perform(click());
+    }
+
 }

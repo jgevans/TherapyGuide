@@ -26,6 +26,7 @@ public class ListenService extends Service implements ListenServiceContract {
     private Notification mPlayerNotification;
     private MediaPlayer mMediaPlayer;
     private int mTrack;
+    private boolean mLooping;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -33,12 +34,12 @@ public class ListenService extends Service implements ListenServiceContract {
         mPlayerNotification = NotificationHandler.getListenPlayerNotification(this);
 
         mTrack = intent.getIntExtra(TRACK, 0);
-        boolean looping = intent.getBooleanExtra(LOOPING, false);
+        mLooping = intent.getBooleanExtra(LOOPING, false);
 
         if(null == mMediaPlayer) {
             mMediaPlayer =
                     MediaPlayer.create(getApplicationContext(), mTrack);
-            mMediaPlayer.setLooping(looping);
+            mMediaPlayer.setLooping(mLooping);
         }
         return mStartMode;
     }
@@ -66,6 +67,7 @@ public class ListenService extends Service implements ListenServiceContract {
         if (null == mMediaPlayer) {
             mMediaPlayer =
                     MediaPlayer.create(getApplicationContext(), mTrack);
+            mMediaPlayer.setLooping(mLooping);
         }
         startForeground(PLAYER_NOTIFICATION_ID, mPlayerNotification);
         mMediaPlayer.start();
@@ -94,6 +96,7 @@ public class ListenService extends Service implements ListenServiceContract {
         if (null == mMediaPlayer) {
             mMediaPlayer =
                     MediaPlayer.create(getApplicationContext(), mTrack);
+            mMediaPlayer.setLooping(mLooping);
         }
         mMediaPlayer.pause();
     }
@@ -103,6 +106,7 @@ public class ListenService extends Service implements ListenServiceContract {
         if (null == mMediaPlayer) {
             mMediaPlayer =
                     MediaPlayer.create(getApplicationContext(), mTrack);
+            mMediaPlayer.setLooping(mLooping);
         }
         mMediaPlayer.seekTo(0);
     }
@@ -119,10 +123,9 @@ public class ListenService extends Service implements ListenServiceContract {
 
     @Override
     public void setLooping(boolean looping) throws RuntimeException {
+        mLooping = looping;
         if (null != mMediaPlayer) {
-            mMediaPlayer.setLooping(looping);
-        } else {
-            throw new RuntimeException("Media Player does not exist");
+            mMediaPlayer.setLooping(mLooping);
         }
     }
 
