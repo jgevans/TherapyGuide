@@ -77,6 +77,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onNewIntent(Intent intent) {
+        if(intent.hasExtra(REQUESTED_TAB_NAME)) {
+            TabPagerAdapter pagerAdapter = (TabPagerAdapter) mViewPager.getAdapter();
+            mViewPager.setCurrentItem(pagerAdapter.getPosition(
+                    intent.getExtras().getString(REQUESTED_TAB_NAME)));
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);

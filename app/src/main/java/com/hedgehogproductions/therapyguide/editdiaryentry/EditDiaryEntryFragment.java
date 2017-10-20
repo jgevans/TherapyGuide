@@ -54,10 +54,10 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
             getActivity().finish();
         }
         else {
-            // Create a new main activity as there may not be one already
+            // Navigate up to MainActivity with a new intent to view the diary tab
             Intent intent = NavUtils.getParentActivityIntent(getActivity());
             intent.putExtra(MainActivity.REQUESTED_TAB_NAME, getResources().getString(R.string.diary_tab_name));
-            startActivity(intent);
+            NavUtils.navigateUpTo(getActivity(), intent);
         }
     }
 
