@@ -88,7 +88,7 @@ public class IntroScreenTest {
         onView(withId(R.id.intro_pager)).perform(swipeLeft());
 
         onView(withId(R.id.kindness_image)).check(matches(isDisplayed()));
-        onView(withText(R.string.intro_kindness_text)).check(matches(isDisplayed()));
+        onView(withText(R.string.intro_kindness_text1)).check(matches(isDisplayed()));
     }
 
     @Test

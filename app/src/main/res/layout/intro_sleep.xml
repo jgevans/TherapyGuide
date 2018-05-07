@@ -43,7 +43,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/intro_sleep_text2"
             android:theme="@style/IntroText" />
 
@@ -62,7 +61,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/intro_sleep_text5"
             android:theme="@style/IntroSubheading" />
 

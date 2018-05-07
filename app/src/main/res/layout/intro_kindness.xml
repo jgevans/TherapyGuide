@@ -37,7 +37,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/intro_kindness_text"
+            android:text="@string/intro_kindness_text1"
+            android:theme="@style/IntroText" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/intro_kindness_text2"
+            android:theme="@style/IntroText" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/intro_kindness_text3"
             android:theme="@style/IntroText" />
 
     </LinearLayout>
