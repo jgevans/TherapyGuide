@@ -18,10 +18,11 @@ import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.hedgehogproductions.therapyguide.Matchers.showsToast;
+import static org.hamcrest.CoreMatchers.not;
 
 /**
  * Tests for the listen screen, the screen which contains the track player
@@ -57,7 +58,8 @@ public class ListenScreenTest {
         // Check the toast is shown
         String loopingMessageText =
                 getTargetContext().getString(R.string.looping_toast_text);
-        onView(withText(loopingMessageText)).inRoot(showsToast()).check(matches(isDisplayed()));
+        onView(withText(loopingMessageText)).inRoot(withDecorView(
+                not(mMainActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
 
     // Test to cover known bug whilst I work out how to unit test the ListenPresenter

@@ -1,5 +1,4 @@
-package com.hedgehogproductions.therapyguide.deletediaryentry;
-
+package com.hedgehogproductions.therapyguide.deletekindnessentry;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,11 +9,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import com.hedgehogproductions.therapyguide.R;
-import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
+import com.hedgehogproductions.therapyguide.kindness.KindnessFragment;
 
-
-public class DeleteDiaryEntryDialogFragment extends DialogFragment {
-
+public class DeleteKindnessEntryDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,7 +23,7 @@ public class DeleteDiaryEntryDialogFragment extends DialogFragment {
                         // Delete Diary Entry
                         getTargetFragment().onActivityResult(
                                 getTargetRequestCode(),
-                                DiaryFragment.ENTRY_DELETION_RES_CODE_CONFIRM,
+                                KindnessFragment.ENTRY_DELETION_RES_CODE_CONFIRM,
                                 new Intent(Intent.ACTION_ANSWER));
                     }
                 })
@@ -48,7 +45,7 @@ public class DeleteDiaryEntryDialogFragment extends DialogFragment {
     private void cancelDeletion() {
         getTargetFragment().onActivityResult(
                 getTargetRequestCode(),
-                DiaryFragment.ENTRY_DELETION_RES_CODE_CANCEL,
+                KindnessFragment.ENTRY_DELETION_RES_CODE_CANCEL,
                 new Intent(Intent.ACTION_ANSWER));
     }
 }

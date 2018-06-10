@@ -7,6 +7,9 @@
     <color name="lightText">#9e9e9e</color>
     <color name="mainText">#000000</color>
 
+    <color name="completeKindness">#4caf50</color>
+    <color name="incompleteKindness">#FFE082</color>
+
     <!-- Colours for intro screens -->
     <color name="intro_intro_background">#f64c73</color>
     <color name="intro_sleep_background">#20d2bb</color>

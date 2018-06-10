@@ -21,6 +21,7 @@ import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.SettingsActions;
 import com.hedgehogproductions.therapyguide.alarmhandler.AlarmHandler;
+import com.hedgehogproductions.therapyguide.intro.IntroActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -70,6 +71,7 @@ public class SettingsScreenTest {
                 .getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
+        editor.putBoolean(IntroActivity.SHOW_INTRO_PREF, false);
         editor.apply();
     }
 

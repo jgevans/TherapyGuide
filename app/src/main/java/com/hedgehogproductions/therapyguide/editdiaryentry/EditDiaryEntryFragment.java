@@ -65,7 +65,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
     public void showEmptyEntryError() {
         // Show error toast
         Toast errorToast = Toast.makeText(
-                this.getContext(),getString(R.string.empty_entry_error_toast_text), Toast.LENGTH_SHORT);
+                this.getContext(),getString(R.string.empty_diary_entry_error_toast_text), Toast.LENGTH_SHORT);
         errorToast.show();
     }
 

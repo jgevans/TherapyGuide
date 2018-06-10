@@ -49,7 +49,7 @@ public class DiaryManipulators {
         onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
 
         // Click confirm
-        onView(withText(R.string.ok_delete_diary_entry)).perform(click());
+        onView(withText(R.string.ok_delete_entry)).perform(click());
 
         // Verify that diary is in view and entry has been removed
         onView(withId(R.id.diary_view)).check(matches(isDisplayed()));

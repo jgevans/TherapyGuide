@@ -1,6 +1,8 @@
 package com.hedgehogproductions.therapyguide.diary;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -9,11 +11,14 @@ import android.support.test.runner.AndroidJUnit4;
 import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.Matchers;
 import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.intro.IntroActivity;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -47,6 +52,14 @@ public class DiaryScreenTest {
     public ActivityTestRule<MainActivity> mMainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
 
+    @Before
+    public void setSharedPrefs() {
+        SharedPreferences prefs = getInstrumentation().getTargetContext()
+                .getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(IntroActivity.SHOW_INTRO_PREF, false);
+        editor.apply();
+    }
 
 
     @Test
@@ -128,10 +141,10 @@ public class DiaryScreenTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
 
         // Verify deletion dialog message is shown
-        onView(withText(R.string.dialog_delete_diary_entry)).check(matches(isDisplayed()));
+        onView(withText(R.string.dialog_delete_entry)).check(matches(isDisplayed()));
 
         // Delete it to clean up
-        onView(withText(R.string.ok_delete_diary_entry)).perform(click());
+        onView(withText(R.string.ok_delete_entry)).perform(click());
     }
 
     @Test
@@ -153,10 +166,10 @@ public class DiaryScreenTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
 
         // Cancel Entry deletion
-        onView(withText(R.string.cancel_delete_diary_entry)).perform(click());
+        onView(withText(R.string.cancel_delete_entry)).perform(click());
 
         // Verify dialog message gone and entry still in view
-        onView(withText(R.string.dialog_delete_diary_entry)).check(doesNotExist());
+        onView(withText(R.string.dialog_delete_entry)).check(doesNotExist());
         onView(Matchers.withItemText(newDiaryText1)).check(matches(isDisplayed()));
 
         // Delete it anyway to clean up
@@ -180,7 +193,7 @@ public class DiaryScreenTest {
         deleteDiaryEntry(newDiaryText1);
 
         // Verify dialog message gone and entry gone from view
-        onView(withText(R.string.dialog_delete_diary_entry)).check(doesNotExist());
+        onView(withText(R.string.dialog_delete_entry)).check(doesNotExist());
         onView(Matchers.withItemText(newDiaryText1)).check(doesNotExist());
     }
 
@@ -203,10 +216,10 @@ public class DiaryScreenTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
 
         // Cancel Entry deletion
-        onView(withText(R.string.dialog_delete_diary_entry)).perform(pressBack());
+        onView(withText(R.string.dialog_delete_entry)).perform(pressBack());
 
         // Verify dialog message gone and entry still in view
-        onView(withText(R.string.dialog_delete_diary_entry)).check(doesNotExist());
+        onView(withText(R.string.dialog_delete_entry)).check(doesNotExist());
         onView(Matchers.withItemText(newDiaryText1)).check(matches(isDisplayed()));
 
         // Delete it anyway to clean up
@@ -369,7 +382,7 @@ public class DiaryScreenTest {
         onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
 
         // Click confirm
-        onView(withText(R.string.ok_delete_diary_entry)).perform(click());
+        onView(withText(R.string.ok_delete_entry)).perform(click());
 
         // Verify that diary is in view and entry has been removed
         onView(withId(R.id.diary_view)).check(matches(isDisplayed()));

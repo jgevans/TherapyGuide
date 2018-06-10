@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
 import com.hedgehogproductions.therapyguide.intro.IntroActivity;
+import com.hedgehogproductions.therapyguide.kindness.KindnessFragment;
 import com.hedgehogproductions.therapyguide.listen.ListenFragment;
 import com.hedgehogproductions.therapyguide.notifications.NotificationHandler;
 import com.hedgehogproductions.therapyguide.settings.SettingsActivity;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         tabPagerAdapter.addFragment(ListenFragment.newInstance(), getString(R.string.listen_tab_name));
         tabPagerAdapter.addFragment(DiaryFragment.newInstance(), getString(R.string.diary_tab_name));
+        tabPagerAdapter.addFragment(KindnessFragment.newInstance(), getString(R.string.kindness_tab_name));
 
         // Create the pager
 

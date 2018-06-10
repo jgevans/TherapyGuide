@@ -21,12 +21,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.hedgehogproductions.therapyguide.Matchers.showsToast;
 import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.EDIT_MODE;
 import static com.hedgehogproductions.therapyguide.editdiaryentry.EditDiaryEntryActivity.SELECTED_ENTRY_TIMESTAMP;
+import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -88,8 +89,9 @@ public class EditDiaryEntryScreenTest {
 
         // Verify empty entry toast is shown
         String emptyNoteMessageText =
-                getTargetContext().getString(R.string.empty_entry_error_toast_text);
-        onView(withText(emptyNoteMessageText)).inRoot(showsToast()).check(matches(isDisplayed()));
+                getTargetContext().getString(R.string.empty_diary_entry_error_toast_text);
+        onView(withText(emptyNoteMessageText)).inRoot(withDecorView(
+                not(mEntryActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
 
     @Test
@@ -98,7 +100,7 @@ public class EditDiaryEntryScreenTest {
         onView(withId(R.id.editdiaryentry_delete_button)).perform(click());
 
         // Verify deletion dialog message is shown
-        onView(withText(R.string.dialog_delete_diary_entry)).check(matches(isDisplayed()));
+        onView(withText(R.string.dialog_delete_entry)).check(matches(isDisplayed()));
     }
 }
 
