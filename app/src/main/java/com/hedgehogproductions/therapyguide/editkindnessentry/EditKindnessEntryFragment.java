@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +30,7 @@ import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnes
 import static com.hedgehogproductions.therapyguide.kindness.KindnessFragment.ENTRY_DELETION_REQ_CODE;
 import static com.hedgehogproductions.therapyguide.kindness.KindnessFragment.ENTRY_DELETION_RES_CODE_CONFIRM;
 
-public class EditKindnessEntryFragment extends Fragment implements EditKindnessEntryContract.View {
+public class EditKindnessEntryFragment extends DialogFragment implements EditKindnessEntryContract.View {
 
     private EditKindnessEntryContract.UserActionsListener mActionsListener;
 
@@ -87,10 +87,10 @@ public class EditKindnessEntryFragment extends Fragment implements EditKindnessE
     @Override
     public void showKindnessDetail(KindnessWords words, KindnessThoughts thoughts,
                                    KindnessActions actions, KindnessSelf self, boolean complete) {
-        mKindnessWords.setSelection(0);
-        mKindnessThoughts.setSelection(0);
-        mKindnessActions.setSelection(0);
-        mKindnessSelf.setSelection(0);
+        mKindnessWords.setSelection(((ArrayAdapter) mKindnessWords.getAdapter()).getPosition(words.toString(getContext())));
+        mKindnessThoughts.setSelection(((ArrayAdapter) mKindnessThoughts.getAdapter()).getPosition(thoughts.toString(getContext())));
+        mKindnessActions.setSelection(((ArrayAdapter) mKindnessActions.getAdapter()).getPosition(actions.toString(getContext())));
+        mKindnessSelf.setSelection(((ArrayAdapter) mKindnessSelf.getAdapter()).getPosition(self.toString(getContext())));
     }
 
     @Override
@@ -110,10 +110,10 @@ public class EditKindnessEntryFragment extends Fragment implements EditKindnessE
                 @Override
                 public void onClick(View v) {
                     mActionsListener.updateKindnessEntry(
-                            KindnessWords.APPEARANCE,
-                            KindnessThoughts.DOUBT,
-                            KindnessActions.BUY,
-                            KindnessSelf.KIND
+                            KindnessWords.values()[mKindnessWords.getSelectedItemPosition()],
+                            KindnessThoughts.values()[mKindnessThoughts.getSelectedItemPosition()],
+                            KindnessActions.values()[mKindnessActions.getSelectedItemPosition()],
+                            KindnessSelf.values()[mKindnessSelf.getSelectedItemPosition()]
                     );
                 }
             });
@@ -124,10 +124,10 @@ public class EditKindnessEntryFragment extends Fragment implements EditKindnessE
                 public void onClick(View v) {
                     mActionsListener.saveNewKindnessEntry(
                             System.currentTimeMillis(),
-                            KindnessWords.APPEARANCE,
-                            KindnessThoughts.DOUBT,
-                            KindnessActions.BUY,
-                            KindnessSelf.KIND
+                            KindnessWords.values()[mKindnessWords.getSelectedItemPosition()],
+                            KindnessThoughts.values()[mKindnessThoughts.getSelectedItemPosition()],
+                            KindnessActions.values()[mKindnessActions.getSelectedItemPosition()],
+                            KindnessSelf.values()[mKindnessSelf.getSelectedItemPosition()]
                     );
                 }
             });

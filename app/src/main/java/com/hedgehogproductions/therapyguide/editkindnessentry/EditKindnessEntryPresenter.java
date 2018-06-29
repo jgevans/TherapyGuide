@@ -16,12 +16,14 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     private final KindnessRepository mKindnessRepository;
     private final EditKindnessEntryContract.View mEditKindnessEntryView;
     private long mCreationTimestamp;
+    private boolean mComplete;
 
     public EditKindnessEntryPresenter(
             @NonNull KindnessRepository kindnessRepository, @NonNull EditKindnessEntryContract.View editKindnessEntryView ) {
         mKindnessRepository = checkNotNull(kindnessRepository, "kindness repository cannot be null");
         mEditKindnessEntryView = checkNotNull(editKindnessEntryView, "edit view cannot be null");
         mCreationTimestamp = ~0;
+        mComplete = false;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
                 } else {
                     showKindnessEntry(kindnessEntry);
                     setCreationTimestamp(kindnessEntry.getCreationTimestamp());
+                    setCompleteness(kindnessEntry.isComplete());
                 }
             }
         });
@@ -42,6 +45,10 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
 
     void setCreationTimestamp(long timestamp) {
         mCreationTimestamp = timestamp;
+    }
+
+    void setCompleteness(boolean complete) {
+        mComplete = complete;
     }
 
     private void showKindnessEntry(KindnessEntry entry) {
@@ -58,7 +65,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     public void updateKindnessEntry(KindnessWords words, KindnessThoughts thoughts,
                                     KindnessActions actions, KindnessSelf self) {
         KindnessEntry newKindnessEntry =
-                new KindnessEntry(mCreationTimestamp, words, thoughts, actions, self);
+                new KindnessEntry(mCreationTimestamp, words, thoughts, actions, self, mComplete);
         if( newKindnessEntry.isEmpty() ) {
             mEditKindnessEntryView.showEmptyEntryError();
         }

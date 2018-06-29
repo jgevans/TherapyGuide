@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -195,9 +196,8 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             viewHolder.self.setText(entry.getSelf().toString(mContext));
             viewHolder.complete.setChecked(entry.isComplete());
 
-            // TODO Set colour based on whether the entry is complete
             if(entry.isComplete()) {
-//                ((CardView) viewHolder.itemView).setCardBackgroundColor(mContext.getResources().getColor(R.color.completeKindness));
+                viewHolder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.completeKindness));
             }
 
             // Convert timestamp to useful string description based on age
@@ -219,13 +219,12 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
                         actionsListener.updateKindnessEntryCompleteness(entry);
                         notifyDataSetChanged();
 
-                        // TODO Set colour based on whether the entry is complete
-//                        if(entry.isComplete()) {
-//                            ((CardView) viewHolder.itemView).setCardBackgroundColor(mContext.getResources().getColor(R.color.completeKindness));
-//                        }
-//                        else{
-//                            ((CardView) viewHolder.itemView).setCardBackgroundColor(mContext.getResources().getColor(R.color.incompleteKindness));
-//                        }
+                        if(entry.isComplete()) {
+                            viewHolder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.completeKindness));
+                        }
+                        else{
+                            viewHolder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.incompleteKindness));
+                        }
                     }
                 }
             });
@@ -254,6 +253,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             public final TextView words, thoughts, actions, self;
             public final TextView time;
             public final CheckBox complete;
+            final CardView card;
 
             private final KindnessEntryListener mKindnessEntryListener;
 
@@ -266,6 +266,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
                 self = view.findViewById(R.id.kindness_self);
                 time = view.findViewById(R.id.kindness_time);
                 complete = view.findViewById(R.id.kindness_card_checkbox);
+                card = view.findViewById(R.id.kindness_card_view);
                 itemView.setOnClickListener(this);
             }
 
