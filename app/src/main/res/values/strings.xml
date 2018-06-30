@@ -61,6 +61,11 @@
 
     <string name="empty_kindness_error_toast_text">You should select an option for each kindness</string>
 
+    <string name="kindness_back_button_text">Back</string>
+    <string name="kindness_next_button_text">Next</string>
+    <string name="kindness_cancel_button_text">Cancel</string>
+    <string name="kindness_done_button_text">I\'m done</string>
+
     <string name="intro_skip_button_text">Skip</string>
     <string name="intro_next_button_text">Next</string>
     <string name="intro_done_button_text">Got it</string>
