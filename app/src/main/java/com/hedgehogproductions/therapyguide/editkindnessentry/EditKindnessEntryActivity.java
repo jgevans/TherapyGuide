@@ -22,7 +22,7 @@ public class EditKindnessEntryActivity extends AppCompatActivity {
     public static final String FROM_MAIN_ACTIVITY = "FROM_MAIN_ACTIVITY";
 
     private ProgressiveViewPager mViewPager;
-    private EditKindnessViewPagerAdapter mViewPagerAdapter;
+    private EditKindnessEntryViewPagerAdapter mViewPagerAdapter;
     private Button mNextButton, mBackButton, mCancelButton;
 
     @Override
@@ -32,7 +32,7 @@ public class EditKindnessEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editkindnessentry);
 
         mViewPager = findViewById(R.id.editkindnessentry_pager);
-        mViewPagerAdapter = new EditKindnessViewPagerAdapter(this);
+        mViewPagerAdapter = new EditKindnessEntryViewPagerAdapter(this);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 

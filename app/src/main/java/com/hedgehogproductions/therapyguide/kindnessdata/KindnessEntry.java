@@ -6,13 +6,15 @@ import java.util.Objects;
 
 public class KindnessEntry {
 
-    private final long mCreationTimestamp;
-    private final KindnessWords mWords;
-    private final KindnessThoughts mThoughts;
-    private final KindnessActions mActions;
-    private final KindnessSelf mSelf;
+    private long mCreationTimestamp = ~0;
+    private KindnessWords mWords = null;
+    private KindnessThoughts mThoughts = null;
+    private KindnessActions mActions = null;
+    private KindnessSelf mSelf = null;
 
     private boolean mComplete;
+
+    public KindnessEntry() {}
 
     public KindnessEntry(long timestamp, KindnessWords words, KindnessThoughts thoughts,
                          KindnessActions actions, KindnessSelf self) {
@@ -44,6 +46,19 @@ public class KindnessEntry {
     }
     public KindnessSelf getSelf() {
         return mSelf;
+    }
+
+    public void setWords(KindnessWords words) {
+        mWords = words;
+    }
+    public void setThoughts(KindnessThoughts thoughts) {
+        mThoughts = thoughts;
+    }
+    public void setActions(KindnessActions actions) {
+        mActions = actions;
+    }
+    public void setSelf(KindnessSelf self) {
+        mSelf = self;
     }
 
     public boolean isComplete() {

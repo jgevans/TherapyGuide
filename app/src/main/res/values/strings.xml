@@ -47,10 +47,10 @@
     <string name="diary_create_message">What was good about today?</string>
     <string name="diary_create_message_supplement">What else was good about today?</string>
 
-    <string name="kindness_create_words_message">Words - say something kind to someone</string>
-    <string name="kindness_create_thoughts_message">Thoughts - think something kind about someone you think about today</string>
-    <string name="kindness_create_actions_message">Actions - do something nice for someone</string>
-    <string name="kindness_create_self_message">Kindness to yourself - say, think or do something kind for yourself today</string>
+    <string name="kindness_create_words_message">Words - choose a way to say something kind to someone today</string>
+    <string name="kindness_create_thoughts_message">Thoughts - choose a way to think something kind about someone today</string>
+    <string name="kindness_create_actions_message">Actions - choose a way to do something nice for someone today</string>
+    <string name="kindness_create_self_message">Kindness to yourself - choose a way to be kind to yourself today</string>
 
     <string name="missing_entry_error_toast_text">Cannot find Entry</string>
     <string name="dialog_delete_entry">Are you sure you want to delete this entry?</string>

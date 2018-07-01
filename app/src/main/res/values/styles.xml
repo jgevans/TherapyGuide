@@ -48,4 +48,12 @@
         <item name="android:textStyle">bold|italic</item>
         <item name="android:paddingBottom">0dp</item>
     </style>
+
+    <style name="KindnessInstructionText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">@dimen/intro_text_padding_bottom</item>
+        <item name="android:paddingBottom">@dimen/intro_text_padding_bottom</item>
+    </style>
 </resources>

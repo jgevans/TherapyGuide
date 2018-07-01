@@ -7,10 +7,12 @@
     <TextView
         android:id="@+id/kindness_instruction"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/KindnessInstructionText" />
 
     <ListView
         android:id="@+id/kindness_list"
+        android:choiceMode="singleChoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

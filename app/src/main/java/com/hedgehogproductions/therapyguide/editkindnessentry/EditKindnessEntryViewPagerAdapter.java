@@ -5,7 +5,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,23 +13,31 @@ import com.hedgehogproductions.therapyguide.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditKindnessViewPagerAdapter extends PagerAdapter {
+public class EditKindnessEntryViewPagerAdapter extends PagerAdapter {
     private final List<Integer> mViewList = new ArrayList<>();
     private final Context mContext;
-    private ArrayAdapter mWordsAdapter, mThoughtsAdapter, mActionsAdapter, mSelfAdapter;
+    private EditKindnessEntryArrayAdapter mWordsAdapter, mThoughtsAdapter, mActionsAdapter, mSelfAdapter;
 
-    public EditKindnessViewPagerAdapter( Context context ) {
+    public EditKindnessEntryViewPagerAdapter(Context context ) {
         mContext = context;
 
         // Set up lists for listviews
-        mWordsAdapter = ArrayAdapter.createFromResource(context,
-                R.array.kindness_words_array, android.R.layout.simple_list_item_1);
-        mThoughtsAdapter = ArrayAdapter.createFromResource(context,
-                R.array.kindness_thoughts_array, android.R.layout.simple_list_item_1);
-        mActionsAdapter = ArrayAdapter.createFromResource(context,
-                R.array.kindness_actions_array, android.R.layout.simple_list_item_1);
-        mSelfAdapter = ArrayAdapter.createFromResource(context,
-                R.array.kindness_self_array, android.R.layout.simple_list_item_1);
+        mWordsAdapter = new EditKindnessEntryArrayAdapter(context,
+                R.layout.kindness_item,
+                R.id.kindness_item_text,
+                context.getResources().getStringArray(R.array.kindness_words_array));
+        mThoughtsAdapter = new EditKindnessEntryArrayAdapter(context,
+                R.layout.kindness_item,
+                R.id.kindness_item_text,
+                context.getResources().getStringArray(R.array.kindness_thoughts_array));
+        mActionsAdapter = new EditKindnessEntryArrayAdapter(context,
+                R.layout.kindness_item,
+                R.id.kindness_item_text,
+                context.getResources().getStringArray(R.array.kindness_actions_array));
+        mSelfAdapter = new EditKindnessEntryArrayAdapter(context,
+                R.layout.kindness_item,
+                R.id.kindness_item_text,
+                context.getResources().getStringArray(R.array.kindness_self_array));
     }
 
     @Override
