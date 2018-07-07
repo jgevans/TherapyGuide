@@ -169,11 +169,11 @@ public class TimePickerPreference extends DialogPreference {
         // Member that holds the setting's value
         GregorianCalendar value;
 
-        public SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 
-        public SavedState(Parcel source) {
+        SavedState(Parcel source) {
             super(source);
             // Get the current preference's value
             value = (GregorianCalendar) source.readSerializable();

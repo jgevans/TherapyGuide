@@ -111,7 +111,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.diary_tab, container, false);
@@ -158,13 +158,14 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         private List<DiaryEntry> mDiaryEntries;
         private final DiaryEntryListener mDiaryEntryListener;
 
-        public DiaryEntryAdapter(@NonNull List<DiaryEntry> diaryEntries, DiaryEntryListener diaryEntryListener) {
+        DiaryEntryAdapter(@NonNull List<DiaryEntry> diaryEntries, DiaryEntryListener diaryEntryListener) {
             setEntries(diaryEntries);
             mDiaryEntryListener = diaryEntryListener;
         }
 
+        @NonNull
         @Override
-        public DiaryEntryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DiaryEntryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.diary_card, parent, false);
 
@@ -172,7 +173,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         }
 
         @Override
-        public void onBindViewHolder(DiaryEntryAdapter.ViewHolder viewHolder, int position) {
+        public void onBindViewHolder(@NonNull DiaryEntryAdapter.ViewHolder viewHolder, int position) {
             DiaryEntry entry = mDiaryEntries.get(position);
 
             viewHolder.text1.setText(entry.getText1());
@@ -197,7 +198,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         }
 
 
-        public void replaceData(List<DiaryEntry> diaryEntries) {
+        void replaceData(List<DiaryEntry> diaryEntries) {
             setEntries(diaryEntries);
             notifyDataSetChanged();
         }
@@ -206,17 +207,17 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
             mDiaryEntries = checkNotNull(diaryEntries);
         }
 
-        public DiaryEntry getEntry(int position) {
+        DiaryEntry getEntry(int position) {
             return mDiaryEntries.get(position);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            public final TextView text1, text2, text3, text4, text5;
-            public final TextView time;
+            final TextView text1, text2, text3, text4, text5;
+            final TextView time;
 
             private final DiaryEntryListener mDiaryEntryListener;
 
-            public ViewHolder(View view, DiaryEntryListener diaryEntryListener) {
+            ViewHolder(View view, DiaryEntryListener diaryEntryListener) {
                 super(view);
                 mDiaryEntryListener = diaryEntryListener;
                 text1 = view.findViewById(R.id.diary_text1);
@@ -238,7 +239,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
         }
     }
 
-    public interface DiaryEntryListener {
+    interface DiaryEntryListener {
 
         void onEntryClick(DiaryEntry selectedEntry);
     }

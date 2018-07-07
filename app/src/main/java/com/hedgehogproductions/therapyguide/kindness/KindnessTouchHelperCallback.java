@@ -3,10 +3,10 @@ package com.hedgehogproductions.therapyguide.kindness;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-public class KindnessTouchHelperCallback extends ItemTouchHelper.Callback {
+class KindnessTouchHelperCallback extends ItemTouchHelper.Callback {
     private final KindnessContract.UserActionsListener mListener;
 
-    public KindnessTouchHelperCallback(KindnessContract.UserActionsListener listener) {
+    KindnessTouchHelperCallback(KindnessContract.UserActionsListener listener) {
         mListener = listener;
     }
 

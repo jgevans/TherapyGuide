@@ -3,6 +3,7 @@ package com.hedgehogproductions.therapyguide.editkindnessentry;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
@@ -110,7 +111,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
                     // Save entry and close edit activity
                     KindnessEntry kindnessEntry = mActionsListener.getKindnessEntry();
                     if(kindnessEntry == null) {
-                        throw new NullPointerException("Null KindessEntry");
+                        throw new NullPointerException("Null KindnessEntry");
                     }
                     if( mEditMode ) {
                         mActionsListener.updateKindnessEntry(
@@ -153,7 +154,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editkindnessentry, container, false);
         mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
@@ -168,11 +169,11 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        // Add views in order of appearance
-        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
-        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
-        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
-        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
+        // Add views
+        mViewPagerAdapter.addView();
+        mViewPagerAdapter.addView();
+        mViewPagerAdapter.addView();
+        mViewPagerAdapter.addView();
 
         return root;
     }

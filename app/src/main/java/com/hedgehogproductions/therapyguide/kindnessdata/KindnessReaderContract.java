@@ -2,7 +2,7 @@ package com.hedgehogproductions.therapyguide.kindnessdata;
 
 import android.provider.BaseColumns;
 
-public class KindnessReaderContract {
+class KindnessReaderContract {
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.
     private KindnessReaderContract() {}

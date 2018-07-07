@@ -35,7 +35,7 @@ public class EditDiaryEntryScreenTest {
 
     /* Rule to launch activity under test */
     @Rule
-    public ActivityTestRule<EditDiaryEntryActivity> mEntryActivityTestRule =
+    public final ActivityTestRule<EditDiaryEntryActivity> mEntryActivityTestRule =
             new ActivityTestRule<EditDiaryEntryActivity>(EditDiaryEntryActivity.class) {
 
                 @Override

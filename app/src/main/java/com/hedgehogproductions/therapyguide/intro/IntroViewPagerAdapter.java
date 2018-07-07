@@ -1,6 +1,7 @@
 package com.hedgehogproductions.therapyguide.intro;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,13 @@ class IntroViewPagerAdapter extends PagerAdapter {
     private final List<Integer> mViewList = new ArrayList<>();
     private final Context mContext;
 
-    public IntroViewPagerAdapter( Context context ) {
+    IntroViewPagerAdapter( Context context ) {
         mContext = context;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = layoutInflater.inflate(mViewList.get(position), container, false);
@@ -33,12 +35,12 @@ class IntroViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object obj) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object obj) {
         return view == obj;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         View view = (View) object;
         container.removeView(view);
     }

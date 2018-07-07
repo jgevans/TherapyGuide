@@ -33,7 +33,7 @@ public class ListenScreenTest {
 
     /* Rule to launch activity under test */
     @Rule
-    public ActivityTestRule<MainActivity> mMainActivityTestRule =
+    public final ActivityTestRule<MainActivity> mMainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
 
 

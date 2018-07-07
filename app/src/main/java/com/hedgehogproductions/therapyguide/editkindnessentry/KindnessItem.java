@@ -2,11 +2,11 @@ package com.hedgehogproductions.therapyguide.editkindnessentry;
 
 import android.support.annotation.NonNull;
 
-public class KindnessItem {
+class KindnessItem {
     private final String mText;
     private final boolean mSelected;
 
-    public KindnessItem(@NonNull String text, boolean selected) {
+    KindnessItem(@NonNull String text, boolean selected) {
         mText = text;
         mSelected = selected;
     }

@@ -37,7 +37,7 @@ public class DiaryReaderDbHelperTest {
 
 
     @Mock
-    Context mMockContext;
+    private Context mMockContext;
     @Mock
     private SQLiteDatabase mMockDatabase;
 

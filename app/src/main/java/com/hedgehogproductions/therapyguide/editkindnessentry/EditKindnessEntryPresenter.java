@@ -19,7 +19,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     private long mCreationTimestamp;
     private boolean mComplete;
 
-    public EditKindnessEntryPresenter(
+    EditKindnessEntryPresenter(
             @NonNull KindnessRepository kindnessRepository, @NonNull EditKindnessEntryContract.View editKindnessEntryView ) {
         mKindnessRepository = checkNotNull(kindnessRepository, "kindness repository cannot be null");
         mEditKindnessEntryView = checkNotNull(editKindnessEntryView, "edit view cannot be null");
@@ -49,7 +49,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
         mCreationTimestamp = timestamp;
     }
 
-    void setCompleteness(boolean complete) {
+    private void setCompleteness(boolean complete) {
         mComplete = complete;
     }
 

@@ -175,7 +175,7 @@ public class AlarmSetterTest {
     private static void setFinalStatic(Field field, Object newValue) throws Exception {
         field.setAccessible(true);
 
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        @SuppressWarnings("JavaReflectionMemberAccess") Field modifiersField = Field.class.getDeclaredField("modifiers");
         modifiersField.setAccessible(true);
         modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 

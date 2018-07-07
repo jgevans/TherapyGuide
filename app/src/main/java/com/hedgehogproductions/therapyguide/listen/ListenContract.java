@@ -5,7 +5,7 @@ package com.hedgehogproductions.therapyguide.listen;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface ListenContract {
+interface ListenContract {
     interface View {
 
         void showPlay();

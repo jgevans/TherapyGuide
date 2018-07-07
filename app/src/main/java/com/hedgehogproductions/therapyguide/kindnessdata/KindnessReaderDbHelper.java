@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class KindnessReaderDbHelper extends SQLiteOpenHelper {
+class KindnessReaderDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 1;
@@ -20,7 +20,7 @@ public class KindnessReaderDbHelper extends SQLiteOpenHelper {
                     KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_SELF + " TEXT," +
                     KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE + " INTEGER)";
 
-    public KindnessReaderDbHelper(Context context) {
+    KindnessReaderDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

@@ -23,7 +23,7 @@ public class KindnessManipulators {
         onView(withText(entryText)).perform(click());
 
         // Click delete
-        onView(withId(R.id.editkindnessentry_delete_button)).perform(click());
+        //onView(withId(R.id.editkindnessentry_delete_button)).perform(click());
 
         // Click confirm
         onView(withText(R.string.ok_delete_entry)).perform(click());

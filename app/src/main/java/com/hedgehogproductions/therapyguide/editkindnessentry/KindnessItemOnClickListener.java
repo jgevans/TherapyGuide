@@ -11,13 +11,13 @@ import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
 
-public class KindnessItemOnClickListener implements View.OnClickListener {
+class KindnessItemOnClickListener implements View.OnClickListener {
 
-    private int mPage, mPosition;
+    private final int mPage, mPosition;
 
-    private KindnessEntry mKindnessEntry;
+    private final KindnessEntry mKindnessEntry;
 
-    private EditKindnessEntryArrayAdapter mAdapter;
+    private final EditKindnessEntryArrayAdapter mAdapter;
 
     KindnessItemOnClickListener(int page, int position, @NonNull KindnessEntry entry, EditKindnessEntryArrayAdapter adapter ) {
         mPage = page;

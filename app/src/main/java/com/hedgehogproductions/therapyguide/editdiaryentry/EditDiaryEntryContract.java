@@ -1,7 +1,7 @@
 package com.hedgehogproductions.therapyguide.editdiaryentry;
 
 
-public interface EditDiaryEntryContract {
+interface EditDiaryEntryContract {
     interface View {
 
         void showDiaryView();

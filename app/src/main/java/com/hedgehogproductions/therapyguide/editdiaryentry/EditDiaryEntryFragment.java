@@ -3,6 +3,7 @@ package com.hedgehogproductions.therapyguide.editdiaryentry;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
@@ -159,7 +160,7 @@ public class EditDiaryEntryFragment extends Fragment implements EditDiaryEntryCo
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editdiaryentry, container, false);
         mDiaryText1 = root.findViewById(R.id.editdiaryentry_entry_text1);

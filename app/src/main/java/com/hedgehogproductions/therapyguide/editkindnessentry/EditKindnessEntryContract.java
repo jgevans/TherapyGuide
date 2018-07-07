@@ -6,7 +6,7 @@ import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
 
-public interface EditKindnessEntryContract {
+interface EditKindnessEntryContract {
     interface View {
 
         void showKindnessView();

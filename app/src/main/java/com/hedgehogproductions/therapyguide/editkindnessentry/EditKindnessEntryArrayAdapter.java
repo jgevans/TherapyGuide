@@ -19,12 +19,12 @@ import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
 
 import java.util.ArrayList;
 
-public class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
+class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
 
-    private int mPage;
-    private KindnessEntry mKindnessEntry;
+    private final int mPage;
+    private final KindnessEntry mKindnessEntry;
 
-    public EditKindnessEntryArrayAdapter(@NonNull Context context, int resource, int textViewResourceId,
+    EditKindnessEntryArrayAdapter(@NonNull Context context, int resource, int textViewResourceId,
                                          @NonNull ArrayList<KindnessItem> kindnessItems, int page, @NonNull KindnessEntry entry) {
         super(context, resource, textViewResourceId, kindnessItems);
         mPage = page;

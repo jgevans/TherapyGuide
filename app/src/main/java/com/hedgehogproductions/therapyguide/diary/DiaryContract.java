@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface DiaryContract {
+interface DiaryContract {
 
     interface View {
 

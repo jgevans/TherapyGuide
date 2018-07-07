@@ -117,7 +117,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.kindness_tab, container, false);
@@ -166,10 +166,10 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         private final KindnessContract.UserActionsListener mActionsListener;
         private final Context mContext;
 
-        public KindnessEntryAdapter(@NonNull List<KindnessEntry> kindnessEntries,
-                                    KindnessEntryListener kindnessEntryListener,
-                                    @NonNull KindnessContract.UserActionsListener kindnessActionsListener,
-                                    Context context) {
+        KindnessEntryAdapter(@NonNull List<KindnessEntry> kindnessEntries,
+                             KindnessEntryListener kindnessEntryListener,
+                             @NonNull KindnessContract.UserActionsListener kindnessActionsListener,
+                             Context context) {
             checkNotNull(kindnessActionsListener);
             setEntries(kindnessEntries);
             mKindnessEntryListener = kindnessEntryListener;
@@ -177,8 +177,9 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             mContext = context;
         }
 
+        @NonNull
         @Override
-        public KindnessEntryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public KindnessEntryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.kindness_card, parent, false);
 
@@ -186,8 +187,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         }
 
         @Override
-        public void onBindViewHolder(final KindnessEntryAdapter.ViewHolder viewHolder, int position) {
-            final KindnessContract.UserActionsListener actionsListener = mActionsListener;
+        public void onBindViewHolder(@NonNull final KindnessEntryAdapter.ViewHolder viewHolder, int position) {
             final KindnessEntry entry = mKindnessEntries.get(position);
 
             viewHolder.words.setText(entry.getWords().toString(mContext));
@@ -216,7 +216,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
                     if(entry.isComplete() != isChecked) {
                         entry.setComplete(isChecked);
                         // Persist to database
-                        actionsListener.updateKindnessEntryCompleteness(entry);
+                        mActionsListener.updateKindnessEntryCompleteness(entry);
 
                         if(entry.isComplete()) {
                             viewHolder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.completeKindness));
@@ -235,7 +235,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         }
 
 
-        public void replaceData(List<KindnessEntry> kindnessEntries) {
+        void replaceData(List<KindnessEntry> kindnessEntries) {
             setEntries(kindnessEntries);
             notifyDataSetChanged();
         }
@@ -244,19 +244,19 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             mKindnessEntries = checkNotNull(kindnessEntries);
         }
 
-        public KindnessEntry getEntry(int position) {
+        KindnessEntry getEntry(int position) {
             return mKindnessEntries.get(position);
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            public final TextView words, thoughts, actions, self;
-            public final TextView time;
-            public final CheckBox complete;
+            final TextView words, thoughts, actions, self;
+            final TextView time;
+            final CheckBox complete;
             final CardView card;
 
             private final KindnessEntryListener mKindnessEntryListener;
 
-            public ViewHolder(View view, KindnessEntryListener KindnessEntryListener) {
+            ViewHolder(View view, KindnessEntryListener KindnessEntryListener) {
                 super(view);
                 mKindnessEntryListener = KindnessEntryListener;
                 words = view.findViewById(R.id.kindness_words);
@@ -278,7 +278,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         }
     }
 
-    public interface KindnessEntryListener {
+    interface KindnessEntryListener {
         void onEntryClick(KindnessEntry selectedEntry);
     }
 }

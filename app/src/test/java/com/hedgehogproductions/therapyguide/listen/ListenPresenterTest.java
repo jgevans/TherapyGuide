@@ -19,7 +19,7 @@ import org.mockito.MockitoAnnotations;
  * Unit tests for the implementation of {@link ListenPresenter}
  */
 @SuppressWarnings("CanBeFinal")
-public class ListenPresenterTest {
+class ListenPresenterTest {
 
 /*    @Mock
     private MediaPlayer mMediaPlayer;
