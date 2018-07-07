@@ -217,7 +217,6 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
                         entry.setComplete(isChecked);
                         // Persist to database
                         actionsListener.updateKindnessEntryCompleteness(entry);
-                        notifyDataSetChanged();
 
                         if(entry.isComplete()) {
                             viewHolder.card.setCardBackgroundColor(mContext.getResources().getColor(R.color.completeKindness));
@@ -276,14 +275,10 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
                 KindnessEntry entry = getEntry(position);
                 mKindnessEntryListener.onEntryClick(entry);
             }
-
         }
     }
 
     public interface KindnessEntryListener {
-
         void onEntryClick(KindnessEntry selectedEntry);
     }
-
-
 }

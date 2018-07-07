@@ -15,6 +15,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
 
     private final KindnessRepository mKindnessRepository;
     private final EditKindnessEntryContract.View mEditKindnessEntryView;
+    private KindnessEntry mKindnessEntry;
     private long mCreationTimestamp;
     private boolean mComplete;
 
@@ -22,6 +23,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
             @NonNull KindnessRepository kindnessRepository, @NonNull EditKindnessEntryContract.View editKindnessEntryView ) {
         mKindnessRepository = checkNotNull(kindnessRepository, "kindness repository cannot be null");
         mEditKindnessEntryView = checkNotNull(editKindnessEntryView, "edit view cannot be null");
+        mKindnessEntry = new KindnessEntry();
         mCreationTimestamp = ~0;
         mComplete = false;
     }
@@ -35,7 +37,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
                 if (null == kindnessEntry) {
                     mEditKindnessEntryView.showMissingEntryError();
                 } else {
-                    showKindnessEntry(kindnessEntry);
+                    setKindnessEntry(kindnessEntry);
                     setCreationTimestamp(kindnessEntry.getCreationTimestamp());
                     setCompleteness(kindnessEntry.isComplete());
                 }
@@ -51,14 +53,13 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
         mComplete = complete;
     }
 
-    private void showKindnessEntry(KindnessEntry entry) {
-        KindnessWords words = entry.getWords();
-        KindnessThoughts thoughts = entry.getThoughts();
-        KindnessActions actions = entry.getActions();
-        KindnessSelf self = entry.getSelf();
-        boolean complete = entry.isComplete();
+    private void setKindnessEntry(KindnessEntry entry) {
+        mKindnessEntry = entry;
+    }
 
-        mEditKindnessEntryView.showKindnessDetail(words, thoughts, actions, self, complete);
+    @Override
+    public KindnessEntry getKindnessEntry() {
+        return mKindnessEntry;
     }
 
     @Override
@@ -86,11 +87,6 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
             mKindnessRepository.saveKindnessEntry(newKindnessEntry);
             mEditKindnessEntryView.showKindnessView();
         }
-    }
-
-    @Override
-    public void instigateKindnessEntryDeletion() {
-        mEditKindnessEntryView.showEntryDeletionMessage();
     }
 
     @Override

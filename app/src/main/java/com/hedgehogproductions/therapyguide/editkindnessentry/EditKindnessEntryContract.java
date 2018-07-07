@@ -1,11 +1,10 @@
 package com.hedgehogproductions.therapyguide.editkindnessentry;
 
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessActions;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
-
-import java.nio.file.WatchEvent;
 
 public interface EditKindnessEntryContract {
     interface View {
@@ -15,11 +14,6 @@ public interface EditKindnessEntryContract {
         void showEmptyEntryError();
 
         void showMissingEntryError();
-
-        void showKindnessDetail(KindnessWords words, KindnessThoughts thoughts,
-                                KindnessActions actions, KindnessSelf self, boolean complete);
-
-        void showEntryDeletionMessage();
     }
 
     interface UserActionsListener {
@@ -32,7 +26,7 @@ public interface EditKindnessEntryContract {
 
         void openKindnessEntry(long timestamp);
 
-        void instigateKindnessEntryDeletion();
+        KindnessEntry getKindnessEntry();
 
         void deleteKindnessEntry();
 

@@ -8,21 +8,18 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.MainActivity;
+import com.hedgehogproductions.therapyguide.ProgressiveViewPager;
 import com.hedgehogproductions.therapyguide.R;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessActions;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.EDIT_MODE;
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.FROM_MAIN_ACTIVITY;
@@ -34,7 +31,9 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
 
     private EditKindnessEntryContract.UserActionsListener mActionsListener;
 
-    private Spinner mKindnessWords, mKindnessThoughts, mKindnessActions, mKindnessSelf;
+    private ProgressiveViewPager mViewPager;
+    private EditKindnessEntryViewPagerAdapter mViewPagerAdapter;
+    private Button mNextButton, mBackButton, mCancelButton;
 
     private boolean mEditMode;
 
@@ -85,76 +84,71 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
     }
 
     @Override
-    public void showKindnessDetail(KindnessWords words, KindnessThoughts thoughts,
-                                   KindnessActions actions, KindnessSelf self, boolean complete) {
-        mKindnessWords.setSelection(((ArrayAdapter) mKindnessWords.getAdapter()).getPosition(words.toString(getContext())));
-        mKindnessThoughts.setSelection(((ArrayAdapter) mKindnessThoughts.getAdapter()).getPosition(thoughts.toString(getContext())));
-        mKindnessActions.setSelection(((ArrayAdapter) mKindnessActions.getAdapter()).getPosition(actions.toString(getContext())));
-        mKindnessSelf.setSelection(((ArrayAdapter) mKindnessSelf.getAdapter()).getPosition(self.toString(getContext())));
-    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    public void showEntryDeletionMessage() {
-
+        mActionsListener = new EditKindnessEntryPresenter(Injection.provideKindnessRepository(getContext()), this);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionsListener = new EditKindnessEntryPresenter(Injection.provideKindnessRepository(getContext()), this);
 
-        Button saveButton =
-                getActivity().findViewById(R.id.editkindnessentry_save_button);
-        if( mEditMode ) {
-            saveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mActionsListener.updateKindnessEntry(
-                            KindnessWords.values()[mKindnessWords.getSelectedItemPosition()],
-                            KindnessThoughts.values()[mKindnessThoughts.getSelectedItemPosition()],
-                            KindnessActions.values()[mKindnessActions.getSelectedItemPosition()],
-                            KindnessSelf.values()[mKindnessSelf.getSelectedItemPosition()]
-                    );
-                }
-            });
-        }
-        else {
-            saveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mActionsListener.saveNewKindnessEntry(
-                            System.currentTimeMillis(),
-                            KindnessWords.values()[mKindnessWords.getSelectedItemPosition()],
-                            KindnessThoughts.values()[mKindnessThoughts.getSelectedItemPosition()],
-                            KindnessActions.values()[mKindnessActions.getSelectedItemPosition()],
-                            KindnessSelf.values()[mKindnessSelf.getSelectedItemPosition()]
-                    );
-                }
-            });
-        }
-        Button cancelButton =
-                getActivity().findViewById(R.id.editkindnessentry_cancel_button);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        // Set up buttons
+        mNextButton = getActivity().findViewById(R.id.editkindnessentry_next_button);
+        mBackButton = getActivity().findViewById(R.id.editkindnessentry_back_button);
+        mCancelButton = getActivity().findViewById(R.id.editkindnessentry_cancel_button);
+
+        mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int nextItem = mViewPager.getCurrentItem() + 1;
+                if( nextItem < mViewPagerAdapter.getCount() ) {
+                    mViewPager.setCurrentItem(nextItem);
+                }
+                else {
+                    // Save entry and close edit activity
+                    KindnessEntry kindnessEntry = mActionsListener.getKindnessEntry();
+                    if(kindnessEntry == null) {
+                        throw new NullPointerException("Null KindessEntry");
+                    }
+                    if( mEditMode ) {
+                        mActionsListener.updateKindnessEntry(
+                                kindnessEntry.getWords(),
+                                kindnessEntry.getThoughts(),
+                                kindnessEntry.getActions(),
+                                kindnessEntry.getSelf()
+                        );
+                    }
+                    else {
+                        mActionsListener.saveNewKindnessEntry(
+                                System.currentTimeMillis(),
+                                kindnessEntry.getWords(),
+                                kindnessEntry.getThoughts(),
+                                kindnessEntry.getActions(),
+                                kindnessEntry.getSelf()
+                        );
+                    }
+                }
+            }
+        });
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+            }
+        });
+        mBackButton.setVisibility(View.INVISIBLE);
+
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close edit activity
                 showKindnessView();
             }
         });
 
-        // If in edit mode, set up delete button, otherwise, hide it
-        Button deleteButton =
-                getActivity().findViewById(R.id.editkindnessentry_delete_button);
-        if( mEditMode ) {
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mActionsListener.instigateKindnessEntryDeletion();
-                }
-            });
-        }
-        else {
-            deleteButton.setVisibility(View.INVISIBLE);
-        }
+        // TODO ?? If in edit mode, set up delete button, otherwise, hide it
     }
 
     @Nullable
@@ -162,43 +156,25 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_editkindnessentry, container, false);
-        mKindnessWords = root.findViewById(R.id.editkindnessentry_words_spinner);
-        mKindnessThoughts = root.findViewById(R.id.editkindnessentry_thoughts_spinner);
-        mKindnessActions = root.findViewById(R.id.editkindnessentry_actions_spinner);
-        mKindnessSelf = root.findViewById(R.id.editkindnessentry_self_spinner);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> wordsAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.kindness_words_array, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> thoughtsAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.kindness_thoughts_array, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> actionsAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.kindness_actions_array, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> selfAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.kindness_self_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        wordsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        thoughtsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        actionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selfAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        mKindnessWords.setAdapter(wordsAdapter);
-        mKindnessThoughts.setAdapter(thoughtsAdapter);
-        mKindnessActions.setAdapter(actionsAdapter);
-        mKindnessSelf.setAdapter(selfAdapter);
-
         mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
 
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         if (mEditMode) {
             long timestamp = getArguments().getLong(SELECTED_ENTRY_TIMESTAMP);
             mActionsListener.openKindnessEntry(timestamp);
         }
+
+        mViewPager = root.findViewById(R.id.editkindnessentry_pager);
+        mViewPagerAdapter = new EditKindnessEntryViewPagerAdapter(getContext(), mActionsListener);
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+
+        // Add views in order of appearance
+        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
+        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
+        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
+        mViewPagerAdapter.addView(R.layout.editkindnessentry_section);
+
+        return root;
     }
 
     @Override
@@ -213,6 +189,34 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
             // Else remain in current view
         }
     }
+
+    private final ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            // Set button text and visibility
+            if(position == mViewPagerAdapter.getCount() - 1) {
+                mNextButton.setText(R.string.kindness_done_button_text);
+            }
+            else
+            {
+                mNextButton.setText(R.string.kindness_next_button_text);
+            }
+            if(position == 0) {
+                mBackButton.setVisibility(View.INVISIBLE);
+            }
+            else {
+                mBackButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    };
 
     private static final CountingIdlingResource idlingResource = new CountingIdlingResource("toast");
     private static final View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {

@@ -59,7 +59,7 @@
 
     <string name="empty_diary_entry_error_toast_text">You should enter 5 things</string>
 
-    <string name="empty_kindness_error_toast_text">You should select an option for each kindness</string>
+    <string name="empty_kindness_error_toast_text">You should select one option on each screen</string>
 
     <string name="kindness_back_button_text">Back</string>
     <string name="kindness_next_button_text">Next</string>

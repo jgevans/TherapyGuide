@@ -99,7 +99,28 @@ public class KindnessEntry {
 
     @Override
     public String toString() {
-        return String.valueOf(mCreationTimestamp + ": " + mWords.toString() + ","
-                + mThoughts.toString() + "," + mActions.toString() + "," + mSelf.toString());
+        String words, thoughts, actions, self;
+        if( mWords == null ) {
+            words = "(Not Chosen)";
+        } else {
+            words = mWords.toString();
+        }
+        if( mThoughts == null ) {
+            thoughts = "(Not Chosen)";
+        } else {
+            thoughts = mThoughts.toString();
+        }
+        if( mActions == null ) {
+            actions = "(Not Chosen)";
+        } else {
+            actions = mActions.toString();
+        }
+        if( mSelf == null ) {
+            self = "(Not Chosen)";
+        } else {
+            self = mSelf.toString();
+        }
+        return String.valueOf(mCreationTimestamp + ": " + words + ","
+                + thoughts + "," + actions + "," + self);
     }
 }
