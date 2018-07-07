@@ -48,9 +48,8 @@
                     android:id="@+id/kindness_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:gravity="end"
-                    android:textColor="@color/lightText" />
+                    android:textColor="@color/mainText"
+                    android:textSize="16sp"/>
                 <TextView
                     android:id="@+id/kindness_words"
                     android:layout_width="match_parent"

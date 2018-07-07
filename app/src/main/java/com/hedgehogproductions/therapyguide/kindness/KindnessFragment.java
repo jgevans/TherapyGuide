@@ -201,13 +201,20 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             }
 
             // Convert timestamp to useful string description based on age
-            long now = System.currentTimeMillis();
-            CharSequence ago = DateUtils.getRelativeTimeSpanString(
-                    entry.getCreationTimestamp(),
-                    now,
-                    DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_ALL);
+            CharSequence date;
+            if (DateUtils.isToday(entry.getCreationTimestamp())) {
+                date = "Today";
+            }
+            else if (DateUtils.isToday(entry.getCreationTimestamp() + 86400000)) {
+                date = "Yesterday";
+            }
+            else {
+                date = DateUtils.formatDateTime(mContext,
+                        entry.getCreationTimestamp(),
+                        DateUtils.FORMAT_SHOW_DATE);
+            }
 
-            viewHolder.time.setText(ago);
+            viewHolder.time.setText(date);
 
             // Set up the checkbox
             viewHolder.complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
