@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class KindnessServiceApiImpl implements KindnessServiceApi {
@@ -26,7 +27,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         // The columns that will be used
         String[] projection = {
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP,
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_THOUGHTS,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_ACTIONS,
@@ -36,7 +37,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         // Sort results, newest first
         String sortOrder =
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP + " DESC";
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " ASC";
 
         Cursor cursor = db.query(
                 KindnessReaderContract.KindnessDbEntry.TABLE_NAME,// The table to query
@@ -49,8 +50,8 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         );
 
         while(cursor.moveToNext()) {
-            long timestamp = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP));
+            long date = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE));
             KindnessWords kindnessWords = KindnessWords.valueOf(cursor.getString(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS)));
             KindnessThoughts kindnessThoughts = KindnessThoughts.valueOf(cursor.getString(
@@ -61,7 +62,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_SELF)));
             boolean complete = cursor.getInt(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE)) == 1;
-            kindnessEntries.add(new KindnessEntry(timestamp, kindnessWords, kindnessThoughts, kindnessActions, kindnessSelf, complete));
+            kindnessEntries.add(new KindnessEntry(new Date(date), kindnessWords, kindnessThoughts, kindnessActions, kindnessSelf, complete));
         }
         cursor.close();
 
@@ -69,12 +70,12 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
     }
 
     @Override
-    public void getKindnessEntry(long timestamp, KindnessServiceCallback<KindnessEntry> callback) {
+    public void getKindnessEntry(Date date, KindnessServiceCallback<KindnessEntry> callback) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         // The columns that will be used
         String[] projection = {
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP,
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_THOUGHTS,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_ACTIONS,
@@ -83,17 +84,17 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         };
 
         // The value to search for
-        ContentValues values = new ContentValues();
-        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP, String.valueOf(timestamp));
+        //ContentValues values = new ContentValues();
+        //values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE, date.getTime());
 
         // Sort results, newest first
         String sortOrder =
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP + " DESC";
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " ASC";
 
         Cursor cursor = db.query(
                 KindnessReaderContract.KindnessDbEntry.TABLE_NAME,// The table to query
                 projection,                                 // The columns to return
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP + "='" + timestamp + "'", // The columns for the WHERE clause
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + "='" + date.getTime() + "'", // The columns for the WHERE clause
                 null,                                       // The values for the WHERE clause
                 null,                                       // don't group the rows
                 null,                                       // don't filter by row groups
@@ -113,11 +114,11 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_SELF)));
             boolean complete = cursor.getInt(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE)) == 1;
-            loadedEntry = new KindnessEntry(timestamp, kindnessWords, kindnessThoughts, kindnessActions, kindnessSelf, complete);
+            loadedEntry = new KindnessEntry(date, kindnessWords, kindnessThoughts, kindnessActions, kindnessSelf, complete);
         }
         cursor.close();
-        callback.onLoaded(loadedEntry);
 
+        callback.onLoaded(loadedEntry);
     }
 
     @Override
@@ -128,7 +129,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP, entry.getCreationTimestamp());
+        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE, entry.getCreationDate().getTime());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS, entry.getWords().name());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_THOUGHTS, entry.getThoughts().name());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_ACTIONS, entry.getActions().name());
@@ -147,7 +148,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP, entry.getCreationTimestamp());
+        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE, entry.getCreationDate().getTime());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS, entry.getWords().name());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_THOUGHTS, entry.getThoughts().name());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_ACTIONS, entry.getActions().name());
@@ -156,7 +157,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         db.update(KindnessReaderContract.KindnessDbEntry.TABLE_NAME,
                 values,
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP + "='" + String.valueOf(entry.getCreationTimestamp()) + "'",
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + "='" + entry.getCreationDate().getTime() + "'",
                 null);
     }
 
@@ -167,7 +168,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         db.delete(KindnessReaderContract.KindnessDbEntry.TABLE_NAME,
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP + "='" + String.valueOf(entry.getCreationTimestamp()) + "'",
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + "='" + entry.getCreationDate().getTime() + "'",
                 null);
     }
 

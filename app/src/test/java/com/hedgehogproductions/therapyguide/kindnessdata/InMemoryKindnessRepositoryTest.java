@@ -179,7 +179,7 @@ public class InMemoryKindnessRepositoryTest {
 
     @Test
     public void getKindnessEntry_requestsSingleEntryFromServiceApi() {
-        final long timestamp = KindnessDiary.get(0).getCreationTimestamp();
+        final long timestamp = KindnessDiary.get(0).getCreationDate();
 
         // When an entry is requested from the Kindness repository
         mKindnessRepository.getKindnessEntry(timestamp, mLoadKindnessEntryCallback);

@@ -22,6 +22,10 @@ import com.hedgehogproductions.therapyguide.ProgressiveViewPager;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.EDIT_MODE;
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.FROM_MAIN_ACTIVITY;
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.SELECTED_ENTRY_TIMESTAMP;
@@ -39,9 +43,9 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
     private boolean mEditMode;
 
 
-    public static EditKindnessEntryFragment newInstance(long entryTimestamp) {
+    public static EditKindnessEntryFragment newInstance(Date entryDate) {
         Bundle arguments = new Bundle();
-        arguments.putLong(SELECTED_ENTRY_TIMESTAMP, entryTimestamp);
+        arguments.putSerializable(SELECTED_ENTRY_TIMESTAMP, entryDate);
         EditKindnessEntryFragment fragment = new EditKindnessEntryFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -85,6 +89,16 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
     }
 
     @Override
+    public boolean moveToNextView() {
+        int nextItem = mViewPager.getCurrentItem() + 1;
+        if( nextItem < mViewPagerAdapter.getCount() ) {
+            mViewPager.setCurrentItem(nextItem);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -103,11 +117,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nextItem = mViewPager.getCurrentItem() + 1;
-                if( nextItem < mViewPagerAdapter.getCount() ) {
-                    mViewPager.setCurrentItem(nextItem);
-                }
-                else {
+                if(!moveToNextView()) {
                     // Save entry and close edit activity
                     KindnessEntry kindnessEntry = mActionsListener.getKindnessEntry();
                     if(kindnessEntry == null) {
@@ -122,8 +132,14 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
                         );
                     }
                     else {
+                        Calendar calendar = new GregorianCalendar();
+                        calendar.setTime(new Date(System.currentTimeMillis()));
+                        calendar.set(Calendar.HOUR_OF_DAY, 1);
+                        calendar.set(Calendar.MINUTE, 0);
+                        calendar.set(Calendar.SECOND, 0);
+                        calendar.set(Calendar.MILLISECOND, 0);
                         mActionsListener.saveNewKindnessEntry(
-                                System.currentTimeMillis(),
+                                calendar.getTime(),
                                 kindnessEntry.getWords(),
                                 kindnessEntry.getThoughts(),
                                 kindnessEntry.getActions(),
@@ -160,12 +176,12 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
         mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
 
         if (mEditMode) {
-            long timestamp = getArguments().getLong(SELECTED_ENTRY_TIMESTAMP);
-            mActionsListener.openKindnessEntry(timestamp);
+            Date date = (Date) getArguments().getSerializable(SELECTED_ENTRY_TIMESTAMP);
+            mActionsListener.openKindnessEntry(date);
         }
 
         mViewPager = root.findViewById(R.id.editkindnessentry_pager);
-        mViewPagerAdapter = new EditKindnessEntryViewPagerAdapter(getContext(), mActionsListener);
+        mViewPagerAdapter = new EditKindnessEntryViewPagerAdapter(getContext(), mActionsListener, this);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 

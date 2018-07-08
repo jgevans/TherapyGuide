@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.hedgehogproductions.therapyguide.R;
 
+import java.util.Date;
+
 public class EditKindnessEntryActivity extends AppCompatActivity {
 
     public static final String SELECTED_ENTRY_TIMESTAMP = "ENTRY_TIMESTAMP";
@@ -24,10 +26,10 @@ public class EditKindnessEntryActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        long entryTimestamp = getIntent().getLongExtra(SELECTED_ENTRY_TIMESTAMP, ~0);
+        Date entryDate = (Date) getIntent().getSerializableExtra(SELECTED_ENTRY_TIMESTAMP);
 
         if (null == savedInstanceState) {
-            initFragment(EditKindnessEntryFragment.newInstance(entryTimestamp));
+            initFragment(EditKindnessEntryFragment.newInstance(entryDate));
         }
 
     }

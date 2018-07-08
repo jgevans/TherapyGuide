@@ -5,6 +5,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -19,7 +20,7 @@ public class InMemoryKindnessRepository implements KindnessRepository {
     // Invalidate but don't delete cache
     private boolean cacheValid = true;
 
-    public InMemoryKindnessRepository(@NonNull KindnessServiceApi kindnessServiceApi) {
+    InMemoryKindnessRepository(@NonNull KindnessServiceApi kindnessServiceApi) {
         mKindnessServiceApi = checkNotNull(kindnessServiceApi);
     }
 
@@ -30,8 +31,8 @@ public class InMemoryKindnessRepository implements KindnessRepository {
         if (mCachedEntries == null || !cacheValid) {
             mKindnessServiceApi.getAllKindnessEntries(new KindnessServiceApi.KindnessServiceCallback<List<KindnessEntry>>() {
                 @Override
-                public void onLoaded(List<KindnessEntry> notes) {
-                    mCachedEntries = ImmutableList.copyOf(notes);
+                public void onLoaded(List<KindnessEntry> entries) {
+                    mCachedEntries = ImmutableList.copyOf(entries);
                     callback.onKindnessLoaded(mCachedEntries);
                 }
             });
@@ -42,10 +43,10 @@ public class InMemoryKindnessRepository implements KindnessRepository {
     }
 
     @Override
-    public void getKindnessEntry(long timestamp, @NonNull final LoadKindnessEntryCallback callback) {
+    public void getKindnessEntry(Date date, @NonNull final LoadKindnessEntryCallback callback) {
         checkNotNull(callback);
         // Load entry from API.
-        mKindnessServiceApi.getKindnessEntry(timestamp, new KindnessServiceApi.KindnessServiceCallback<KindnessEntry>() {
+        mKindnessServiceApi.getKindnessEntry(date, new KindnessServiceApi.KindnessServiceCallback<KindnessEntry>() {
             @Override
             public void onLoaded(KindnessEntry entry) {
                 callback.onEntryLoaded(entry);

@@ -9,6 +9,8 @@ import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
 
+import java.util.Date;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class EditKindnessEntryPresenter implements EditKindnessEntryContract.UserActionsListener {
@@ -16,7 +18,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     private final KindnessRepository mKindnessRepository;
     private final EditKindnessEntryContract.View mEditKindnessEntryView;
     private KindnessEntry mKindnessEntry;
-    private long mCreationTimestamp;
+    private Date mCreationDate;
     private boolean mComplete;
 
     EditKindnessEntryPresenter(
@@ -24,29 +26,29 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
         mKindnessRepository = checkNotNull(kindnessRepository, "kindness repository cannot be null");
         mEditKindnessEntryView = checkNotNull(editKindnessEntryView, "edit view cannot be null");
         mKindnessEntry = new KindnessEntry();
-        mCreationTimestamp = ~0;
+        mCreationDate = null;
         mComplete = false;
     }
 
     @Override
-    public void openKindnessEntry(long timestamp) {
+    public void openKindnessEntry(Date date) {
 
-        mKindnessRepository.getKindnessEntry(timestamp, new KindnessRepository.LoadKindnessEntryCallback() {
+        mKindnessRepository.getKindnessEntry(date, new KindnessRepository.LoadKindnessEntryCallback() {
             @Override
             public void onEntryLoaded(KindnessEntry kindnessEntry) {
                 if (null == kindnessEntry) {
                     mEditKindnessEntryView.showMissingEntryError();
                 } else {
                     setKindnessEntry(kindnessEntry);
-                    setCreationTimestamp(kindnessEntry.getCreationTimestamp());
+                    setCreationDate(kindnessEntry.getCreationDate());
                     setCompleteness(kindnessEntry.isComplete());
                 }
             }
         });
     }
 
-    void setCreationTimestamp(long timestamp) {
-        mCreationTimestamp = timestamp;
+    void setCreationDate(Date date) {
+        mCreationDate = date;
     }
 
     private void setCompleteness(boolean complete) {
@@ -66,7 +68,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     public void updateKindnessEntry(KindnessWords words, KindnessThoughts thoughts,
                                     KindnessActions actions, KindnessSelf self) {
         KindnessEntry newKindnessEntry =
-                new KindnessEntry(mCreationTimestamp, words, thoughts, actions, self, mComplete);
+                new KindnessEntry(mCreationDate, words, thoughts, actions, self, mComplete);
         if( newKindnessEntry.isEmpty() ) {
             mEditKindnessEntryView.showEmptyEntryError();
         }
@@ -77,9 +79,9 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     }
 
     @Override
-    public void saveNewKindnessEntry(long timestamp, KindnessWords words, KindnessThoughts thoughts,
+    public void saveNewKindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
                                      KindnessActions actions, KindnessSelf self) {
-        KindnessEntry newKindnessEntry = new KindnessEntry(timestamp, words, thoughts, actions, self);
+        KindnessEntry newKindnessEntry = new KindnessEntry(date, words, thoughts, actions, self);
         if( newKindnessEntry.isEmpty() ) {
             mEditKindnessEntryView.showEmptyEntryError();
         }
@@ -91,7 +93,7 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
 
     @Override
     public void deleteKindnessEntry() {
-        mKindnessRepository.getKindnessEntry(mCreationTimestamp, new KindnessRepository.LoadKindnessEntryCallback() {
+        mKindnessRepository.getKindnessEntry(mCreationDate, new KindnessRepository.LoadKindnessEntryCallback() {
             @Override
             public void onEntryLoaded(KindnessEntry kindnessEntry) {
                 mKindnessRepository.deleteKindnessEntry(kindnessEntry);

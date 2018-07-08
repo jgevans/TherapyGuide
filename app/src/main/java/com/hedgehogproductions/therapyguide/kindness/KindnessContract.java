@@ -1,9 +1,11 @@
 package com.hedgehogproductions.therapyguide.kindness;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ interface KindnessContract {
 
         void showAddKindnessEntry();
 
-        void showUpdateKindnessEntry(long selectedEntryTimestamp);
+        void showUpdateKindnessEntry(Date selectedEntryDate);
 
         void showKindnessEntryDeletionMessage(final int position);
     }
@@ -35,6 +37,8 @@ interface KindnessContract {
         void instigateKindnessEntryDeletion(final int position);
 
         void deleteKindnessEntry(KindnessEntry entry);
+
+        void setKindnessNotificationShown(Context context);
 
     }
 }

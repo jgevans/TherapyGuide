@@ -23,12 +23,15 @@ class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
 
     private final int mPage;
     private final KindnessEntry mKindnessEntry;
+    private final EditKindnessEntryContract.View mEditKindnessEntryView;
 
     EditKindnessEntryArrayAdapter(@NonNull Context context, int resource, int textViewResourceId,
-                                         @NonNull ArrayList<KindnessItem> kindnessItems, int page, @NonNull KindnessEntry entry) {
+                                  @NonNull ArrayList<KindnessItem> kindnessItems, int page,
+                                  @NonNull KindnessEntry entry, @NonNull EditKindnessEntryContract.View view) {
         super(context, resource, textViewResourceId, kindnessItems);
         mPage = page;
         mKindnessEntry = entry;
+        mEditKindnessEntryView = view;
     }
 
     @NonNull
@@ -75,7 +78,8 @@ class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
 
         convertView.setClickable(true);
         convertView.setFocusable(true);
-        convertView.setOnClickListener(new KindnessItemOnClickListener(mPage, position, mKindnessEntry, this));
+        convertView.setOnClickListener(new KindnessItemOnClickListener(mPage, position,
+                mKindnessEntry, this, mEditKindnessEntryView));
 
         kindnessText.setText(text);
         kindnessSelector.setChecked(selected);

@@ -57,6 +57,10 @@
     <string name="ok_delete_entry">OK</string>
     <string name="cancel_delete_entry">Cancel</string>
 
+    <string name="dialog_kindness_reminder">Would you like to pick some ways to be kind today?</string>
+    <string name="ok_kindness_reminder">Yes. Be kind</string>
+    <string name="cancel_kindness_reminder">Maybe Later</string>
+
     <string name="empty_diary_entry_error_toast_text">You should enter 5 things</string>
 
     <string name="empty_kindness_error_toast_text">You should select one option on each screen</string>

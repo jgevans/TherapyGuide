@@ -13,7 +13,7 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + KindnessReaderContract.KindnessDbEntry.TABLE_NAME + " (" +
                     KindnessReaderContract.KindnessDbEntry._ID + " INTEGER PRIMARY KEY," +
-                    KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_TIMESTAMP + " TEXT," +
+                    KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " TEXT," +
                     KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS + " TEXT," +
                     KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_THOUGHTS + " TEXT," +
                     KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_ACTIONS + " TEXT," +

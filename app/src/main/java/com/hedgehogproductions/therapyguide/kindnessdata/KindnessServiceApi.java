@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.kindnessdata;
 
+import java.util.Date;
 import java.util.List;
 
 interface KindnessServiceApi {
@@ -11,7 +12,7 @@ interface KindnessServiceApi {
 
     void getAllKindnessEntries(KindnessServiceCallback<List<KindnessEntry>> callback);
 
-    void getKindnessEntry(long timestamp, KindnessServiceCallback<KindnessEntry> callback);
+    void getKindnessEntry(Date date, KindnessServiceCallback<KindnessEntry> callback);
 
     void saveKindnessEntry(KindnessEntry entry);
 

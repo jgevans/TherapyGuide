@@ -1,7 +1,10 @@
 package com.hedgehogproductions.therapyguide.kindness;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessRepository;
 
@@ -10,10 +13,12 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class KindnessPresenter implements KindnessContract.UserActionsListener {
+    public static final String LAST_KINDNESS_NOTIFICATION_PREF = "last_kindness_notification";
+
     private final KindnessRepository mKindnessRepository;
     private final KindnessContract.View mKindnessView;
 
-    public KindnessPresenter(
+    KindnessPresenter(
             @NonNull KindnessRepository kindnessRepository, @NonNull KindnessContract.View kindnessView ) {
         mKindnessRepository = checkNotNull(kindnessRepository, "kindnessRepository cannot be null");
         mKindnessView = checkNotNull(kindnessView, "kindnessView cannot be null");
@@ -38,7 +43,7 @@ public class KindnessPresenter implements KindnessContract.UserActionsListener {
     @Override
     public void updateKindnessEntry(@NonNull KindnessEntry selectedEntry) {
         checkNotNull(selectedEntry, "KindnessEntry cannot be null");
-        mKindnessView.showUpdateKindnessEntry(selectedEntry.getCreationTimestamp());
+        mKindnessView.showUpdateKindnessEntry(selectedEntry.getCreationDate());
     }
 
     @Override
@@ -55,5 +60,14 @@ public class KindnessPresenter implements KindnessContract.UserActionsListener {
     @Override
     public void deleteKindnessEntry(KindnessEntry entry) {
         mKindnessRepository.deleteKindnessEntry(entry);
+    }
+
+    @Override
+    public void setKindnessNotificationShown(Context context) {
+        // Save the time of the notification so we know it when we set up a new one
+        SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putLong(LAST_KINDNESS_NOTIFICATION_PREF, System.currentTimeMillis());
+        editor.apply();
     }
 }

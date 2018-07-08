@@ -14,6 +14,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Date;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.verify;
 
 public class EditKindnessEntryPresenterTest {
 
-    private static final long TIMESTAMP = System.currentTimeMillis();
+    private static final Date DATE = new Date(System.currentTimeMillis());
     private static final long INVALID_TIMESTAMP = 1;
 
     private static final KindnessWords WORDS = KindnessWords.APPEARANCE;
@@ -60,13 +62,13 @@ public class EditKindnessEntryPresenterTest {
     @Test
     public void openKindnessEntry_ShowsEntryDetails() {
         // Given a kindness entry
-        KindnessEntry entry = new KindnessEntry(TIMESTAMP, WORDS, THOUGHTS, ACTIONS, SELF, false);
+        KindnessEntry entry = new KindnessEntry(DATE, WORDS, THOUGHTS, ACTIONS, SELF, false);
 
         // When the presenter is asked to open the entry
-        mEditKindnessEntryPresenter.openKindnessEntry(TIMESTAMP);
+        mEditKindnessEntryPresenter.openKindnessEntry(DATE);
 
         // Then the entry is loaded, the callback is captured
-        verify(mKindnessRepository).getKindnessEntry(eq(TIMESTAMP), mLoadKindnessEntryCallbackCaptor.capture());
+        verify(mKindnessRepository).getKindnessEntry(eq(DATE), mLoadKindnessEntryCallbackCaptor.capture());
 
         // When the entry is finally loaded
         mLoadKindnessEntryCallbackCaptor.getValue().onEntryLoaded(entry); // Trigger callback
@@ -105,7 +107,7 @@ public class EditKindnessEntryPresenterTest {
     @Test
     public void saveUpdatedEntryToRepository_SavesData() {
         // Given a valid timestamp
-        mEditKindnessEntryPresenter.setCreationTimestamp(TIMESTAMP);
+        mEditKindnessEntryPresenter.setCreationDate(TIMESTAMP);
 
         // When the presenter is asked to open the entry
         mEditKindnessEntryPresenter.updateKindnessEntry(WORDS, THOUGHTS, ACTIONS, SELF);

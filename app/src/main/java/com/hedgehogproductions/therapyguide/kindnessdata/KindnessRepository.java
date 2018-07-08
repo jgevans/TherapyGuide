@@ -2,6 +2,7 @@ package com.hedgehogproductions.therapyguide.kindnessdata;
 
 import android.support.annotation.NonNull;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface KindnessRepository {
 
     void getKindnessDiary(@NonNull KindnessRepository.LoadKindnessCallback callback);
 
-    void getKindnessEntry(long timestamp, @NonNull LoadKindnessEntryCallback callback);
+    void getKindnessEntry(Date date, @NonNull LoadKindnessEntryCallback callback);
 
     void saveKindnessEntry(@NonNull KindnessEntry entry);
 

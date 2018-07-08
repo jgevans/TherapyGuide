@@ -17,7 +17,7 @@ public class KindnessEntryTest {
         KindnessSelf self = KindnessSelf.COMPASSION;
 
         KindnessEntry entry = new KindnessEntry(timestamp, words, thoughts, actions, self);
-        assertEquals(entry.getCreationTimestamp(), timestamp);
+        assertEquals(entry.getCreationDate(), timestamp);
         assertEquals(entry.getWords(), words);
         assertEquals(entry.getThoughts(), thoughts);
         assertEquals(entry.getActions(), actions);

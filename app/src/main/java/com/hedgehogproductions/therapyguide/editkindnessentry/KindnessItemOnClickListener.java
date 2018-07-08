@@ -19,11 +19,15 @@ class KindnessItemOnClickListener implements View.OnClickListener {
 
     private final EditKindnessEntryArrayAdapter mAdapter;
 
-    KindnessItemOnClickListener(int page, int position, @NonNull KindnessEntry entry, EditKindnessEntryArrayAdapter adapter ) {
+    private final EditKindnessEntryContract.View mEditKindnessEntryView;
+
+    KindnessItemOnClickListener(int page, int position, @NonNull KindnessEntry entry,
+                                EditKindnessEntryArrayAdapter adapter, EditKindnessEntryContract.View view ) {
         mPage = page;
         mPosition = position;
         mKindnessEntry = entry;
         mAdapter = adapter;
+        mEditKindnessEntryView = view;
     }
 
     @Override
@@ -52,7 +56,7 @@ class KindnessItemOnClickListener implements View.OnClickListener {
         });
         if( mPage != 3 ) {
             // Unless on last page, move to next
-            v.getRootView().findViewById(R.id.editkindnessentry_next_button).performClick();
+            mEditKindnessEntryView.moveToNextView();
         }
     }
 }

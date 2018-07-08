@@ -19,7 +19,8 @@ class EditKindnessEntryViewPagerAdapter extends PagerAdapter {
     private final Context mContext;
     private final EditKindnessEntryArrayAdapter mWordsAdapter, mThoughtsAdapter, mActionsAdapter, mSelfAdapter;
 
-    EditKindnessEntryViewPagerAdapter( @NonNull Context context, @NonNull EditKindnessEntryContract.UserActionsListener actionsListener ) {
+    EditKindnessEntryViewPagerAdapter( @NonNull Context context, @NonNull EditKindnessEntryContract.UserActionsListener actionsListener,
+                                       @NonNull EditKindnessEntryContract.View view) {
         mContext = context;
 
         // Set up lists for ListViews
@@ -42,19 +43,19 @@ class EditKindnessEntryViewPagerAdapter extends PagerAdapter {
         mWordsAdapter = new EditKindnessEntryArrayAdapter(context,
                 R.layout.kindness_item,
                 R.id.kindness_item_text,
-                kindnessWordsItems, 0, actionsListener.getKindnessEntry());
+                kindnessWordsItems, 0, actionsListener.getKindnessEntry(), view);
         mThoughtsAdapter = new EditKindnessEntryArrayAdapter(context,
                 R.layout.kindness_item,
                 R.id.kindness_item_text,
-                kindnessThoughtsItems, 1, actionsListener.getKindnessEntry());
+                kindnessThoughtsItems, 1, actionsListener.getKindnessEntry(), view);
         mActionsAdapter = new EditKindnessEntryArrayAdapter(context,
                 R.layout.kindness_item,
                 R.id.kindness_item_text,
-                kindnessActionsItems, 2, actionsListener.getKindnessEntry());
+                kindnessActionsItems, 2, actionsListener.getKindnessEntry(), view);
         mSelfAdapter = new EditKindnessEntryArrayAdapter(context,
                 R.layout.kindness_item,
                 R.id.kindness_item_text,
-                kindnessSelfItems, 3, actionsListener.getKindnessEntry());
+                kindnessSelfItems, 3, actionsListener.getKindnessEntry(), view);
     }
 
     @NonNull

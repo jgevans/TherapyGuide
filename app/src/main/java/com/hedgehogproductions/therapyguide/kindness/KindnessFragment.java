@@ -2,6 +2,7 @@ package com.hedgehogproductions.therapyguide.kindness;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +14,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +22,18 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.hedgehogproductions.therapyguide.Injection;
+import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.deletekindnessentry.DeleteKindnessEntryDialogFragment;
 import com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity;
+import com.hedgehogproductions.therapyguide.kindnesscreatereminder.CreateKindnessReminderDialogFragment;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -41,6 +47,10 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
     public static final int ENTRY_DELETION_REQ_CODE = 0;
     public static final int ENTRY_DELETION_RES_CODE_CONFIRM = 0;
     public static final int ENTRY_DELETION_RES_CODE_CANCEL = 1;
+
+    public static final int CREATION_REMINDER_REQ_CODE = 1;
+    public static final int CREATION_REMINDER_RES_CODE_CONFIRM = 0;
+    public static final int CREATION_REMINDER_RES_CODE_CANCEL = 1;
 
     private int mDeletionPosition;
 
@@ -57,7 +67,35 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         mKindnessEntriesAdapter.replaceData(entries);
 
         // If not yet created an entry today, show the Kindness Selector
-        //showKindnessSelector();
+        Calendar today = new GregorianCalendar();
+        today.setTime(new Date(System.currentTimeMillis()));
+        today.set(Calendar.HOUR_OF_DAY, 1);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        if( entries.contains(new KindnessEntry(today.getTime())) ){
+            hideCreateButton();
+        }
+        else {
+            showCreateButton();
+            Calendar nowCalendar = Calendar.getInstance();
+            nowCalendar.setTimeInMillis(System.currentTimeMillis());
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(
+                    MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+            long lastKindnessReminderTime = sharedPreferences.getLong(KindnessPresenter.LAST_KINDNESS_NOTIFICATION_PREF, ~0);
+            if (lastKindnessReminderTime != ~0 && lastKindnessReminderTime != 0) {
+                Calendar lastAlertTime = Calendar.getInstance();
+                lastAlertTime.setTimeInMillis(lastKindnessReminderTime);
+                // If last alert was NOT in same year and day of year...
+                if (lastAlertTime.get(Calendar.DAY_OF_YEAR) != nowCalendar.get(Calendar.DAY_OF_YEAR) ||
+                        lastAlertTime.get(Calendar.YEAR) != nowCalendar.get(Calendar.YEAR)) {
+                    showKindnessSelectorMessage();
+                }
+            }
+            else {
+                showKindnessSelectorMessage();
+            }
+        }
     }
 
     @Override
@@ -69,9 +107,9 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
     }
 
     @Override
-    public void showUpdateKindnessEntry(long selectedEntryTimestamp) {
+    public void showUpdateKindnessEntry(Date selectedEntryDate) {
         Intent intent = new Intent(getContext(), EditKindnessEntryActivity.class);
-        intent.putExtra(EditKindnessEntryActivity.SELECTED_ENTRY_TIMESTAMP, selectedEntryTimestamp);
+        intent.putExtra(EditKindnessEntryActivity.SELECTED_ENTRY_TIMESTAMP, selectedEntryDate);
         intent.putExtra(EditKindnessEntryActivity.EDIT_MODE, true);
         startActivity(intent);
     }
@@ -82,6 +120,22 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         DialogFragment newFragment = new DeleteKindnessEntryDialogFragment() ;
         newFragment.setTargetFragment(this, ENTRY_DELETION_REQ_CODE);
         newFragment.show(getFragmentManager(), "delete entry");
+    }
+
+    private void showCreateButton() {
+        FloatingActionButton createButton = getView().findViewById(R.id.create_kindness_button);
+        createButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideCreateButton() {
+        FloatingActionButton createButton = getView().findViewById(R.id.create_kindness_button);
+        createButton.setVisibility(View.INVISIBLE);
+    }
+
+    private void showKindnessSelectorMessage() {
+        DialogFragment newFragment = new CreateKindnessReminderDialogFragment() ;
+        newFragment.setTargetFragment(this, CREATION_REMINDER_REQ_CODE);
+        newFragment.show(getFragmentManager(), "create entry reminder");
     }
 
     @Override
@@ -99,6 +153,13 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
                 mKindnessEntriesAdapter.notifyItemChanged(mDeletionPosition);
             }
             mDeletionPosition = ~0;
+        }
+        else if( CREATION_REMINDER_REQ_CODE==requestCode ) {
+            mActionsListener.setKindnessNotificationShown(getContext());
+            if( CREATION_REMINDER_RES_CODE_CONFIRM==resultCode ) {
+                // Open Edit Kindness view
+                mActionsListener.addNewKindnessEntry();
+            }
         }
     }
 
@@ -201,20 +262,20 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             }
 
             // Convert timestamp to useful string description based on age
-            CharSequence date;
-            if (DateUtils.isToday(entry.getCreationTimestamp())) {
-                date = "Today";
-            }
-            else if (DateUtils.isToday(entry.getCreationTimestamp() + 86400000)) {
-                date = "Yesterday";
+            CharSequence dateString;
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 1);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
+            if (entry.getCreationDate().equals(today.getTime())) {
+                dateString = "Today";
             }
             else {
-                date = DateUtils.formatDateTime(mContext,
-                        entry.getCreationTimestamp(),
-                        DateUtils.FORMAT_SHOW_DATE);
+                dateString = DateFormat.getDateInstance().format( entry.getCreationDate() );
             }
 
-            viewHolder.time.setText(date);
+            viewHolder.time.setText(dateString);
 
             // Set up the checkbox
             viewHolder.complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

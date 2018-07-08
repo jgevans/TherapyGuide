@@ -2,11 +2,12 @@ package com.hedgehogproductions.therapyguide.kindnessdata;
 
 import android.os.Build;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class KindnessEntry {
 
-    private long mCreationTimestamp = ~0;
+    private Date mCreationDate = null;
     private KindnessWords mWords = null;
     private KindnessThoughts mThoughts = null;
     private KindnessActions mActions = null;
@@ -16,14 +17,18 @@ public class KindnessEntry {
 
     public KindnessEntry() {}
 
-    public KindnessEntry(long timestamp, KindnessWords words, KindnessThoughts thoughts,
-                         KindnessActions actions, KindnessSelf self) {
-        this(timestamp, words, thoughts, actions, self, false);
+    public KindnessEntry(Date date) {
+        mCreationDate = date;
     }
 
-    public KindnessEntry(long timestamp, KindnessWords words, KindnessThoughts thoughts,
+    public KindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
+                         KindnessActions actions, KindnessSelf self) {
+        this(date, words, thoughts, actions, self, false);
+    }
+
+    public KindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
                          KindnessActions actions, KindnessSelf self, boolean complete) {
-        mCreationTimestamp = timestamp;
+        mCreationDate = date;
         mWords = words;
         mThoughts = thoughts;
         mActions = actions;
@@ -31,8 +36,8 @@ public class KindnessEntry {
         mComplete = complete;
     }
 
-    public long getCreationTimestamp() {
-        return mCreationTimestamp;
+    public Date getCreationDate() {
+        return mCreationDate;
     }
 
     public KindnessWords getWords() {
@@ -70,7 +75,7 @@ public class KindnessEntry {
     }
 
     public boolean isEmpty() {
-        return mCreationTimestamp == 0 || mCreationTimestamp == ~0 ||
+        return mCreationDate == null ||
                 mWords == null || mThoughts == null || mActions == null || mSelf == null;
     }
 
@@ -80,20 +85,20 @@ public class KindnessEntry {
         if (o == this) return true;
         if (o instanceof KindnessEntry) {
             KindnessEntry user = (KindnessEntry) o;
-            return mCreationTimestamp == user.mCreationTimestamp;
+            return mCreationDate.equals(user.mCreationDate);
         }
         else {
-            return o instanceof Long && mCreationTimestamp == (Long) o;
+            return o instanceof Date && mCreationDate.equals(o);
         }
     }
 
     @Override
     public int hashCode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return Objects.hash(mCreationTimestamp);
+            return Objects.hash(mCreationDate);
         }
         else {
-            return ((int) mCreationTimestamp);
+            return ((int) mCreationDate.getTime());
         }
     }
 
@@ -120,7 +125,7 @@ public class KindnessEntry {
         } else {
             self = mSelf.toString();
         }
-        return String.valueOf(mCreationTimestamp + ": " + words + ","
+        return String.valueOf(mCreationDate + ": " + words + ","
                 + thoughts + "," + actions + "," + self);
     }
 }
