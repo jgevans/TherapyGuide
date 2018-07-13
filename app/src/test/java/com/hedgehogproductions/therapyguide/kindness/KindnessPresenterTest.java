@@ -15,6 +15,9 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
@@ -24,12 +27,7 @@ import static org.mockito.Mockito.verify;
  */
 public class KindnessPresenterTest {
 
-    private static final List<KindnessEntry> KINDNESSDIARY = Lists.newArrayList(
-            new KindnessEntry(System.currentTimeMillis(), KindnessWords.LOVE, KindnessThoughts.SUCCESS,
-                    KindnessActions.TRAFFIC, KindnessSelf.MOVIE, true),
-            new KindnessEntry(System.currentTimeMillis(), KindnessWords.ABILITIES, KindnessThoughts.GOSSIP,
-                    KindnessActions.CAKE, KindnessSelf.FRIEND, false));
-
+    private static List<KindnessEntry> KINDNESSDIARY;
 
     @Mock
     private KindnessRepository mKindnessRepository;
@@ -56,6 +54,26 @@ public class KindnessPresenterTest {
 
         // Get a reference to the class under test
         mKindnessPresenter = new KindnessPresenter(mKindnessRepository, mKindnessView);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date(System.currentTimeMillis()));
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(new Date(System.currentTimeMillis()-86400000));
+        calendar2.set(Calendar.HOUR_OF_DAY, 1);
+        calendar2.set(Calendar.MINUTE, 0);
+        calendar2.set(Calendar.SECOND, 0);
+        calendar2.set(Calendar.MILLISECOND, 0);
+
+        KINDNESSDIARY = Lists.newArrayList(
+                new KindnessEntry(calendar2.getTime(), KindnessWords.LOVE, KindnessThoughts.SUCCESS,
+                        KindnessActions.TRAFFIC, KindnessSelf.MOVIE, true),
+                new KindnessEntry(calendar.getTime(), KindnessWords.ABILITIES, KindnessThoughts.GOSSIP,
+                        KindnessActions.CAKE, KindnessSelf.FRIEND, false));
     }
 
     @Test

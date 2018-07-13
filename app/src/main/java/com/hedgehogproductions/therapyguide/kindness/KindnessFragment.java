@@ -26,7 +26,7 @@ import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.deletekindnessentry.DeleteKindnessEntryDialogFragment;
 import com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity;
-import com.hedgehogproductions.therapyguide.kindnesscreatereminder.CreateKindnessReminderDialogFragment;
+import com.hedgehogproductions.therapyguide.createkindnessreminder.CreateKindnessReminderDialogFragment;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 
 import java.text.DateFormat;

@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.verify;
 public class EditKindnessEntryPresenterTest {
 
     private static final Date DATE = new Date(System.currentTimeMillis());
-    private static final long INVALID_TIMESTAMP = 1;
+    private static final Date INVALID_DATE = new Date(1);
 
     private static final KindnessWords WORDS = KindnessWords.APPEARANCE;
     private static final KindnessThoughts THOUGHTS = KindnessThoughts.DOUBT;
@@ -74,17 +75,17 @@ public class EditKindnessEntryPresenterTest {
         mLoadKindnessEntryCallbackCaptor.getValue().onEntryLoaded(entry); // Trigger callback
 
         // Then the text is shown in UI
-        verify(mEditKindnessEntryView).showKindnessDetail(WORDS, THOUGHTS, ACTIONS, SELF, false);
+        assertEquals(mEditKindnessEntryPresenter.getKindnessEntry(), entry);
     }
 
     @Test
     public void openNonExistentKindnessEntry_DisplaysError() {
         // When loading of an entry is requested with an invalid timestamp.
-        mEditKindnessEntryPresenter.openKindnessEntry(INVALID_TIMESTAMP);
+        mEditKindnessEntryPresenter.openKindnessEntry(INVALID_DATE);
 
         // Then the entry with invalid timestamp is attempted to be loaded from model
         // and the callback is captured.
-        verify(mKindnessRepository).getKindnessEntry(eq(INVALID_TIMESTAMP), mLoadKindnessEntryCallbackCaptor.capture());
+        verify(mKindnessRepository).getKindnessEntry(eq(INVALID_DATE), mLoadKindnessEntryCallbackCaptor.capture());
 
         // When entry is finally (not) loaded
         mLoadKindnessEntryCallbackCaptor.getValue().onEntryLoaded(null); // Trigger callback
@@ -96,7 +97,7 @@ public class EditKindnessEntryPresenterTest {
     @Test
     public void saveNewEntryToRepository_SavesData() {
         // When the presenter is asked to save a kindnessEntry
-        mEditKindnessEntryPresenter.saveNewKindnessEntry(TIMESTAMP, WORDS, THOUGHTS, ACTIONS, SELF);
+        mEditKindnessEntryPresenter.saveNewKindnessEntry(DATE, WORDS, THOUGHTS, ACTIONS, SELF);
 
         // Then a KindnessEntry is saved,
         verify(mKindnessRepository).saveKindnessEntry(any(KindnessEntry.class));
@@ -107,7 +108,7 @@ public class EditKindnessEntryPresenterTest {
     @Test
     public void saveUpdatedEntryToRepository_SavesData() {
         // Given a valid timestamp
-        mEditKindnessEntryPresenter.setCreationDate(TIMESTAMP);
+        mEditKindnessEntryPresenter.setCreationDate(DATE);
 
         // When the presenter is asked to open the entry
         mEditKindnessEntryPresenter.updateKindnessEntry(WORDS, THOUGHTS, ACTIONS, SELF);
@@ -118,4 +119,39 @@ public class EditKindnessEntryPresenterTest {
         verify(mEditKindnessEntryView).showKindnessView();
     }
 
+    @Test
+    public void saveEmptyEntryToRepository_DisplaysError() {
+        // When the presenter is asked to save an empty kindnessEntry
+        mEditKindnessEntryPresenter.saveNewKindnessEntry(DATE, null, THOUGHTS, ACTIONS, SELF);
+
+        // Then the missing entry UI is shown
+        verify(mEditKindnessEntryView).showEmptyEntryError();
+    }
+
+    @Test
+    public void updateEmptyEntryToRepository_DisplaysError() {
+        // When the presenter is asked to save an empty kindnessEntry
+        mEditKindnessEntryPresenter.updateKindnessEntry(null, THOUGHTS, ACTIONS, SELF);
+
+        // Then the missing entry UI is shown
+        verify(mEditKindnessEntryView).showEmptyEntryError();
+    }
+
+    @Test
+    public void deleteEntry_FindsEntryAndDeletes() {
+        // When the presenter is asked to save a kindnessEntry
+        mEditKindnessEntryPresenter.saveNewKindnessEntry(DATE, WORDS, THOUGHTS, ACTIONS, SELF);
+        // ... and then delete it
+        mEditKindnessEntryPresenter.deleteKindnessEntry();
+
+        // Then a KindnessEntry is retrieved,
+        verify(mKindnessRepository).getKindnessEntry(eq(DATE), mLoadKindnessEntryCallbackCaptor.capture());
+
+        // ... and (when entry is finally loaded)
+        mLoadKindnessEntryCallbackCaptor.getValue().onEntryLoaded(new KindnessEntry()); // Trigger callback
+
+        // ... deleted
+        verify(mKindnessRepository).deleteKindnessEntry(any(KindnessEntry.class));
+
+    }
 }

@@ -74,6 +74,9 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
         }
         else {
             mKindnessRepository.updateKindnessEntry(newKindnessEntry);
+            setKindnessEntry(newKindnessEntry);
+            setCreationDate(newKindnessEntry.getCreationDate());
+            setCompleteness(newKindnessEntry.isComplete());
             mEditKindnessEntryView.showKindnessView();
         }
     }
@@ -87,6 +90,9 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
         }
         else {
             mKindnessRepository.saveKindnessEntry(newKindnessEntry);
+            setKindnessEntry(newKindnessEntry);
+            setCreationDate(newKindnessEntry.getCreationDate());
+            setCompleteness(newKindnessEntry.isComplete());
             mEditKindnessEntryView.showKindnessView();
         }
     }

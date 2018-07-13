@@ -1,4 +1,4 @@
-package com.hedgehogproductions.therapyguide.kindnesscreatereminder;
+package com.hedgehogproductions.therapyguide.createkindnessreminder;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

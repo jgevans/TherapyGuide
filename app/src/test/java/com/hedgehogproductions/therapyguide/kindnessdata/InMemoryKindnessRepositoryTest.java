@@ -12,6 +12,9 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,9 +31,7 @@ import static org.mockito.Mockito.verify;
  */
 public class InMemoryKindnessRepositoryTest {
 
-    private static final List<KindnessEntry> KindnessDiary = Lists.newArrayList(
-            new KindnessEntry(System.currentTimeMillis()-1000, KindnessWords.CALL, KindnessThoughts.GOSSIP, KindnessActions.DOOR, KindnessSelf.FRIEND),
-            new KindnessEntry(System.currentTimeMillis(), KindnessWords.SKILLS, KindnessThoughts.LISTEN, KindnessActions.CAKE, KindnessSelf.COOK));
+    private static List<KindnessEntry> KINDNESSDIARY;
 
     private InMemoryKindnessRepository mKindnessRepository;
 
@@ -58,6 +59,24 @@ public class InMemoryKindnessRepositoryTest {
 
         // Get a reference to the class under test
         mKindnessRepository = new InMemoryKindnessRepository(mServiceApi);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date(System.currentTimeMillis()));
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        Calendar calendar2 = new GregorianCalendar();
+        calendar2.setTime(new Date(System.currentTimeMillis()-86400000));
+        calendar2.set(Calendar.HOUR_OF_DAY, 1);
+        calendar2.set(Calendar.MINUTE, 0);
+        calendar2.set(Calendar.SECOND, 0);
+        calendar2.set(Calendar.MILLISECOND, 0);
+
+        KINDNESSDIARY = Lists.newArrayList(
+                new KindnessEntry(calendar2.getTime(), KindnessWords.CALL, KindnessThoughts.GOSSIP, KindnessActions.DOOR, KindnessSelf.FRIEND),
+                new KindnessEntry(calendar.getTime(), KindnessWords.SKILLS, KindnessThoughts.LISTEN, KindnessActions.CAKE, KindnessSelf.COOK));
     }
 
 
@@ -97,9 +116,15 @@ public class InMemoryKindnessRepositoryTest {
 
     @Test
     public void saveKindnessEntry_savesEntryToServiceAPIAndInvalidatesCache() {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date(System.currentTimeMillis()));
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         // Given a stub entry with timestamp and text
         KindnessEntry newEntry = new KindnessEntry(
-                System.currentTimeMillis(), KindnessWords.ABILITIES, KindnessThoughts.DOUBT, KindnessActions.BUY, KindnessSelf.MOVIE);
+                calendar.getTime(), KindnessWords.ABILITIES, KindnessThoughts.DOUBT, KindnessActions.BUY, KindnessSelf.MOVIE);
         // And a cached Kindness
         twoLoadCallsToRepository(mLoadKindnessCallback);
         assertThat(mKindnessRepository.mCachedEntries, is(not(nullValue())));
@@ -116,7 +141,7 @@ public class InMemoryKindnessRepositoryTest {
     @Test
     public void deleteKindnessEntry_deletesEntryThroughServiceAPIAndInvalidatesCache() {
         // Given a current entry
-        KindnessEntry deletedEntry = KindnessDiary.get(0);
+        KindnessEntry deletedEntry = KINDNESSDIARY.get(0);
         // And a cached Kindness
         twoLoadCallsToRepository(mLoadKindnessCallback);
         assertThat(mKindnessRepository.mCachedEntries, is(not(nullValue())));
@@ -132,9 +157,16 @@ public class InMemoryKindnessRepositoryTest {
 
     @Test
     public void deleteNonExistentEntry_ThrowsException() {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date(System.currentTimeMillis() - 172800000));
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
         // Given a non existent entry
         KindnessEntry fakeEntry = new KindnessEntry(
-                System.currentTimeMillis(), KindnessWords.APPEARANCE, KindnessThoughts.SUCCESS, KindnessActions.TRAFFIC, KindnessSelf.VOLUNTEER);
+                calendar.getTime(), KindnessWords.APPEARANCE, KindnessThoughts.SUCCESS, KindnessActions.TRAFFIC, KindnessSelf.VOLUNTEER);
         // And a cached Kindness
         twoLoadCallsToRepository(mLoadKindnessCallback);
         assertThat(mKindnessRepository.mCachedEntries, is(not(nullValue())));
@@ -148,7 +180,7 @@ public class InMemoryKindnessRepositoryTest {
     @Test
     public void updateKindnessEntry_updatesEntryThroughServiceAPIAndInvalidatesCache() {
         // Given a current entry
-        KindnessEntry updatedEntry = KindnessDiary.get(0);
+        KindnessEntry updatedEntry = KINDNESSDIARY.get(0);
         // And a cached Kindness
         twoLoadCallsToRepository(mLoadKindnessCallback);
         assertThat(mKindnessRepository.mCachedEntries, is(not(nullValue())));
@@ -164,9 +196,16 @@ public class InMemoryKindnessRepositoryTest {
 
     @Test
     public void updateNonExistentEntry_ThrowsException() {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date(System.currentTimeMillis() - 172800000));
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
         // Given a non existent entry
         KindnessEntry fakeEntry = new KindnessEntry(
-                System.currentTimeMillis(), KindnessWords.LOVE, KindnessThoughts.WISHES, KindnessActions.HELP, KindnessSelf.DRAW);
+                calendar.getTime(), KindnessWords.LOVE, KindnessThoughts.WISHES, KindnessActions.HELP, KindnessSelf.DRAW);
         // And a cached Kindness
         twoLoadCallsToRepository(mLoadKindnessCallback);
         assertThat(mKindnessRepository.mCachedEntries, is(not(nullValue())));
@@ -179,13 +218,13 @@ public class InMemoryKindnessRepositoryTest {
 
     @Test
     public void getKindnessEntry_requestsSingleEntryFromServiceApi() {
-        final long timestamp = KindnessDiary.get(0).getCreationDate();
+        final Date date = KINDNESSDIARY.get(0).getCreationDate();
 
         // When an entry is requested from the Kindness repository
-        mKindnessRepository.getKindnessEntry(timestamp, mLoadKindnessEntryCallback);
+        mKindnessRepository.getKindnessEntry(date, mLoadKindnessEntryCallback);
 
         // Then the entry is loaded from the service API
-        verify(mServiceApi).getKindnessEntry(eq(timestamp), any(KindnessServiceApi.KindnessServiceCallback.class));
+        verify(mServiceApi).getKindnessEntry(eq(date), any(KindnessServiceApi.KindnessServiceCallback.class));
     }
 
     /**
@@ -199,7 +238,7 @@ public class InMemoryKindnessRepositoryTest {
         verify(mServiceApi).getAllKindnessEntries(mKindnessServiceCallbackCaptor.capture());
 
         // Trigger callback so Kindness is cached
-        mKindnessServiceCallbackCaptor.getValue().onLoaded(KindnessDiary);
+        mKindnessServiceCallbackCaptor.getValue().onLoaded(KINDNESSDIARY);
 
         mKindnessRepository.getKindnessDiary(callback); // Second call to API
     }
