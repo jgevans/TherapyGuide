@@ -54,9 +54,7 @@ public class ListenServiceTest {
 
         // Bind the service and grab a reference to the binder.
         IBinder binder;
-        // TODO - remove while loop once bug fixed
-        // Workaround for a bug in ServiceTestRule. See https://issuetracker.google.com/issues/37054210
-        while(null == (binder = mServiceRule.bindService(serviceIntent)));
+        binder = mServiceRule.bindService(serviceIntent);
 
         // Get the reference to the service, or you can call
         // public methods on the binder directly.
@@ -70,19 +68,19 @@ public class ListenServiceTest {
     }
 
     @Test
-    public void startedListenService_playerStopped() throws TimeoutException {
+    public void startedListenService_playerStopped() {
         assertFalse(mService.isPlaying());
     }
 
     @Test
-    public void boundListenServicePlay_playerPlaying() throws TimeoutException {
+    public void boundListenServicePlay_playerPlaying() {
         mService.play();
 
         assertTrue(mService.isPlaying());
     }
 
     @Test
-    public void boundListenServiceLoop_playerLooping() throws TimeoutException {
+    public void boundListenServiceLoop_playerLooping() {
         assertFalse(mService.isPlaying());
         assertTrue(mService.isLooping());
 
@@ -97,7 +95,7 @@ public class ListenServiceTest {
     }
 
     @Test
-    public void boundListenServicePause_pausesPlayer() throws TimeoutException {
+    public void boundListenServicePause_pausesPlayer() {
         mService.play();
         // Sleep so that pause happens after the track has played a little bit
         try {Thread.sleep(100);} catch(InterruptedException e){assertTrue(false);}
@@ -108,7 +106,7 @@ public class ListenServiceTest {
     }
 
     @Test
-    public void boundListenServicePausedRestart_goesToBeginningPaused() throws TimeoutException {
+    public void boundListenServicePausedRestart_goesToBeginningPaused() {
         mService.play();
         // Sleep so that pause happens after the track has played a little bit
         try {Thread.sleep(100);} catch(InterruptedException e){assertTrue(false);}
@@ -126,10 +124,10 @@ public class ListenServiceTest {
     }
 
     @Test
-    public void boundListenServicePlayingRestart_goesToBeginningAndPlays() throws TimeoutException {
+    public void boundListenServicePlayingRestart_goesToBeginningAndPlays() {
         mService.play();
         // Sleep so that pause happens after the track has played a little bit
-        try {Thread.sleep(200);} catch(InterruptedException e){assertTrue(false);}
+        try {Thread.sleep(2000);} catch(InterruptedException e){assertTrue(false);}
 
         assertTrue(mService.isPlaying());
         int preRestartPosition = mService.getCurrentPosition();
