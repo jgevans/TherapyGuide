@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class EditKindnessEntryActivity extends AppCompatActivity {
 
-    public static final String SELECTED_ENTRY_TIMESTAMP = "ENTRY_TIMESTAMP";
+    public static final String SELECTED_ENTRY_DATE = "ENTRY_DATE";
     public static final String EDIT_MODE = "EDIT_MODE";
     public static final String FROM_MAIN_ACTIVITY = "FROM_MAIN_ACTIVITY";
 
@@ -26,7 +26,7 @@ public class EditKindnessEntryActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Date entryDate = (Date) getIntent().getSerializableExtra(SELECTED_ENTRY_TIMESTAMP);
+        Date entryDate = (Date) getIntent().getSerializableExtra(SELECTED_ENTRY_DATE);
 
         if (null == savedInstanceState) {
             initFragment(EditKindnessEntryFragment.newInstance(entryDate));

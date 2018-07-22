@@ -2,7 +2,7 @@ package com.hedgehogproductions.therapyguide.editkindnessentry;
 
 import android.support.annotation.NonNull;
 
-class KindnessItem {
+public class KindnessItem {
     private final String mText;
     private final boolean mSelected;
 

@@ -76,7 +76,7 @@ public class EditDiaryEntryScreenTest {
     @Test
     public void errorShownOnEmptyMessage() {
         String newDiaryText = "I'm not going to fill this in properly";
-        // Entry diary entry text and close the keyboard
+        // Enter diary entry text and close the keyboard
         onView(withId(R.id.editdiaryentry_entry_text1)).perform(typeText(newDiaryText));
         onView(withId(R.id.editdiaryentry_entry_text2)).perform(typeText(newDiaryText));
         onView(withId(R.id.editdiaryentry_entry_text3)).perform(typeText(""));

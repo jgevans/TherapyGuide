@@ -2,10 +2,14 @@ package com.hedgehogproductions.therapyguide;
 
 import android.os.IBinder;
 import android.support.test.espresso.Root;
+import android.support.test.espresso.intent.Checks;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.hedgehogproductions.therapyguide.editkindnessentry.KindnessItem;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -16,6 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
 
 
 public class Matchers {
@@ -72,4 +77,26 @@ public class Matchers {
         };
     }
 
+    // Custom matchers to match kindness items with their text
+    public static Matcher<Object> kindnessWithText(String expectedText) {
+        Checks.checkNotNull(expectedText);
+        return kindnessWithText(equalTo(expectedText));
+    }
+
+    public static Matcher<Object> kindnessWithText(final Matcher<String> itemMatcher) {
+        Checks.checkNotNull(itemMatcher);
+
+        return new BoundedMatcher<Object, KindnessItem>(KindnessItem.class) {
+            @Override
+            public void describeTo(org.hamcrest.Description description) {
+                description.appendText("Kindness: ");
+                itemMatcher.describeTo(description);
+            }
+
+            @Override
+            protected boolean matchesSafely(KindnessItem kindnessItem) {
+                return itemMatcher.matches(kindnessItem.getText());
+            }
+        };
+    }
 }

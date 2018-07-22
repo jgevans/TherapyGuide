@@ -109,7 +109,7 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
     @Override
     public void showUpdateKindnessEntry(Date selectedEntryDate) {
         Intent intent = new Intent(getContext(), EditKindnessEntryActivity.class);
-        intent.putExtra(EditKindnessEntryActivity.SELECTED_ENTRY_TIMESTAMP, selectedEntryDate);
+        intent.putExtra(EditKindnessEntryActivity.SELECTED_ENTRY_DATE, selectedEntryDate);
         intent.putExtra(EditKindnessEntryActivity.EDIT_MODE, true);
         startActivity(intent);
     }

@@ -28,7 +28,7 @@ import java.util.GregorianCalendar;
 
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.EDIT_MODE;
 import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.FROM_MAIN_ACTIVITY;
-import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.SELECTED_ENTRY_TIMESTAMP;
+import static com.hedgehogproductions.therapyguide.editkindnessentry.EditKindnessEntryActivity.SELECTED_ENTRY_DATE;
 import static com.hedgehogproductions.therapyguide.kindness.KindnessFragment.ENTRY_DELETION_REQ_CODE;
 import static com.hedgehogproductions.therapyguide.kindness.KindnessFragment.ENTRY_DELETION_RES_CODE_CONFIRM;
 
@@ -45,7 +45,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
 
     public static EditKindnessEntryFragment newInstance(Date entryDate) {
         Bundle arguments = new Bundle();
-        arguments.putSerializable(SELECTED_ENTRY_TIMESTAMP, entryDate);
+        arguments.putSerializable(SELECTED_ENTRY_DATE, entryDate);
         EditKindnessEntryFragment fragment = new EditKindnessEntryFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -176,7 +176,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
         mEditMode = getActivity().getIntent().getBooleanExtra(EDIT_MODE, false);
 
         if (mEditMode) {
-            Date date = (Date) getArguments().getSerializable(SELECTED_ENTRY_TIMESTAMP);
+            Date date = (Date) getArguments().getSerializable(SELECTED_ENTRY_DATE);
             mActionsListener.openKindnessEntry(date);
         }
 
