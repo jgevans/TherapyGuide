@@ -70,10 +70,10 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.7.19'
 
     // Android Testing Support Library's runner and rules
-    androidTestImplementation('com.android.support.test:runner:0.5', {
+    androidTestImplementation('com.android.support.test:runner:1.0.2', {
         exclude group: 'com.android.support'
     })
-    androidTestImplementation('com.android.support.test:rules:0.5', {
+    androidTestImplementation('com.android.support.test:rules:1.0.2', {
         exclude group: 'com.android.support'
     })
 
@@ -83,6 +83,9 @@ dependencies {
         exclude group: 'com.android.support'
     })
     androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2', {
+        exclude group: 'com.android.support'
+    })
+    androidTestImplementation ('com.android.support.test.espresso:espresso-intents:3.0.2', {
         exclude group: 'com.android.support'
     })
     implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
