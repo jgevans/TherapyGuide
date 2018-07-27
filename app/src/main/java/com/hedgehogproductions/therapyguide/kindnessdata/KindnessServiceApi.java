@@ -3,7 +3,7 @@ package com.hedgehogproductions.therapyguide.kindnessdata;
 import java.util.Date;
 import java.util.List;
 
-interface KindnessServiceApi {
+public interface KindnessServiceApi {
 
     interface KindnessServiceCallback<T> {
 

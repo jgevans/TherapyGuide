@@ -83,10 +83,6 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE
         };
 
-        // The value to search for
-        //ContentValues values = new ContentValues();
-        //values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE, date.getTime());
-
         // Sort results, newest first
         String sortOrder =
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " ASC";

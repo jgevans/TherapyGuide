@@ -35,13 +35,7 @@ public class KindnessEntryTest {
 
     @Test
     public void emptyTimestamp_EntryIsEmpty() {
-        Date date = null;
-        KindnessWords words = KindnessWords.APPEARANCE;
-        KindnessThoughts thoughts = KindnessThoughts.FORGIVE;
-        KindnessActions actions = KindnessActions.CAKE;
-        KindnessSelf self = KindnessSelf.COMPASSION;
-
-        KindnessEntry entry = new KindnessEntry(date, words, thoughts, actions, self);
+        KindnessEntry entry = new KindnessEntry(null, KindnessWords.APPEARANCE, KindnessThoughts.FORGIVE, KindnessActions.CAKE, KindnessSelf.COMPASSION);
         assertTrue(entry.isEmpty());
     }
 

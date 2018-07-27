@@ -78,7 +78,7 @@ public class DiaryScreenTest {
     }
 
     @Test
-    public void addEntryToDiary() {
+    public void addEntryToDiary_showsEntryCorrectly() {
         String newDiaryText1 = "I executed an Espresso test";
         String newDiaryText2 = newDiaryText1 + " - pt2";
         String newDiaryText3 = newDiaryText1 + " - pt3";
