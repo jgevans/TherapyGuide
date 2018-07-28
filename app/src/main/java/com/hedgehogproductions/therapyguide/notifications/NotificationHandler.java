@@ -100,7 +100,8 @@ public class NotificationHandler {
         Notification playerNotification;
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        notificationIntent.putExtra(MainActivity.REQUESTED_TAB_NAME, context.getString(R.string.listen_tab_name));
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if(Build.VERSION.SDK_INT >= 26) {
             playerNotification = new Notification.Builder(context, NOTIFICATION_CHANNEL_ID_PLAYER)
