@@ -122,6 +122,21 @@ public class DiaryScreenTest {
     }
 
     @Test
+    public void cancelAddDiaryEntry_showsDiary() {
+        // Click on the diary tab
+        onView(withText(R.string.diary_tab_name)).perform(click());
+
+        // Click on the add diary entry button
+        onView(withId(R.id.create_button)).perform(click());
+
+        // Click cancel
+        onView(withId(R.id.editdiaryentry_cancel_button)).perform(click());
+
+        // Verify Diary is displayed
+        onView(withId(R.id.diary_view)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void swipeOnEntry_ShowsDeletionDialog() {
         String newDiaryText1 = "I'm going to delete this entry";
         String newDiaryText2 = newDiaryText1 + " - pt2";

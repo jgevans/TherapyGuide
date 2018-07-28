@@ -78,22 +78,8 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         }
         else {
             showCreateButton();
-            Calendar nowCalendar = Calendar.getInstance();
-            nowCalendar.setTimeInMillis(System.currentTimeMillis());
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences(
-                    MainActivity.PREFERENCES, Context.MODE_PRIVATE);
-            long lastKindnessReminderTime = sharedPreferences.getLong(KindnessPresenter.LAST_KINDNESS_NOTIFICATION_PREF, ~0);
-            if (lastKindnessReminderTime != ~0 && lastKindnessReminderTime != 0) {
-                Calendar lastAlertTime = Calendar.getInstance();
-                lastAlertTime.setTimeInMillis(lastKindnessReminderTime);
-                // If last alert was NOT in same year and day of year...
-                if (lastAlertTime.get(Calendar.DAY_OF_YEAR) != nowCalendar.get(Calendar.DAY_OF_YEAR) ||
-                        lastAlertTime.get(Calendar.YEAR) != nowCalendar.get(Calendar.YEAR)) {
-                    showKindnessSelectorMessage();
-                }
-            }
-            else {
-                showKindnessSelectorMessage();
+            if( isMenuVisible() ) {
+                showKindnessSelectorMessageIfValid();
             }
         }
     }
@@ -130,6 +116,27 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
     private void hideCreateButton() {
         FloatingActionButton createButton = getView().findViewById(R.id.create_kindness_button);
         createButton.setVisibility(View.INVISIBLE);
+    }
+
+    private void showKindnessSelectorMessageIfValid() {
+        if( isResumed() ) {
+            Calendar nowCalendar = Calendar.getInstance();
+            nowCalendar.setTimeInMillis(System.currentTimeMillis());
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(
+                    MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+            long lastKindnessReminderTime = sharedPreferences.getLong(KindnessPresenter.LAST_KINDNESS_NOTIFICATION_PREF, ~0);
+            if (lastKindnessReminderTime != ~0 && lastKindnessReminderTime != 0) {
+                Calendar lastAlertTime = Calendar.getInstance();
+                lastAlertTime.setTimeInMillis(lastKindnessReminderTime);
+                // If last alert was NOT in same year and day of year...
+                if (lastAlertTime.get(Calendar.DAY_OF_YEAR) != nowCalendar.get(Calendar.DAY_OF_YEAR) ||
+                        lastAlertTime.get(Calendar.YEAR) != nowCalendar.get(Calendar.YEAR)) {
+                    showKindnessSelectorMessage();
+                }
+            } else {
+                showKindnessSelectorMessage();
+            }
+        }
     }
 
     private void showKindnessSelectorMessage() {
@@ -175,6 +182,14 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
     public void onResume() {
         super.onResume();
         mActionsListener.loadKindnessDiary();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            showKindnessSelectorMessageIfValid();
+        }
     }
 
     @Override
