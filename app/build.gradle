@@ -3,16 +3,16 @@ apply plugin: 'com.android.application'
 //noinspection GroovyMissingReturnStatement
 android {
     compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.hedgehogproductions.therapyguide"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -23,7 +23,6 @@ android {
             testCoverageEnabled = true
         }
     }
-
     flavorDimensions "test"
     productFlavors {
         mock {
@@ -34,15 +33,13 @@ android {
             dimension "test"
         }
     }
-
     // Remove mockRelease as it's not needed.
     android.variantFilter { variant ->
-        if(variant.buildType.name == 'release'
+        if (variant.buildType.name == 'release'
                 && variant.getFlavors().get(0).name == 'mock') {
             variant.setIgnore(true)
         }
     }
-
     // Always show the result of every unit test, even if it passes.
     testOptions.unitTests.all {
         testLogging {
@@ -52,11 +49,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation 'com.android.billingclient:billing:1.0'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
@@ -65,10 +62,8 @@ dependencies {
     implementation 'com.google.guava:guava:23.3-android'
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
     implementation 'com.android.support:support-annotations:27.1.1'
-
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.7.19'
-
     // Android Testing Support Library's runner and rules
     androidTestImplementation('com.android.support.test:runner:1.0.2', {
         exclude group: 'com.android.support'
@@ -76,7 +71,6 @@ dependencies {
     androidTestImplementation('com.android.support.test:rules:1.0.2', {
         exclude group: 'com.android.support'
     })
-
     androidTestImplementation 'com.google.code.findbugs:jsr305:3.0.1'
     // Espresso UI Testing dependencies.
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
@@ -85,7 +79,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2', {
         exclude group: 'com.android.support'
     })
-    androidTestImplementation ('com.android.support.test.espresso:espresso-intents:3.0.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-intents:3.0.2', {
         exclude group: 'com.android.support'
     })
     implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
