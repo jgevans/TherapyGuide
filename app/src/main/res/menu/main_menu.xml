@@ -12,4 +12,9 @@
         android:icon="@drawable/ic_introduction_black_24dp"
         android:title="@string/show_intro"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/show_about"
+        android:icon="@drawable/ic_face_black_24dp"
+        android:title="@string/show_about"
+        app:showAsAction="never" />
 </menu>

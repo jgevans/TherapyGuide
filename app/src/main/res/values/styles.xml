@@ -49,6 +49,15 @@
         <item name="android:paddingBottom">0dp</item>
     </style>
 
+    <style name="AboutTitleText" parent="IntroTextCommon">
+        <item name="android:textSize">@dimen/intro_title_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+    <style name="AboutText" parent="IntroTextCommon">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
     <style name="KindnessInstructionText">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>

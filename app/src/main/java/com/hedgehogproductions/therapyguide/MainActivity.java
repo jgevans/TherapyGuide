@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.hedgehogproductions.therapyguide.about.AboutActivity;
 import com.hedgehogproductions.therapyguide.diary.DiaryFragment;
 import com.hedgehogproductions.therapyguide.intro.IntroActivity;
 import com.hedgehogproductions.therapyguide.kindness.KindnessFragment;
@@ -120,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.show_intro:
                 intent = new Intent(getApplicationContext(), IntroActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.show_about:
+                intent = new Intent(getApplicationContext(), AboutActivity.class);
                 startActivity(intent);
                 return true;
             default:
