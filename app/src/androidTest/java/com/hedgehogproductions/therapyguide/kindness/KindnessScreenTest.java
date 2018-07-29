@@ -35,7 +35,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.assertion.PositionAssertions.isCompletelyBelow;
+import static android.support.test.espresso.assertion.PositionAssertions.isCompletelyAbove;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo;
@@ -248,15 +248,15 @@ public class KindnessScreenTest {
 
         // Verify entry is displayed on screen
         onView(withItemText("Today")).check(
-                isCompletelyBelow(withItemText("26 Jul 2018")));
+                isCompletelyAbove(withItemText("26 Jul 2018")));
         onView(withItemText(getTargetContext().getResources().getString(R.string.kindness_words_love))).check(
-                isCompletelyBelow(withItemText(getTargetContext().getResources().getString(R.string.kindness_words_abilities))));
+                isCompletelyAbove(withItemText(getTargetContext().getResources().getString(R.string.kindness_words_abilities))));
         onView(withItemText(getTargetContext().getResources().getString(R.string.kindness_thoughts_gossip))).check(
-                isCompletelyBelow(withItemText(getTargetContext().getResources().getString(R.string.kindness_thoughts_wishes))));
+                isCompletelyAbove(withItemText(getTargetContext().getResources().getString(R.string.kindness_thoughts_wishes))));
         onView(withItemText(getTargetContext().getResources().getString(R.string.kindness_actions_cake))).check(
-                isCompletelyBelow(withItemText(getTargetContext().getResources().getString(R.string.kindness_actions_assist))));
+                isCompletelyAbove(withItemText(getTargetContext().getResources().getString(R.string.kindness_actions_assist))));
         onView(withItemText(getTargetContext().getResources().getString(R.string.kindness_self_volunteer))).check(
-                isCompletelyBelow(withItemText(getTargetContext().getResources().getString(R.string.kindness_self_compliment))));
+                isCompletelyAbove(withItemText(getTargetContext().getResources().getString(R.string.kindness_self_compliment))));
 
         // Delete entries to clean up
         deleteKindnessEntry(getTargetContext().getResources().getString(R.string.kindness_words_love));

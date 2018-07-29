@@ -37,7 +37,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         // Sort results, newest first
         String sortOrder =
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " ASC";
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " DESC";
 
         Cursor cursor = db.query(
                 KindnessReaderContract.KindnessDbEntry.TABLE_NAME,// The table to query
@@ -85,7 +85,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
 
         // Sort results, newest first
         String sortOrder =
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " ASC";
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " DESC";
 
         Cursor cursor = db.query(
                 KindnessReaderContract.KindnessDbEntry.TABLE_NAME,// The table to query
