@@ -28,6 +28,9 @@
     <string name="diary_reminder_notification_message">Tap to make a diary entry for today</string>
     <string name="diary_reminder_notification_ticker_text">Therapy Guide diary reminder</string>
 
+    <string name="purchase_track_info_text">Please support us by purchasing the track to use this feature.</string>
+
+    <string name="purchase_track_button">Purchase Track</string>
     <string name="restart_button_description">Restart Track</string>
     <string name="play_button_description">Play or Pause Track</string>
     <string name="stop_button_description">Stop Track</string>

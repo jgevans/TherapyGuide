@@ -17,6 +17,10 @@ interface ListenContract {
         void showStopLoop();
 
         void showLoopMessage();
+
+        void setTrackPurchaseButtonVisibility();
+
+        void setTrackPrice(String price);
     }
 
     interface UserActionsListener {
@@ -31,6 +35,10 @@ interface ListenContract {
 
         void handleLoopRequest();
 
+        void handlePurchaseTrackRequest();
+
         boolean isLooping();
+
+        boolean isTrackPurchased();
     }
 }

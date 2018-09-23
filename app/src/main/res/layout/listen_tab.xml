@@ -52,4 +52,47 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/purchase_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/purchase_track_sleep_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/intro_image_height"
+            android:contentDescription="@string/intro_sleep_image_description"
+            app:srcCompat="@drawable/ic_sleep"
+            android:tint="@color/colorPrimaryDark"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/purchase_track_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/IntroText"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/purchase_track_info_text" />
+
+        <TextView
+            android:id="@+id/purchase_track_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/IntroTitleText"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <Button
+            android:id="@+id/purchase_track_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/purchase_track_button"
+            android:layout_gravity="center_horizontal"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
+
 </RelativeLayout>

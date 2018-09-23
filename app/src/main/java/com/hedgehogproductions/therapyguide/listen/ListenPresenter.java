@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.listen;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.billing.BillingManager;
+import com.hedgehogproductions.therapyguide.billing.SimpleBillingManager;
 import com.hedgehogproductions.therapyguide.listenservice.ListenService;
 import com.hedgehogproductions.therapyguide.listenservice.ListenServiceContract;
 
@@ -29,6 +32,8 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
     private ListenServiceContract mListenService;
     private boolean mListenServiceBound;
 
+    private BillingManager mBillingManager;
+
     private boolean mLooping;
 
     public ListenPresenter( @NonNull ListenContract.View listenView, Context context ) {
@@ -37,6 +42,14 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
 
         mListenService = null;
         mListenServiceBound = false;
+
+        mBillingManager = new SimpleBillingManager((Activity)context, new TrackStatusUpdatedListener() {
+            @Override
+            public void onTrackStatusUpdated() {
+                mListenView.setTrackPurchaseButtonVisibility();
+                mListenView.setTrackPrice(mBillingManager.getTrackCost());
+            }
+        });
 
         // Restore looping preference
         SharedPreferences settings = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
@@ -158,8 +171,19 @@ public class ListenPresenter implements ListenContract.UserActionsListener {
     }
 
     @Override
+    public void handlePurchaseTrackRequest() {
+        mBillingManager.purchaseTrack();
+        mListenView.setTrackPurchaseButtonVisibility();
+    }
+
+    @Override
     public boolean isLooping() {
         return mLooping;
+    }
+
+    @Override
+    public boolean isTrackPurchased() {
+        return mBillingManager.isTrackPurchased();
     }
 
     private void handlePlayerUnavailable() {
