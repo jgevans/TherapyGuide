@@ -112,6 +112,7 @@ public class SimpleBillingManager implements BillingManager, PurchasesUpdatedLis
             for (Object purchase : purchases) {
                 if (TRACK_SKU_ID.equals(((Purchase)purchase).getSku())) {
                     mTrackPurchased = true;
+                    mListener.onTrackStatusUpdated();
                 }
             }
         }
