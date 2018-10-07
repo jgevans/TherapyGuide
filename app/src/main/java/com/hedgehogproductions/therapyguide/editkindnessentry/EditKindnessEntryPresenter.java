@@ -2,12 +2,9 @@ package com.hedgehogproductions.therapyguide.editkindnessentry;
 
 import android.support.annotation.NonNull;
 
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessActions;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessCategories;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessRepository;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
 
 import java.util.Date;
 
@@ -65,10 +62,9 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     }
 
     @Override
-    public void updateKindnessEntry(KindnessWords words, KindnessThoughts thoughts,
-                                    KindnessActions actions, KindnessSelf self) {
+    public void updateKindnessEntry(KindnessCategories category, String value) {
         KindnessEntry newKindnessEntry =
-                new KindnessEntry(mCreationDate, words, thoughts, actions, self, mComplete);
+                new KindnessEntry(mCreationDate, category, value, mComplete);
         if( newKindnessEntry.isEmpty() ) {
             mEditKindnessEntryView.showEmptyEntryError();
         }
@@ -82,9 +78,8 @@ public class EditKindnessEntryPresenter implements EditKindnessEntryContract.Use
     }
 
     @Override
-    public void saveNewKindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
-                                     KindnessActions actions, KindnessSelf self) {
-        KindnessEntry newKindnessEntry = new KindnessEntry(date, words, thoughts, actions, self);
+    public void saveNewKindnessEntry(Date date, KindnessCategories category, String value) {
+        KindnessEntry newKindnessEntry = new KindnessEntry(date, category, value);
         if( newKindnessEntry.isEmpty() ) {
             mEditKindnessEntryView.showEmptyEntryError();
         }

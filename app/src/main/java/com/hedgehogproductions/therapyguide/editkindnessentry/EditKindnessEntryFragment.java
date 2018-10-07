@@ -20,6 +20,7 @@ import com.hedgehogproductions.therapyguide.Injection;
 import com.hedgehogproductions.therapyguide.MainActivity;
 import com.hedgehogproductions.therapyguide.ProgressiveViewPager;
 import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessCategories;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 
 import java.util.Calendar;
@@ -89,9 +90,10 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
     }
 
     @Override
-    public boolean moveToNextView() {
+    public boolean moveToNextView(KindnessCategories kindnessCategory) {
         int nextItem = mViewPager.getCurrentItem() + 1;
         if( nextItem < mViewPagerAdapter.getCount() ) {
+            mViewPagerAdapter.setKindnessView(kindnessCategory);
             mViewPager.setCurrentItem(nextItem);
             return true;
         }
@@ -117,7 +119,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!moveToNextView()) {
+                if(!moveToNextView(mActionsListener.getKindnessEntry().getCategory())) {
                     // Save entry and close edit activity
                     KindnessEntry kindnessEntry = mActionsListener.getKindnessEntry();
                     if(kindnessEntry == null) {
@@ -125,10 +127,8 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
                     }
                     if( mEditMode ) {
                         mActionsListener.updateKindnessEntry(
-                                kindnessEntry.getWords(),
-                                kindnessEntry.getThoughts(),
-                                kindnessEntry.getActions(),
-                                kindnessEntry.getSelf()
+                                kindnessEntry.getCategory(),
+                                kindnessEntry.getValue()
                         );
                     }
                     else {
@@ -140,10 +140,8 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
                         calendar.set(Calendar.MILLISECOND, 0);
                         mActionsListener.saveNewKindnessEntry(
                                 calendar.getTime(),
-                                kindnessEntry.getWords(),
-                                kindnessEntry.getThoughts(),
-                                kindnessEntry.getActions(),
-                                kindnessEntry.getSelf()
+                                kindnessEntry.getCategory(),
+                                kindnessEntry.getValue()
                         );
                     }
                 }
@@ -186,10 +184,7 @@ public class EditKindnessEntryFragment extends DialogFragment implements EditKin
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         // Add views
-        mViewPagerAdapter.addView();
-        mViewPagerAdapter.addView();
-        mViewPagerAdapter.addView();
-        mViewPagerAdapter.addView();
+        mViewPagerAdapter.addViews();
 
         return root;
     }

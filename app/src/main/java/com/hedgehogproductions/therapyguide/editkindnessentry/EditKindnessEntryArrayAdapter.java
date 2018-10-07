@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hedgehogproductions.therapyguide.R;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessActions;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessCategories;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
@@ -24,6 +25,7 @@ class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
     private final int mPage;
     private final KindnessEntry mKindnessEntry;
     private final EditKindnessEntryContract.View mEditKindnessEntryView;
+    private final Context mContext;
 
     EditKindnessEntryArrayAdapter(@NonNull Context context, int resource, int textViewResourceId,
                                   @NonNull ArrayList<KindnessItem> kindnessItems, int page,
@@ -32,6 +34,7 @@ class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
         mPage = page;
         mKindnessEntry = entry;
         mEditKindnessEntryView = view;
+        mContext = context;
     }
 
     @NonNull
@@ -45,27 +48,36 @@ class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
         // Check if this is the currently selected item
         switch(mPage) {
             case 0:
-                if( mKindnessEntry.getWords() != null && mKindnessEntry.getWords() == KindnessWords.values()[position] ) {
+                if (mKindnessEntry.getCategory() != null && mKindnessEntry.getCategory() == KindnessCategories.values()[position] ) {
                     selected = true;
                 }
                 break;
             case 1:
-                if( mKindnessEntry.getThoughts() != null && mKindnessEntry.getThoughts() == KindnessThoughts.values()[position] ) {
-                    selected = true;
-                }
-                break;
-            case 2:
-                if( mKindnessEntry.getActions() != null && mKindnessEntry.getActions() == KindnessActions.values()[position] ) {
-                    selected = true;
-                }
-                break;
-            case 3:
-                if( mKindnessEntry.getSelf() != null && mKindnessEntry.getSelf() == KindnessSelf.values()[position] ) {
-                    selected = true;
+                switch (mKindnessEntry.getCategory()) {
+                    case WORDS:
+                        if (mKindnessEntry.getValue() != null && mKindnessEntry.getValue().equals(KindnessWords.values()[position].toString(mContext))) {
+                            selected = true;
+                        }
+                        break;
+                    case THOUGHTS:
+                        if (mKindnessEntry.getValue() != null && mKindnessEntry.getValue().equals(KindnessThoughts.values()[position].toString(mContext))) {
+                            selected = true;
+                        }
+                        break;
+                    case ACTIONS:
+                        if (mKindnessEntry.getValue() != null && mKindnessEntry.getValue().equals(KindnessActions.values()[position].toString(mContext))) {
+                            selected = true;
+                        }
+                        break;
+                    case SELF:
+                        if (mKindnessEntry.getValue() != null && mKindnessEntry.getValue().equals(KindnessSelf.values()[position].toString(mContext))) {
+                            selected = true;
+                        }
+                        break;
+                    default:
                 }
                 break;
             default:
-                throw new ArrayIndexOutOfBoundsException("Too many Kindness pages");
         }
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -79,7 +91,7 @@ class EditKindnessEntryArrayAdapter extends ArrayAdapter<KindnessItem> {
         convertView.setClickable(true);
         convertView.setFocusable(true);
         convertView.setOnClickListener(new KindnessItemOnClickListener(mPage, position,
-                mKindnessEntry, this, mEditKindnessEntryView));
+                mKindnessEntry, this, mEditKindnessEntryView, mContext));
 
         kindnessText.setText(text);
         kindnessSelector.setChecked(selected);

@@ -36,6 +36,19 @@
                 android:gravity="center"
                 android:padding="1dp"/>
 
+            <ImageView
+                android:id="@+id/kindness_card_category"
+                android:contentDescription="@string/kindness_card_image_description"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:paddingLeft="1dp"
+                android:paddingStart="1dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"/>
+
             <LinearLayout
                 android:id="@+id/kindness_card_text"
                 android:layout_width="match_parent"
@@ -43,7 +56,9 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical"
                 android:layout_toLeftOf="@id/kindness_card_checkbox"
-                android:layout_toStartOf="@id/kindness_card_checkbox">
+                android:layout_toStartOf="@id/kindness_card_checkbox"
+                android:layout_toRightOf="@id/kindness_card_category"
+                android:layout_toEndOf="@id/kindness_card_category">
                 <TextView
                     android:id="@+id/kindness_time"
                     android:layout_width="match_parent"
@@ -51,26 +66,12 @@
                     android:textColor="@color/mainText"
                     android:textSize="16sp"/>
                 <TextView
-                    android:id="@+id/kindness_words"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mainText" />
-                <TextView
-                    android:id="@+id/kindness_thoughts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mainText" />
-                <TextView
-                    android:id="@+id/kindness_actions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mainText" />
-                <TextView
-                    android:id="@+id/kindness_self"
+                    android:id="@+id/kindness_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/mainText" />
             </LinearLayout>
+
 
         </RelativeLayout>
 

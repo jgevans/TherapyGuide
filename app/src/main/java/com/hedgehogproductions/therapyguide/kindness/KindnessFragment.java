@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hedgehogproductions.therapyguide.Injection;
@@ -266,10 +267,27 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         public void onBindViewHolder(@NonNull final KindnessEntryAdapter.ViewHolder viewHolder, int position) {
             final KindnessEntry entry = mKindnessEntries.get(position);
 
-            viewHolder.words.setText(entry.getWords().toString(mContext));
-            viewHolder.thoughts.setText(entry.getThoughts().toString(mContext));
-            viewHolder.actions.setText(entry.getActions().toString(mContext));
-            viewHolder.self.setText(entry.getSelf().toString(mContext));
+            switch (entry.getCategory()) {
+                case WORDS:
+                    viewHolder.category.setImageResource(R.drawable.ic_chat_bubble_outline_black_24dp);
+                    viewHolder.category.setContentDescription(mContext.getResources().getString(R.string.kindness_card_image_description_words));
+                    break;
+                case THOUGHTS:
+                    viewHolder.category.setImageResource(R.drawable.ic_brain_black_24dp);
+                    viewHolder.category.setContentDescription(mContext.getResources().getString(R.string.kindness_card_image_description_thoughts));
+                    break;
+                case ACTIONS:
+                    viewHolder.category.setImageResource(R.drawable.ic_cake_black_24dp);
+                    viewHolder.category.setContentDescription(mContext.getResources().getString(R.string.kindness_card_image_description_actions));
+                    break;
+                case SELF:
+                    viewHolder.category.setImageResource(R.drawable.ic_mood_black_24dp);
+                    viewHolder.category.setContentDescription(mContext.getResources().getString(R.string.kindness_card_image_description_self));
+                    break;
+                default:
+
+            }
+            viewHolder.value.setText(entry.getValue());
             viewHolder.complete.setChecked(entry.isComplete());
 
             if(entry.isComplete()) {
@@ -332,7 +350,8 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            final TextView words, thoughts, actions, self;
+            final ImageView category;
+            final TextView value;
             final TextView time;
             final CheckBox complete;
             final CardView card;
@@ -342,10 +361,8 @@ public class KindnessFragment extends Fragment implements KindnessContract.View 
             ViewHolder(View view, KindnessEntryListener KindnessEntryListener) {
                 super(view);
                 mKindnessEntryListener = KindnessEntryListener;
-                words = view.findViewById(R.id.kindness_words);
-                thoughts = view.findViewById(R.id.kindness_thoughts);
-                actions = view.findViewById(R.id.kindness_actions);
-                self = view.findViewById(R.id.kindness_self);
+                category = view.findViewById(R.id.kindness_card_category);
+                value = view.findViewById(R.id.kindness_value);
                 time = view.findViewById(R.id.kindness_time);
                 complete = view.findViewById(R.id.kindness_card_checkbox);
                 card = view.findViewById(R.id.kindness_card_view);

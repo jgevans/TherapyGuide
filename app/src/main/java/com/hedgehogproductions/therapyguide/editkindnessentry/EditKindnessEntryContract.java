@@ -1,10 +1,7 @@
 package com.hedgehogproductions.therapyguide.editkindnessentry;
 
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessActions;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessCategories;
 import com.hedgehogproductions.therapyguide.kindnessdata.KindnessEntry;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessSelf;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessThoughts;
-import com.hedgehogproductions.therapyguide.kindnessdata.KindnessWords;
 
 import java.util.Date;
 
@@ -17,16 +14,14 @@ interface EditKindnessEntryContract {
 
         void showMissingEntryError();
 
-        boolean moveToNextView();
+        boolean moveToNextView(KindnessCategories kindnessCategory);
     }
 
     interface UserActionsListener {
 
-        void updateKindnessEntry(KindnessWords words, KindnessThoughts thoughts,
-                                 KindnessActions actions, KindnessSelf self);
+        void updateKindnessEntry(KindnessCategories category, String value);
 
-        void saveNewKindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
-                                  KindnessActions actions, KindnessSelf self);
+        void saveNewKindnessEntry(Date date, KindnessCategories category, String value);
 
         void openKindnessEntry(Date date);
 

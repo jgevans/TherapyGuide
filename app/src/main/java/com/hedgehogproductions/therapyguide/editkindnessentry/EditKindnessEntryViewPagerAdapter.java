@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hedgehogproductions.therapyguide.R;
+import com.hedgehogproductions.therapyguide.kindnessdata.KindnessCategories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,45 +18,47 @@ import java.util.List;
 class EditKindnessEntryViewPagerAdapter extends PagerAdapter {
     private final List<Integer> mViewList = new ArrayList<>();
     private final Context mContext;
-    private final EditKindnessEntryArrayAdapter mWordsAdapter, mThoughtsAdapter, mActionsAdapter, mSelfAdapter;
+    private final ArrayList<KindnessItem> mKindnessValuesItems, mKindnessWordsItems,
+            mKindnessThoughtsItems, mKindnessActionsItems, mKindnessSelfItems;
+    private final EditKindnessEntryArrayAdapter mCategoriesAdapter, mValuesAdapter;
+
+    private KindnessCategories mKindnessCategory;
 
     EditKindnessEntryViewPagerAdapter( @NonNull Context context, @NonNull EditKindnessEntryContract.UserActionsListener actionsListener,
                                        @NonNull EditKindnessEntryContract.View view) {
         mContext = context;
+        mKindnessCategory = KindnessCategories.NONE;
 
         // Set up lists for ListViews
-        ArrayList<KindnessItem> kindnessWordsItems = new ArrayList<>();
-        ArrayList<KindnessItem> kindnessThoughtsItems = new ArrayList<>();
-        ArrayList<KindnessItem> kindnessActionsItems = new ArrayList<>();
-        ArrayList<KindnessItem> kindnessSelfItems = new ArrayList<>();
+        ArrayList<KindnessItem> kindnessCategoriesItems = new ArrayList<>();
+        mKindnessValuesItems = new ArrayList<>();
+        mKindnessWordsItems = new ArrayList<>();
+        mKindnessThoughtsItems = new ArrayList<>();
+        mKindnessActionsItems = new ArrayList<>();
+        mKindnessSelfItems = new ArrayList<>();
+        for (String text : context.getResources().getStringArray(R.array.kindness_categories_array)) {
+            kindnessCategoriesItems.add(new KindnessItem(text, false));
+        }
         for (String text : context.getResources().getStringArray(R.array.kindness_words_array)) {
-            kindnessWordsItems.add(new KindnessItem(text, false));
+            mKindnessWordsItems.add(new KindnessItem(text, false));
         }
         for (String text : context.getResources().getStringArray(R.array.kindness_thoughts_array)) {
-            kindnessThoughtsItems.add(new KindnessItem(text, false));
+            mKindnessThoughtsItems.add(new KindnessItem(text, false));
         }
         for (String text : context.getResources().getStringArray(R.array.kindness_actions_array)) {
-            kindnessActionsItems.add(new KindnessItem(text, false));
+            mKindnessActionsItems.add(new KindnessItem(text, false));
         }
         for (String text : context.getResources().getStringArray(R.array.kindness_self_array)) {
-            kindnessSelfItems.add(new KindnessItem(text, false));
+            mKindnessSelfItems.add(new KindnessItem(text, false));
         }
-        mWordsAdapter = new EditKindnessEntryArrayAdapter(context,
+        mCategoriesAdapter = new EditKindnessEntryArrayAdapter(context,
                 R.layout.kindness_item,
                 R.id.kindness_item_text,
-                kindnessWordsItems, 0, actionsListener.getKindnessEntry(), view);
-        mThoughtsAdapter = new EditKindnessEntryArrayAdapter(context,
+                kindnessCategoriesItems, 0, actionsListener.getKindnessEntry(), view);
+        mValuesAdapter = new EditKindnessEntryArrayAdapter(context,
                 R.layout.kindness_item,
                 R.id.kindness_item_text,
-                kindnessThoughtsItems, 1, actionsListener.getKindnessEntry(), view);
-        mActionsAdapter = new EditKindnessEntryArrayAdapter(context,
-                R.layout.kindness_item,
-                R.id.kindness_item_text,
-                kindnessActionsItems, 2, actionsListener.getKindnessEntry(), view);
-        mSelfAdapter = new EditKindnessEntryArrayAdapter(context,
-                R.layout.kindness_item,
-                R.id.kindness_item_text,
-                kindnessSelfItems, 3, actionsListener.getKindnessEntry(), view);
+                mKindnessValuesItems, 1, actionsListener.getKindnessEntry(), view);
     }
 
     @NonNull
@@ -71,27 +74,41 @@ class EditKindnessEntryViewPagerAdapter extends PagerAdapter {
         kindnessList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         switch (position) {
             case 0:
-                kindnessInstruction.setText(R.string.kindness_create_words_message);
-                kindnessList.setAdapter(mWordsAdapter);
+                kindnessInstruction.setText(R.string.kindness_create_categories_message);
+                kindnessList.setAdapter(mCategoriesAdapter);
                 break;
             case 1:
-                kindnessInstruction.setText(R.string.kindness_create_thoughts_message);
-                kindnessList.setAdapter(mThoughtsAdapter);
-                break;
-            case 2:
-                kindnessInstruction.setText(R.string.kindness_create_actions_message);
-                kindnessList.setAdapter(mActionsAdapter);
-                break;
-            case 3:
-                kindnessInstruction.setText(R.string.kindness_create_self_message);
-                kindnessList.setAdapter(mSelfAdapter);
+                kindnessList.setAdapter(mValuesAdapter);
+                switch (mKindnessCategory) {
+                    case NONE:
+                        kindnessInstruction.setText(R.string.kindness_create_categories_please_message);
+                        break;
+                    case WORDS:
+                        kindnessInstruction.setText(R.string.kindness_create_words_message);
+                        break;
+                    case THOUGHTS:
+                        kindnessInstruction.setText(R.string.kindness_create_thoughts_message);
+                        break;
+                    case ACTIONS:
+                        kindnessInstruction.setText(R.string.kindness_create_actions_message);
+                        break;
+                    case SELF:
+                        kindnessInstruction.setText(R.string.kindness_create_self_message);
+                        break;
+                    default:
+                        // not yet selected.
+                }
                 break;
             default:
-                throw new ArrayIndexOutOfBoundsException("Too many Kindness types");
-
+                throw new ArrayIndexOutOfBoundsException("No view at position " + position);
         }
-
         return view;
+    }
+
+    // Override to force re-instantiation of value item on data change
+    @Override
+    public int getItemPosition(@NonNull Object item) {
+        return POSITION_NONE;
     }
 
     @Override
@@ -110,8 +127,34 @@ class EditKindnessEntryViewPagerAdapter extends PagerAdapter {
         container.removeView(view);
     }
 
-    void addView() {
+    void addViews() {
         mViewList.add(R.layout.editkindnessentry_section);
+        mViewList.add(R.layout.editkindnessentry_section);
+        notifyDataSetChanged();
+    }
+
+    void setKindnessView(KindnessCategories kindnessCategory) {
+        mKindnessCategory = kindnessCategory;
+        switch (mKindnessCategory) {
+            case WORDS:
+                mValuesAdapter.clear();
+                mValuesAdapter.addAll(mKindnessWordsItems);
+                break;
+            case THOUGHTS:
+                mValuesAdapter.clear();
+                mValuesAdapter.addAll(mKindnessThoughtsItems);
+                break;
+            case ACTIONS:
+                mValuesAdapter.clear();
+                mValuesAdapter.addAll(mKindnessActionsItems);
+                break;
+            case SELF:
+                mValuesAdapter.clear();
+                mValuesAdapter.addAll(mKindnessSelfItems);
+                break;
+            case NONE:
+                mKindnessValuesItems.clear();
+        }
         notifyDataSetChanged();
     }
 }

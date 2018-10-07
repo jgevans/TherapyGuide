@@ -8,10 +8,8 @@ import java.util.Objects;
 public class KindnessEntry {
 
     private Date mCreationDate = null;
-    private KindnessWords mWords = null;
-    private KindnessThoughts mThoughts = null;
-    private KindnessActions mActions = null;
-    private KindnessSelf mSelf = null;
+    private KindnessCategories mKindnessCategory = KindnessCategories.NONE;
+    private String mKindnessValue = null;
 
     private boolean mComplete;
 
@@ -21,18 +19,14 @@ public class KindnessEntry {
         mCreationDate = date;
     }
 
-    public KindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
-                         KindnessActions actions, KindnessSelf self) {
-        this(date, words, thoughts, actions, self, false);
+    public KindnessEntry(Date date, KindnessCategories category, String value) {
+        this(date, category, value, false);
     }
 
-    public KindnessEntry(Date date, KindnessWords words, KindnessThoughts thoughts,
-                         KindnessActions actions, KindnessSelf self, boolean complete) {
+    public KindnessEntry(Date date, KindnessCategories category, String value, boolean complete) {
         mCreationDate = date;
-        mWords = words;
-        mThoughts = thoughts;
-        mActions = actions;
-        mSelf = self;
+        mKindnessCategory = category;
+        mKindnessValue = value;
         mComplete = complete;
     }
 
@@ -40,30 +34,18 @@ public class KindnessEntry {
         return mCreationDate;
     }
 
-    public KindnessWords getWords() {
-        return mWords;
+    public KindnessCategories getCategory() {
+        return mKindnessCategory;
     }
-    public KindnessThoughts getThoughts() {
-        return mThoughts;
-    }
-    public KindnessActions getActions() {
-        return mActions;
-    }
-    public KindnessSelf getSelf() {
-        return mSelf;
+    public String getValue() {
+        return mKindnessValue;
     }
 
-    public void setWords(KindnessWords words) {
-        mWords = words;
+    public void setCategory(KindnessCategories category) {
+        mKindnessCategory = category;
     }
-    public void setThoughts(KindnessThoughts thoughts) {
-        mThoughts = thoughts;
-    }
-    public void setActions(KindnessActions actions) {
-        mActions = actions;
-    }
-    public void setSelf(KindnessSelf self) {
-        mSelf = self;
+    public void setValue(String value) {
+        mKindnessValue = value;
     }
 
     public boolean isComplete() {
@@ -75,8 +57,8 @@ public class KindnessEntry {
     }
 
     public boolean isEmpty() {
-        return mCreationDate == null ||
-                mWords == null || mThoughts == null || mActions == null || mSelf == null;
+        return mCreationDate == null || mKindnessCategory == KindnessCategories.NONE ||
+                mKindnessValue == null;
     }
 
     @Override
@@ -104,28 +86,12 @@ public class KindnessEntry {
 
     @Override
     public String toString() {
-        String words, thoughts, actions, self;
-        if( mWords == null ) {
-            words = "(Not Chosen)";
+        String value;
+        if( mKindnessValue == null ) {
+            value = "(Not Chosen)";
         } else {
-            words = mWords.toString();
+            value = mKindnessValue;
         }
-        if( mThoughts == null ) {
-            thoughts = "(Not Chosen)";
-        } else {
-            thoughts = mThoughts.toString();
-        }
-        if( mActions == null ) {
-            actions = "(Not Chosen)";
-        } else {
-            actions = mActions.toString();
-        }
-        if( mSelf == null ) {
-            self = "(Not Chosen)";
-        } else {
-            self = mSelf.toString();
-        }
-        return String.valueOf(mCreationDate + ": " + words + ","
-                + thoughts + "," + actions + "," + self);
+        return String.valueOf(mCreationDate) + ": " + value + "(" + mKindnessCategory.toString() + ")";
     }
 }
