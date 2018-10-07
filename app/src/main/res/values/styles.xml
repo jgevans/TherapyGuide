@@ -1,18 +1,42 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimaryAccent</item>
     </style>
 
-    <style name="ToolbarTheme">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+    <style name="ToolbarThemeBase">
+        <item name="android:background">@color/colorPrimaryAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppThemeSleep" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colourSleep</item>
+        <item name="colorPrimaryDark">@color/colourSleepDark</item>
+        <item name="colorAccent">@color/colourSleepAccent</item>
+    </style>
+
+    <style name="AppThemePositivity" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colourPositivity</item>
+        <item name="colorPrimaryDark">@color/colourPositivityDark</item>
+        <item name="colorAccent">@color/colourPositivityAccent</item>
+    </style>
+
+    <style name="AppThemeKindness" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colourKindness</item>
+        <item name="colorPrimaryDark">@color/colourKindnessDark</item>
+        <item name="colorAccent">@color/colourKindnessAccent</item>
     </style>
 
     <style name="ToolbarTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

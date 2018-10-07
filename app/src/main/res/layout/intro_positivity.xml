@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/intro_dots_height"
-    android:background="@color/intro_positivity_background"
+    android:background="@color/colourPositivity"
     tools:ignore="Overdraw">
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@color/intro_positivity_background"
+                android:background="@color/colourPositivity"
                 android:textColor="@android:color/white"
                 android:elevation="@dimen/intro_button_elevation"
                 android:text="@string/intro_set_reminder_button_text"

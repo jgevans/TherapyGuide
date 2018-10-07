@@ -14,10 +14,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
         if( getSupportActionBar() != null ) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colourIntro));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colourIntroAccent));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.colourIntroDark));
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

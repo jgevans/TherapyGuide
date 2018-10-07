@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.editkindnessentry;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,9 +22,20 @@ public class EditKindnessEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editkindnessentry);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
         if( getSupportActionBar() != null ) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colourKindness));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colourKindnessAccent));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.colourKindnessDark));
+        setTheme(R.style.AppThemeKindness);
+        if( Build.VERSION.SDK_INT >= 21 ) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colourKindnessDark));
         }
 
         Date entryDate = (Date) getIntent().getSerializableExtra(SELECTED_ENTRY_DATE);

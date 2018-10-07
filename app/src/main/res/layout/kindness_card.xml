@@ -34,7 +34,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:padding="1dp"/>
+                android:padding="1dp"
+                android:buttonTint="@color/kindness_checkbox_color"/>
 
             <ImageView
                 android:id="@+id/kindness_card_category"

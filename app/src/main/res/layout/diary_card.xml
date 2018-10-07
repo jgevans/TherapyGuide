@@ -20,6 +20,7 @@
         android:elevation="@dimen/cardview_default_elevation"
         card_view:cardCornerRadius="@dimen/cardview_default_radius"
         card_view:contentPadding="@dimen/cardview_internal_padding"
+        card_view:cardBackgroundColor="@color/diaryEntry"
         tools:ignore="UnusedAttribute">
 
         <RelativeLayout

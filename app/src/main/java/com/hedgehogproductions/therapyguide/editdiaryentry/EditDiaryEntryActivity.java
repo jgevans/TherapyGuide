@@ -1,5 +1,6 @@
 package com.hedgehogproductions.therapyguide.editdiaryentry;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +20,20 @@ public class EditDiaryEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editdiaryentry);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
         if( getSupportActionBar() != null ) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colourPositivity));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colourPositivityAccent));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.colourPositivityDark));
+        setTheme(R.style.AppThemePositivity);
+        if( Build.VERSION.SDK_INT >= 21 ) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colourPositivityDark));
         }
 
         long entryTimestamp = getIntent().getLongExtra(SELECTED_ENTRY_TIMESTAMP, ~0);
