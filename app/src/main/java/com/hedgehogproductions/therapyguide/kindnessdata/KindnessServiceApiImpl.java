@@ -29,7 +29,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         String[] projection = {
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_CATEGORY,
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS,
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_VALUE,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE
         };
 
@@ -53,7 +53,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
             KindnessCategories kindnessCategory = KindnessCategories.valueOf(cursor.getString(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_CATEGORY)));
             String kindnessValue = cursor.getString(
-                    cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS));
+                    cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_VALUE));
             boolean complete = cursor.getInt(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE)) == 1;
             kindnessEntries.add(new KindnessEntry(new Date(date), kindnessCategory, kindnessValue, complete));
@@ -71,7 +71,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         String[] projection = {
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_CATEGORY,
-                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS,
+                KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_VALUE,
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE
         };
 
@@ -95,7 +95,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
             KindnessCategories kindnessCategory = KindnessCategories.valueOf(cursor.getString(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_CATEGORY)));
             String kindnessValue = cursor.getString(
-                    cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS));
+                    cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_VALUE));
             boolean complete = cursor.getInt(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE)) == 1;
             loadedEntry = new KindnessEntry(date, kindnessCategory, kindnessValue, complete);
@@ -115,7 +115,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         ContentValues values = new ContentValues();
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE, entry.getCreationDate().getTime());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_CATEGORY, entry.getCategory().name());
-        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS, entry.getValue());
+        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_VALUE, entry.getValue());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE, entry.isComplete());
 
         // Insert the new row, returning the primary key value of the new row
@@ -132,7 +132,7 @@ public class KindnessServiceApiImpl implements KindnessServiceApi {
         ContentValues values = new ContentValues();
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE, entry.getCreationDate().getTime());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_CATEGORY, entry.getCategory().name());
-        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_WORDS, entry.getValue());
+        values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_KINDNESS_VALUE, entry.getValue());
         values.put(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE, entry.isComplete());
 
         db.update(KindnessReaderContract.KindnessDbEntry.TABLE_NAME,
