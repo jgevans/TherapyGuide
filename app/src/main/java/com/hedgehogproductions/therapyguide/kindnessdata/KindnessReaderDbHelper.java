@@ -42,14 +42,14 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
         // Progressively upgrade each new version
         if( oldVersion < 2 ){
             // Copy records out of old database
-            List<KindnessEntry> kindnessEntries = getVersion1EntriesAsVersion2();
+            List<KindnessEntry> kindnessEntries = getVersion1EntriesAsVersion2(db);
 
             // Delete version 1 database and create new one.
             db.execSQL(SQL_CREATE_ENTRIES);
             db.execSQL(SQL_DELETE_VERSION1_DB);
 
             // Add records back in with any necessary adaptations
-            saveEntriesVersion2(kindnessEntries);
+            saveEntriesVersion2(kindnessEntries, db);
         }
     }
 
@@ -64,7 +64,7 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    private List<KindnessEntry> getVersion1EntriesAsVersion2() {
+    private List<KindnessEntry> getVersion1EntriesAsVersion2(SQLiteDatabase db) {
         List<KindnessEntry> kindnessEntries = new ArrayList<>();
 
         // The columns that will be used
@@ -81,7 +81,7 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
         String sortOrder =
                 KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE + " DESC";
 
-        Cursor cursor = getReadableDatabase().query(
+        Cursor cursor = db.query(
                 KindnessReaderContract.VERSION1_TABLE_NAME,// The table to query
                 projection,                               // The columns to return
                 null,                                     // The columns for the WHERE clause
@@ -106,11 +106,8 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
 
     }
 
-    private void saveEntriesVersion2(List<KindnessEntry> kindnessEntries)
+    private void saveEntriesVersion2(List<KindnessEntry> kindnessEntries, SQLiteDatabase db)
     {
-        // Get the data repository in write mode
-        SQLiteDatabase db = getWritableDatabase();
-
         for (KindnessEntry entry : kindnessEntries) {
             // Create a new map of values, where column names are the keys
             ContentValues values = new ContentValues();
