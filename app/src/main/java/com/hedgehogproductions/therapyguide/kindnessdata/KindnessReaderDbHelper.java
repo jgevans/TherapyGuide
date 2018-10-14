@@ -12,6 +12,8 @@ import java.util.List;
 
 class KindnessReaderDbHelper extends SQLiteOpenHelper {
 
+    private final Context mContext;
+
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "KindnessReader.db";
@@ -32,6 +34,7 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
 
     KindnessReaderDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
     }
 
     public void onCreate(SQLiteDatabase db) {
@@ -94,8 +97,8 @@ class KindnessReaderDbHelper extends SQLiteOpenHelper {
         while(cursor.moveToNext()) {
             long date = cursor.getLong(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_DATE));
-            String kindnessSelf = cursor.getString(
-                    cursor.getColumnIndexOrThrow(KindnessReaderContract.COLUMN_NAME_KINDNESS_SELF));
+            String kindnessSelf = KindnessSelf.valueOf(cursor.getString(
+                    cursor.getColumnIndexOrThrow(KindnessReaderContract.COLUMN_NAME_KINDNESS_SELF))).toString(mContext);
             boolean complete = cursor.getInt(
                     cursor.getColumnIndexOrThrow(KindnessReaderContract.KindnessDbEntry.COLUMN_NAME_COMPLETE)) == 1;
             kindnessEntries.add(new KindnessEntry(new Date(date), KindnessCategories.SELF, kindnessSelf, complete));
